@@ -66,7 +66,7 @@ cc.Class({
                     if(0<date%10<10){
                         let wugong1 = this.getWuGong()
                         cc.log(JSON.stringify(wugong1))
-                        player.JN.push(wugong1)
+                        player.BeiBao.push(wugong1)
                     }
                     player.EXP = player.EXP - player.MAXEXP
                     player.MAXHP += Math.round(Math.random()*20+1)
