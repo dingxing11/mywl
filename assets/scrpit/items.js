@@ -50,6 +50,9 @@ cc.Class({
             var xx = dhk.getComponent(cc.Label)
             var view = scroll.getComponent(cc.ScrollView)
             xx.string += `点击了${item_label.string}\n`
+            let selectItem = new cc.Event.EventCustom('select-item',true)
+            selectItem.setUserData(item_label.string)
+            this.node.dispatchEvent(selectItem)
             view.scrollToBottom(0.1)
         }
      },

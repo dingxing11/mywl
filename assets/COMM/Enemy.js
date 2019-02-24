@@ -15,5 +15,35 @@ module.exports = {
     MAXHP:120,
     MP:120,
     MAXMP:120,
-    EXP:20
+    EXP:20,
+    BeiBao:[{
+        name:'左右互搏',
+        decribe:'30%的概率攻击攻击两次',
+        wugongtype:'被动',
+        Type:'武功',
+        gongneng:'增益类',
+        power:0,
+        num:1,
+        drop:100
+    },
+    {
+        name:'打神石',
+        decribe:'一颗会说话的石头',
+        wugongtype:'被动',
+        Type:'物品',
+        gongneng:'增益类',
+        power:0,
+        num:1,
+        drop:30
+    },
+    {
+        name:'六脉神剑',
+        Type:'武功',
+        decribe:'出自大理段氏,强力的攻击招式',
+        wugongtype:'主动',
+        gongneng:'攻击类',
+        power:1.4,
+        num:1,
+        drop:40
+    }]
 }

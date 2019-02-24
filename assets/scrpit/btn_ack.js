@@ -61,13 +61,24 @@ cc.Class({
         if(player.HP <=0 || enemy.HP <=0){
             if(enemy.HP <= 0){
                 player.EXP += enemy.EXP
-                while(player.EXP >= player.MAXEXP){
-                    let date = new Date().getTime
-                    if(0<date%10<10){
-                        let wugong1 = this.getWuGong()
-                        cc.log(JSON.stringify(wugong1))
-                        player.BeiBao.push(wugong1)
+                enemy.BeiBao.forEach(element => {
+                    if(Math.floor(Math.random()*100) <= element.drop){
+                        let isHas = false
+                        player.BeiBao.forEach(row => {
+                            if(row.name === element.name){
+                                isHas = true
+                                row.num +=1
+                            }
+                        })
+                        if(!isHas){
+                            player.BeiBao.push(element)
+                        }
+                        cc.log(`获得了1个${element.name}`)
+                    } else {
+                        cc.log(`没有获得了1个${element.name}`)
                     }
+                });
+                while(player.EXP >= player.MAXEXP){
                     player.EXP = player.EXP - player.MAXEXP
                     player.MAXHP += Math.round(Math.random()*20+1)
                     player.MAXMP += Math.round(Math.random()*20+1)
@@ -92,13 +103,8 @@ cc.Class({
             if(player.HP <=0 || enemy.HP <=0){
                 if(enemy.HP <= 0){
                     player.EXP += enemy.EXP
+                    
                     while(player.EXP >= player.MAXEXP){
-                        let date = new Date().getTime
-                        if(0<date%10<10){
-                            let wugong1 = this.getWuGong()
-                            cc.log(JSON.stringify(wugong1))
-                            player.JN.push(wugong1)
-                        }
                         player.EXP = player.EXP - player.MAXEXP
                         player.MAXHP += Math.round(Math.random()*20+1)
                         player.MAXMP += Math.round(Math.random()*20+1)

@@ -51,7 +51,9 @@ cc.Class({
             var view = scroll.getComponent(cc.ScrollView)
             xx.string += `点击了${title1_label.string}\n`
             cc.log(`点击了${title1_label.string}`)
-            this.node.dispatchEvent(new cc.Event.EventCustom('select-tab','11'))
+            let selectTab = new cc.Event.EventCustom('select-tab',true)
+            selectTab.setUserData(title1_label.string)
+            this.node.dispatchEvent(selectTab)
             view.scrollToBottom(0.1)
         }
      },
