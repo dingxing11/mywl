@@ -11,7 +11,6 @@ var player = require("Player")
 var enemy = require("Enemy")
 var wugong = require("WuGong")
 cc.Class({
-    22gi
     extends: cc.Component,
 
     properties: {
