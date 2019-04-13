@@ -14,8 +14,20 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
+        end: {
+            default: null,
+            type: cc.Prefab
+        },
+        repeat:'',
+        player1:'',
+        dropHP: {
+            default: null,
+            type: cc.Prefab,
+            displayName: '掉血量'
+        },
         sum: 0,
-        liu: ''
+        liu: '',
+        chufa: [], //触发类武功数组
         // foo: {
         //     // ATTRIBUTES:
         //     default: null,        // The default value will be used only when the component attaching
@@ -52,6 +64,17 @@ cc.Class({
         this.liu.active = false
     },
     btnClick1(event, customEventData) {
+        player.ackNum = 1
+        // 是否触发触发类武功
+        var jl = Math.floor(Math.random()*100)
+        cc.log(`几率${jl}`)
+        this.chufa.forEach(element => {
+            cc.log(element)
+            if(jl <= element.jl){
+                player.ackNum = element.ackNum
+                cc.log(player.ackNum)
+            }
+        })
         var huihe = cc.find("Canvas/huihe")
         var item = cc.find("Canvas/dhk/scroll/view/content/item")
         var item1 = item.getComponent(cc.Label)
@@ -65,6 +88,7 @@ cc.Class({
             .then(() => {
                 if (player.HP <= 0 || enemy.HP <= 0) {
                     if (enemy.HP <= 0) {
+                        this.player1.stopAction(this.repeat);
                         player.EXP += enemy.EXP
                         enemy.BeiBao.forEach(element => {
                             if (Math.floor(Math.random() * 100) <= element.drop) {
@@ -91,13 +115,17 @@ cc.Class({
                             player.LEVEL += 1
                             player.MAXEXP += 100
                         }
+                        this.vectory()
+                    } else {
+
                     }
                     enemy.HP = enemy.MAXHP
                     player.HP = player.MAXHP
                     player.MP = player.MAXMP
                     cc.log('11')
-                    cc.director.loadScene("main");
+                    // cc.director.loadScene("main");
                     cc.log('完了')
+                    return Promise.reject()
                 } else {
                     return this.ackPlayer()
                 }
@@ -106,6 +134,7 @@ cc.Class({
                 this.node.getComponent(cc.Button).interactable = true;
                 if (player.HP <= 0 || enemy.HP <= 0) {
                     if (enemy.HP <= 0) {
+                        this.player1.stopAction(this.repeat);
                         player.EXP += enemy.EXP
 
                         while (player.EXP >= player.MAXEXP) {
@@ -117,12 +146,13 @@ cc.Class({
                             player.LEVEL += 1
                             player.MAXEXP += 100
                         }
+                        this.vectory()
                     }
                     enemy.HP = enemy.MAXHP
                     player.HP = player.MAXHP
                     player.MP = player.MAXMP
                     cc.log('11')
-                    cc.director.loadScene("main");
+                    // cc.director.loadScene("main");
                     cc.log('完了')
                 } else {
                     this.sum = parseInt(this.sum) + 1
@@ -149,40 +179,45 @@ cc.Class({
 
     enemyAttacked() {
         let p = new Promise((resolve, reject) => {
-            var Canvas = cc.find("Canvas")
-            var drophp = cc.find("Canvas/enemy1/drophp")
-            var end1 = cc.instantiate("end")
-            end1.parent = Canvas
-            end1.setPosition(0, 0)
-            end1.runAction(cc.sequence(
-                cc.moveBy(0.5, 0, 20),
+            var enemy1 = cc.find("Canvas/enemy1")
+            enemy1.runAction(cc.sequence(
+                this.Attacked(),
                 cc.callFunc(resolve)))
         })
         return p
     },
 
-    enemyDropHP() {
-        let p = new Promise((resolve, reject) => {
-            var Canvas = cc.find("Canvas")
-            var drophp = cc.find("Canvas/enemy1/drophp")
-            var end = cc.instantiate(end)
-            end.setPosition(0, 0)
-            end.parent = Canvas
-            end.runAction(cc.sequence(
-                cc.moveBy(0.5, 0, 20),
-                cc.callFunc(resolve)))
-        })
-        return p
+    vectory() {
+        var Canvas = cc.find("Canvas")
+        var end = cc.instantiate(this.end)
+        end.setPosition(0, 0)
+        end.parent = Canvas
+        end.setPosition(0, 0)
     },
 
+    // 被攻击动作
     Attacked() {
-        var attacked = cc.sequence(
+        var attacked =cc.sequence(
             cc.moveBy(0.25, 20, 0),
             cc.moveBy(0.25, -20, 0),
             cc.moveBy(0.25, -20, 0),
-            cc.moveBy(0.25, 20, 0)
+            cc.moveBy(0.25, 20, 0),
         )
         return attacked
+    },
+
+    drop(hp) {
+        var enemy1 = cc.find("Canvas/enemy1")
+        var drop1 = cc.instantiate(this.dropHP)
+        var drop1_label = drop1.getComponent(cc.Label)
+        drop1_label.string = `-${hp}`
+        drop1.parent = enemy1
+        drop1.setPosition(0,50)
+        var attacked = cc.spawn(
+            cc.moveBy(1, 0, 30),
+            cc.fadeOut(1)
+        )
+        drop1.runAction(attacked)
     },
 
     // 攻击猪脚
@@ -210,19 +245,45 @@ cc.Class({
         })
         return p
     },
+
     start() {
+        // 加载人物被动状态
+        player.WUGONG.forEach(element => {
+            cc.log(element.wugongtype)
+            cc.log(element.gongneng)
+            if(element.wugongtype === '被动'){
+                if(element.gongneng === '增益类'){
+                    for( var name in element){
+                        player[name] = parseInt(player[name]) + parseInt(element[name])
+                    }
+                }
+                if(element.gongneng === '触发类'){
+                    let temp = {
+                        ackNum: element.ackNum,
+                        jl: element.jl
+                    }
+                    this.chufa.push(temp)
+                    cc.log('存了左右')
+                    cc.log(this.chufa)
+                }
+            }
+        })
+        // 开始攻击
         this.btnClick1()
     },
     enemy1Dead() {
         var enemy1 = cc.find("Canvas/enemy1")
         enemy1.runAction(cc.fadeOut(1))
     },
+
     player1Dead() {
         var player1 = cc.find("Canvas/player1")
         player1.runAction(cc.fadeOut(1))
     },
     pugong(resolve) {
+        var xhr = new XMLHttpRequest()
         var player1 = cc.find("Canvas/player1")
+        this.player1 = player1
         var enemy1 = cc.find("Canvas/enemy1")
         var scroll = cc.find("Canvas/dhk/scroll")
         var item = cc.find("Canvas/dhk/scroll/view/content/item")
@@ -232,6 +293,7 @@ cc.Class({
         var item1 = item.getComponent(cc.Label)
         var anim = player1.getComponent(cc.Animation);
         var liumai = this.liu.getComponent(cc.Animation);
+        var sh = 0;
         let pg = cc.sequence(cc.callFunc(() => {
                 cc.log('开始攻击敌人')
             }),
@@ -243,7 +305,7 @@ cc.Class({
                 // liumai.play('liumai')
             }),
             cc.callFunc(() => {
-                let sh = Math.round((Math.random() + 1) * (player.ack - enemy.def))
+                sh = Math.round((Math.random() + 1) * (player.ack - enemy.def))
                 enemy.HP = enemy.HP - sh > 0 ? enemy.HP - sh : 0
                 item1.string += `${player.Name}对敌人造成了${sh}点伤害\n`
                 if (enemy.HP <= 0) {
@@ -254,12 +316,13 @@ cc.Class({
             cc.spawn(
                 cc.callFunc(() => {
                     this.enemyAttacked()
+                    this.drop(sh)
                 }),
                 cc.delayTime(1),
             ),
             player1Jump2)
-        player1.runAction(cc.sequence(
-            cc.repeat(pg, 1),
+        this.repeat = player1.runAction(cc.sequence(
+            cc.repeat(pg, player.ackNum),
             cc.callFunc(() => {
                 resolve()
             })))

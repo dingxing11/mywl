@@ -66,24 +66,20 @@ cc.Class({
     },
 
     start () {
-        this.Ntab = cc.find("Canvas/main/node/beibao/tab")
-        this.Ncontent = cc.find("Canvas/main/node/beibao/name/view/content")
-        this.Nshuoming= cc.find("Canvas/main/node/beibao/shuoming")
+        this.Ntab = cc.find("Canvas/main/node/wugong/tab")
+        this.Ncontent = cc.find("Canvas/main/node/wugong/name/view/content")
+        this.Nshuoming= cc.find("Canvas/main/node/wugong/shuoming")
         var set = new Set()
-        set.add('全部');
-        player.BeiBao.forEach(element => {
-            set.add(element.Type)
-        });
+        set.add('武功')
         var arr = new Array()
         set.forEach(element => {
-            var title = cc.instantiate(this.Ntitle);
+            var title = cc.instantiate(this.Ntitle)
             var title1 = title.getChildByName("tabitem")
             var title_label = title1.getComponent(cc.Label)
             title_label.string = element
             arr.push(element)
             this.Ntab.addChild(title)
         })
-
         // 选择第一个title
         this.title = arr[0]
         this.selectTitle(this.title)
@@ -100,23 +96,21 @@ cc.Class({
     // 列举相应title下的全部值
     selectTitle(title){
         let items = new Array()
-        player.BeiBao.forEach(row => {
-            if(row.Type === title || title === '全部'){
-                var item = cc.instantiate(this.Nname);
-                var item_label = item.getComponent(cc.Label);
-                item_label.string = row.name;
-                items.push(item_label.string)
-                this.Ncontent.addChild(item)
-            }
+        player.WUGONG.forEach(row => {
+            var item = cc.instantiate(this.Nname);
+            var item_label = item.getComponent(cc.Label);
+            item_label.string = row.name;
+            items.push(item_label.string)
+            this.Ncontent.addChild(item)
         });
         // 选中第一个item
-        this.item = items[0]
-        this.selectItem(this.item);
+        // this.item = items[0]
+        // this.selectItem(this.item);
     },
 
     // 选中item显示的详情
     selectItem(item){
-        player.BeiBao.forEach(row => {
+        player.WUGONG.forEach(row => {
             if(row.name === item){
                 let title = this.Nshuoming.getChildByName("title");
                 let num = this.Nshuoming.getChildByName("num");
@@ -135,7 +129,7 @@ cc.Class({
     },
 
     useItme(){
-        player.BeiBao.forEach((row,i) => {
+        player.BeiBao.forEach(row => {
             if(row.name === this.item){
                 cc.log(row.num);
                 let index = true
@@ -160,7 +154,7 @@ cc.Class({
                         num_label.string = `数量:${row.num}`;    
                     } else {
                         cc.log('数量是1销毁')
-                        player.BeiBao.splice(i,1)
+                        player.BeiBao.pop(row)
                         title_label.string = `名称:`;
                         details_label.string = ``;
                         num_label.string = `数量:`;

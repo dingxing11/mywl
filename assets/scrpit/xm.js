@@ -36,6 +36,10 @@ cc.Class({
     },
 
     start () {
+        // this.updatePlayerStatus();
+    },
+
+    updatePlayerStatus(){
         var xm = cc.find("Canvas/main/node/label_list/xm")
         var ack = cc.find("Canvas/main/node/label_list/ack")
         var def = cc.find("Canvas/main/node/label_list/def")
@@ -59,19 +63,13 @@ cc.Class({
         mp1.string = `内力:${player.MP}`
         exp1.string = `修为:${player.EXP}/${player.MAXEXP}`
         jj1.string = `境界:${player.LEVEL}`
-        if(player.JN.length>0){
-            jn1.string = '武功:'
-            player.JN.forEach(row => {
-                jn1.string += row.name+','
-            });
-            jn1.string = jn1.string.substring(0,jn1.string.length-1)
-        } else {
-            jn1.string = '武功:无'
-        }
-
+        let wugong = ''
+        player.WUGONG.forEach(element => {
+            wugong += element.name + ','
+        });
+        jn1.string = `武功:${wugong}`
     },
-
     update (dt) {
-       
+        this.updatePlayerStatus();
     },
 });

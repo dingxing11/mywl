@@ -26,10 +26,13 @@
     "_components": [
       {
         "__id__": 14
+      },
+      {
+        "__id__": 15
       }
     ],
     "_prefab": {
-      "__id__": 15
+      "__id__": 16
     },
     "_id": "",
     "_opacity": 255,
@@ -48,8 +51,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 326,
-      "height": 172
+      "width": 515,
+      "height": 228
     },
     "_rotationX": 0,
     "_rotationY": 0,
@@ -57,8 +60,8 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": 4,
-      "y": 92
+      "x": -91,
+      "y": 120
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -115,7 +118,7 @@
     "_position": {
       "__type__": "cc.Vec2",
       "x": -1.6348217022580958,
-      "y": 46
+      "y": 74
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -178,7 +181,7 @@
       "__id__": 1
     },
     "asset": {
-      "__id__": 0
+      "__uuid__": "03ee2a0e-169b-43d2-939d-6b27f9e126e2"
     },
     "fileId": "a574M7pFhNkalel89sO35P",
     "sync": false
@@ -326,7 +329,7 @@
       "__id__": 1
     },
     "asset": {
-      "__id__": 0
+      "__uuid__": "03ee2a0e-169b-43d2-939d-6b27f9e126e2"
     },
     "fileId": "2cRqWYkr5Azaj97Cah0pSl",
     "sync": false
@@ -428,10 +431,10 @@
   {
     "__type__": "cc.ClickEvent",
     "target": {
-      "__id__": 6
+      "__id__": 1
     },
-    "component": "cc.Button",
-    "handler": "",
+    "component": "end",
+    "handler": "btnClick1",
     "customEventData": ""
   },
   {
@@ -440,7 +443,7 @@
       "__id__": 1
     },
     "asset": {
-      "__id__": 0
+      "__uuid__": "03ee2a0e-169b-43d2-939d-6b27f9e126e2"
     },
     "fileId": "a3/rIiUgdNNo0S/HuyhBgG",
     "sync": false
@@ -472,12 +475,21 @@
     "_atlas": null
   },
   {
+    "__type__": "c391dLdt/RLp6ys0rNhtNfT",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true
+  },
+  {
     "__type__": "cc.PrefabInfo",
     "root": {
       "__id__": 1
     },
     "asset": {
-      "__id__": 0
+      "__uuid__": "03ee2a0e-169b-43d2-939d-6b27f9e126e2"
     },
     "fileId": "330JzltONPWp4KinWf/cCC",
     "sync": false
