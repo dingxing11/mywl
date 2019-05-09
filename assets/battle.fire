@@ -407,7 +407,7 @@
     },
     "_enabled": true,
     "_spriteFrame": {
-      "__uuid__": "b5c11eae-9a25-44c7-8d1a-f2c86fc77aa7"
+      "__uuid__": "95eeb6a9-f021-437f-8dd1-6c8c316f5451"
     },
     "_type": 0,
     "_sizeMode": 2,
@@ -1047,11 +1047,14 @@
     "end": {
       "__uuid__": "03ee2a0e-169b-43d2-939d-6b27f9e126e2"
     },
+    "repeat": "",
+    "player1": "",
     "dropHP": {
       "__uuid__": "98b83efc-271a-4f66-bc59-489a83038912"
     },
     "sum": 0,
-    "liu": ""
+    "liu": "",
+    "chufa": []
   },
   {
     "__type__": "cc.Node",
@@ -2097,12 +2100,12 @@
     },
     "_rotationX": 0,
     "_rotationY": 0,
-    "_scaleX": 1,
-    "_scaleY": 1,
+    "_scaleX": 0.8,
+    "_scaleY": 0.8,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": -612,
-      "y": 102
+      "x": -156,
+      "y": 113
     },
     "_skewX": 0,
     "_skewY": 0,

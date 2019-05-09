@@ -8,6 +8,7 @@
 //  - [Chinese] http://www.cocos.com/docs/creator/scripting/life-cycle-callbacks.html
 //  - [English] http://www.cocos2d-x.org/docs/editors_and_tools/creator-chapters/scripting/life-cycle-callbacks/index.html
 module.exports = {
+    // 人物基础属性
     Name:'丁新',
     ack:50,
     def:3,
@@ -20,5 +21,13 @@ module.exports = {
     EXP:10,
     MAXEXP:100,
     LEVEL:1,
-    BeiBao:[]
+    BeiBao:[],
+
+    //人物在地图中用
+    isMap:false,
+    xPosition:0,
+    yPosition:0,
+    action:function(){
+        cc.log("player action")
+    }
 }

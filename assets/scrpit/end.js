@@ -35,7 +35,7 @@ cc.Class({
 
     },
     btnClick1 (event, customEventData) {
-        cc.director.loadScene("main")
+        cc.director.loadScene("mjmap")
         cc.log('场景跳转了')
         var end = cc.find("Canvas/end")
         end.destroy()

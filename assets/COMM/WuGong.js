@@ -18,9 +18,7 @@ module.exports = [
         power:0,
         jl:100,
         ackNum:2,
-        action: function(){
-            cc.log('action')
-        }
+        CD:0
     },
     {
         name:'六脉神剑',
@@ -31,6 +29,9 @@ module.exports = [
         gongneng:'攻击类',
         power:1.4,
         MAXCD: 3,
-        CD: 0,
+        CD: 2,
+        action:function(node){
+            
+        }
     }
 ]
