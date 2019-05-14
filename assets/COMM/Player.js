@@ -10,7 +10,7 @@
 module.exports = {
     // 人物基础属性
     Name:'丁新',
-    ack:50,
+    ack:20,
     def:3,
     HP:100,
     MAXHP:100,

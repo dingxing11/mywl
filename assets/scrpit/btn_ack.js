@@ -48,7 +48,6 @@ cc.Class({
     // LIFE-CYCLE CALLBACKS:
 
     onLoad() {
-        player.action();
         this.sum = 1;
         var clickEventHandler = new cc.Component.EventHandler();
         clickEventHandler.target = this.node; //这个 node 节点是你的事件处理代码组件所属的节点，这里就是Button2
@@ -80,7 +79,7 @@ cc.Class({
         var item = cc.find("Canvas/dhk/scroll/view/content/item")
         var item1 = item.getComponent(cc.Label)
         var huihe_lable = huihe.getComponent(cc.Label)
-        huihe_lable.string = `第${this.sum}回合`
+        huihe_lable.string = `${this.sum}`
         this.node.getComponent(cc.Button).interactable = false;
         this.ackEnemy()
             .then(() => {
@@ -163,6 +162,7 @@ cc.Class({
     },
     ackEnemy() {
         let p = new Promise((resolve, reject) => {
+            let isACK = false
             // anim.jumpback = function () {
             //     player1.runAction(cc.sequence(
             //     cc.callFunc(() => { 
@@ -173,7 +173,22 @@ cc.Class({
             //     }),
             //     player1Jump2))
             // }.bind(this)
-            this.pugong(resolve)
+            if(player.WUGONG.length>0){
+                player.WUGONG.forEach(element => {
+                    cc.log('进来武功了'+element.NOW_CD)
+                    if(element.NOW_CD == 0){
+                        if(!isACK){
+                            if(isACK = element.action(this,resolve,enemy,player)){
+                                element.NOW_CD = element.CD
+                            }
+                        }
+                    } else {
+                        element.NOW_CD -= 1
+                    }
+                });
+            } 
+            if(!isACK)
+                this.pugong(resolve)
         })
         return p
     },
@@ -250,6 +265,7 @@ cc.Class({
     start() {
         // 加载人物被动状态
         player.WUGONG.forEach(element => {
+            element.NOW_CD = 0
             cc.log(element.wugongtype)
             cc.log(element.gongneng)
             if(element.wugongtype === '被动'){
@@ -282,7 +298,6 @@ cc.Class({
         player1.runAction(cc.fadeOut(1))
     },
     pugong(resolve) {
-        var xhr = new XMLHttpRequest()
         var player1 = cc.find("Canvas/player1")
         this.player1 = player1
         var enemy1 = cc.find("Canvas/enemy1")
@@ -294,6 +309,7 @@ cc.Class({
         var item1 = item.getComponent(cc.Label)
         var anim = player1.getComponent(cc.Animation);
         var liumai = this.liu.getComponent(cc.Animation);
+        liumai.active = true
         var sh = 0;
         let pg = cc.sequence(cc.callFunc(() => {
                 cc.log('开始攻击敌人')
@@ -308,7 +324,7 @@ cc.Class({
             cc.callFunc(() => {
                 sh = Math.round((Math.random() + 1) * (player.ack - enemy.def))
                 enemy.HP = enemy.HP - sh > 0 ? enemy.HP - sh : 0
-                item1.string += `${player.Name}对敌人造成了${sh}点伤害\n`
+                item1.string += `${player.Name}使用普攻对敌人造成了${sh}点伤害\n`
                 if (enemy.HP <= 0) {
                     this.enemy1Dead()
                 }
@@ -323,7 +339,7 @@ cc.Class({
             ),
             player1Jump2)
         this.repeat = player1.runAction(cc.sequence(
-            cc.repeat(pg, player.ackNum),
+            cc.repeat(pg, 1),
             cc.callFunc(() => {
                 resolve()
             })))

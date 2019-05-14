@@ -29,6 +29,14 @@ cc.Class({
         HP:{
             default:null,
             type:cc.Label
+        },
+        HP_Pro:{
+            default:null,
+            type:cc.ProgressBar
+        },
+        Name:{
+            default:null,
+            type:cc.Label
         }
 
     },
@@ -36,6 +44,7 @@ cc.Class({
     // LIFE-CYCLE CALLBACKS:
 
     onLoad () {
+        this.Name.string = player.Name
     },
 
     // 被攻击动作
@@ -119,6 +128,7 @@ cc.Class({
 
     },
     update (dt) {
-        this.HP.string = `血量:${player.HP}`
+        this.HP.string = `${player.HP}`
+        this.HP_Pro.progress = (player.HP/player.MAXHP).toFixed(1)
     },
 });

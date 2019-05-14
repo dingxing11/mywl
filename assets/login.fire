@@ -227,7 +227,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 50,
-      "height": 200
+      "height": 250
     },
     "_rotationX": 0,
     "_rotationY": 0,
@@ -256,12 +256,12 @@
     "_useOriginalSize": false,
     "_actualFontSize": 50,
     "_fontSize": 50,
-    "_lineHeight": 40,
+    "_lineHeight": 50,
     "_enableWrapText": true,
     "_N$file": null,
     "_isSystemFontUsed": true,
     "_spacingX": 0,
-    "_N$string": "金\n庸\n群\n侠\n传",
+    "_N$string": "幻\n想\n群\n侠\n传",
     "_N$horizontalAlign": 1,
     "_N$verticalAlign": 1,
     "_N$fontFamily": "Arial",

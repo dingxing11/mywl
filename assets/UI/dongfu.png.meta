@@ -1,14 +1,14 @@
 {
   "ver": "1.0.0",
-  "uuid": "bbf7d7ee-e660-4912-b37d-5da0ff0c46f2",
+  "uuid": "1ba51f41-9de9-4bea-b42a-27e20ce37fc2",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
   "subMetas": {
-    "头像": {
+    "dongfu": {
       "ver": "1.0.3",
-      "uuid": "9b749e02-2fdc-4308-85f5-aa1b614713b8",
-      "rawTextureUuid": "bbf7d7ee-e660-4912-b37d-5da0ff0c46f2",
+      "uuid": "afa6cf00-77a8-417f-82e1-00ce84ab26e4",
+      "rawTextureUuid": "1ba51f41-9de9-4bea-b42a-27e20ce37fc2",
       "trimType": "auto",
       "trimThreshold": 1,
       "rotated": false,
@@ -16,10 +16,10 @@
       "offsetY": 0,
       "trimX": 0,
       "trimY": 0,
-      "width": 158,
-      "height": 163,
-      "rawWidth": 158,
-      "rawHeight": 163,
+      "width": 112,
+      "height": 120,
+      "rawWidth": 112,
+      "rawHeight": 120,
       "borderTop": 0,
       "borderBottom": 0,
       "borderLeft": 0,
