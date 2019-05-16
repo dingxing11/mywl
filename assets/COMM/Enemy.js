@@ -8,7 +8,7 @@
 //  - [Chinese] http://www.cocos.com/docs/creator/scripting/life-cycle-callbacks.html
 //  - [English] http://www.cocos2d-x.org/docs/editors_and_tools/creator-chapters/scripting/life-cycle-callbacks/index.html
 module.exports = {
-    Name: '路人甲',
+    Name: '狼人',
     ack: 20,
     def: 3,
     HP: 120,

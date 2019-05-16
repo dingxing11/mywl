@@ -41,7 +41,7 @@ cc.Class({
         button.clickEvents.push(clickEventHandler); //增加处理
     },
     btnClick1 (event, customEventData) {
-        cc.director.loadScene("battle")
+        cc.director.loadScene("mjmap")
     },
     start () {
        

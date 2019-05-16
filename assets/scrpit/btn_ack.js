@@ -203,6 +203,19 @@ cc.Class({
         return p
     },
 
+    playerAttacked() {
+        let p = new Promise((resolve, reject) => {
+            var enemy1 = cc.find("Canvas/player1")
+            enemy1.runAction(cc.sequence(
+                cc.moveBy(0.25, -15, 0),
+                cc.moveBy(0.25, 15, 0),
+                cc.moveBy(0.25, 15, 0),
+                cc.moveBy(0.25, -15,0),
+                cc.callFunc(resolve)))
+        })
+        return p
+    },
+
     vectory() {
         var Canvas = cc.find("Canvas")
         var end = cc.instantiate(this.end)
@@ -222,8 +235,24 @@ cc.Class({
         return attacked
     },
 
+    // 怪物掉血
     drop(hp) {
         var enemy1 = cc.find("Canvas/enemy1")
+        var drop1 = cc.instantiate(this.dropHP)
+        var drop1_label = drop1.getComponent(cc.Label)
+        drop1_label.string = `-${hp}`
+        drop1.parent = enemy1
+        drop1.setPosition(0,50)
+        var attacked = cc.spawn(
+            cc.moveBy(1, 0, 30),
+            cc.fadeOut(1)
+        )
+        drop1.runAction(attacked)
+    },
+
+    // 主角掉血
+    playerDrop(hp) {
+        var enemy1 = cc.find("Canvas/player1")
         var drop1 = cc.instantiate(this.dropHP)
         var drop1_label = drop1.getComponent(cc.Label)
         drop1_label.string = `-${hp}`
@@ -256,6 +285,13 @@ cc.Class({
                     item1.string += `${player.Name}受到了${enemy.ack-player.def}点伤害\n`
                     view.scrollToBottom(0.1)
                 }),
+                cc.spawn(
+                    cc.callFunc(() => {
+                        this.playerAttacked()
+                        this.playerDrop(enemy.ack-player.def)
+                    }),
+                    cc.delayTime(1),
+                ),
                 enemy1Jump2,
                 cc.callFunc(resolve)))
         })
@@ -324,7 +360,7 @@ cc.Class({
             cc.callFunc(() => {
                 sh = Math.round((Math.random() + 1) * (player.ack - enemy.def))
                 enemy.HP = enemy.HP - sh > 0 ? enemy.HP - sh : 0
-                item1.string += `${player.Name}使用普攻对敌人造成了${sh}点伤害\n`
+                item1.string += `${player.Name}使用普攻对${enemy.Name}造成了${sh}点伤害\n`
                 if (enemy.HP <= 0) {
                     this.enemy1Dead()
                 }

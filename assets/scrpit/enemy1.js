@@ -30,6 +30,14 @@ cc.Class({
         HP:{
             default:null,
             type:cc.Label
+        },
+        HP_Pro:{
+            default:null,
+            type:cc.ProgressBar
+        },
+        Name:{
+            default:null,
+            type:cc.Label
         }
 
     },
@@ -37,6 +45,7 @@ cc.Class({
     // LIFE-CYCLE CALLBACKS:
 
     onLoad () {
+        this.Name.string = enemy.Name
     },
 
     start () {
@@ -44,5 +53,6 @@ cc.Class({
     },
     update (dt) {
         this.HP.string = `血量:${enemy.HP}`
+        this.HP_Pro.progress = (enemy.HP/enemy.MAXHP).toFixed(1)
     },
 });
