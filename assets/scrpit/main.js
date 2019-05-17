@@ -30,14 +30,7 @@ cc.Class({
     },
 
     // LIFE-CYCLE CALLBACKS:
-    gobattle(event, customEventData) {
-        Global.goScene("battle")
-    },
 
-    goback(event, customEventData){
-        Global.goScene("main")
-    },
-    
     // onLoad () {},
 
     start () {

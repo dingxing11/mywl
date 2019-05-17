@@ -47,10 +47,10 @@ cc.Class({
     },
     btnClick1 (event, customEventData) {
        var name = cc.find("Canvas/player_name").getComponent(cc.EditBox);
-       if(name){
+       if(name.string.length > 0){
             player.Name = name.string;
             cc.log(player.Name);
-            cc.director.loadScene("main");
+            Global.goScene("main")
        }
     },
 
