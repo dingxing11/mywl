@@ -1,3 +1,5 @@
+
+
 window.Global = {
     sceneName:'',
     goScene(sceneName){

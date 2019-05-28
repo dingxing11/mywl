@@ -1,12 +1,14 @@
 {
-  "ver": "1.0.0",
+  "ver": "2.3.0",
   "uuid": "9a8f8000-935d-4d5a-9602-a5295b9d6146",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "platformSettings": {},
   "subMetas": {
     "enemy1": {
-      "ver": "1.0.3",
+      "ver": "1.0.4",
       "uuid": "4342cb4d-28a7-4b53-bed9-db43f0720250",
       "rawTextureUuid": "9a8f8000-935d-4d5a-9602-a5295b9d6146",
       "trimType": "auto",

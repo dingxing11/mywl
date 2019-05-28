@@ -1,12 +1,14 @@
 {
-  "ver": "1.0.0",
+  "ver": "2.3.0",
   "uuid": "1ba51f41-9de9-4bea-b42a-27e20ce37fc2",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "platformSettings": {},
   "subMetas": {
     "dongfu": {
-      "ver": "1.0.3",
+      "ver": "1.0.4",
       "uuid": "afa6cf00-77a8-417f-82e1-00ce84ab26e4",
       "rawTextureUuid": "1ba51f41-9de9-4bea-b42a-27e20ce37fc2",
       "trimType": "auto",

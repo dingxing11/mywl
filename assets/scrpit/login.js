@@ -50,6 +50,11 @@ cc.Class({
        if(name.string.length > 0){
             player.Name = name.string;
             cc.log(player.Name);
+            var player1 = JSON.parse(cc.sys.localStorage.getItem('player'));
+            for(var row in player1){
+                player[row]=player1[row]
+            }
+            cc.log(player)
             Global.goScene("main")
        }
     },

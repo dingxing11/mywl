@@ -1,5 +1,3 @@
-import { CC_BUILD } from "../../creator";
-
 // Learn cc.Class:
 //  - [Chinese] http://www.cocos.com/docs/creator/scripting/class.html
 //  - [English] http://www.cocos2d-x.org/docs/editors_and_tools/creator-chapters/scripting/class/index.html
@@ -43,35 +41,28 @@ cc.Class({
     // LIFE-CYCLE CALLBACKS:
 
     onLoad () {
-        cc.log("没进来？")
-        this._urls = [
-            cc.url.raw("resources/audio/ding.wav"),
-            cc.url.raw("resources/audio/cheering.wav"),
-            cc.url.raw("resources/audio/music_logo.mp3"),
-        ]
         this.resource = null
         this.loadProgressBar.progress = 0
         this._clearAll();
-        cc.loader.load(this._urls, this._progressCallback.bind(this), this._completeCallback.bind(this));
+        cc.director.preloadScene(Global.sceneName, this._progressCallback.bind(this), this._completeCallback.bind(this));
     },
 
     _clearAll() {
-        for (var i = 0; i < this._urls.length; ++i) {
-            var url = this._urls[i];
-            cc.loader.release(url);
-        }
+
     },
 
     _progressCallback(completedCount, totalCount, res) {
         cc.log(completedCount+totalCount)
         this.progress = completedCount / totalCount;
         this.resource = res;
+        cc.log("正在加载")
+        cc.log(this.resource.id)
         this.completedCount = completedCount;
         this.totalCount = totalCount;
     },
 
     _completeCallback(error, res) {
-      
+      cc.log("加载完成!")
     },
 
     start () {
@@ -86,10 +77,7 @@ cc.Class({
         if (progress >= 1) {
             if(!this._loading){
                 this._loading = true
-                cc.director.preloadScene(Global.sceneName, function () {
-                    
-                    cc.director.loadScene(Global.sceneName)
-                }.bind(this));
+                cc.director.loadScene(Global.sceneName)
             }
             return 
             // this.node.active = false;
@@ -98,7 +86,7 @@ cc.Class({
             progress += dt;
             if(progress > 1)
                 progress = 1
-            cc.log("2"+progress)
+            cc.log(progress)
         }
         this.loadProgressBar.progress = progress;
         var tip = (progress*100).toFixed(0)+"%"

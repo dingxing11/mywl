@@ -117,14 +117,14 @@ cc.Class({
                         }
                         this.vectory()
                     } else {
-
+                        this.vectory()
                     }
                     enemy.HP = enemy.MAXHP
                     player.HP = player.MAXHP
                     player.MP = player.MAXMP
-                    cc.log('11')
+                    cc.sys.localStorage.setItem('player', JSON.stringify(player));
                     // cc.director.loadScene("main");
-                    cc.log('完了')
+                    cc.log('回合结束!')
                     return Promise.reject()
                 } else {
                     return this.ackPlayer()
@@ -147,13 +147,14 @@ cc.Class({
                             player.MAXEXP += 100
                         }
                         this.vectory()
+                    } else {
+                        this.vectory()
                     }
                     enemy.HP = enemy.MAXHP
                     player.HP = player.MAXHP
                     player.MP = player.MAXMP
-                    cc.log('11')
                     // cc.director.loadScene("main");
-                    cc.log('完了')
+                    cc.log('失败，回合结束!')
                 } else {
                     this.sum = parseInt(this.sum) + 1
                     this.btnClick1()
@@ -272,11 +273,11 @@ cc.Class({
             var enemy1 = cc.find("Canvas/enemy1")
             var scroll = cc.find("Canvas/dhk/scroll")
             var item = cc.find("Canvas/dhk/scroll/view/content/item")
-            var enemy1Jump1 = cc.moveTo(0.5, player1.getPositionX() + 100, enemy1.getPositionY());
+            var enemy1Jump1 = cc.moveTo(0.5, player1.getPosition().x+100, enemy1.getPosition().y);
             var enemy1Jump2 = cc.moveTo(0.5, enemy1.getPosition());
             var view = scroll.getComponent(cc.ScrollView)
             var item1 = item.getComponent(cc.Label)
-            cc.log('敌人X坐标' + enemy1.getPositionX())
+            cc.log('敌人X坐标' + enemy1.getPosition().x)
             enemy1.runAction(cc.sequence(cc.callFunc(() => {
                     cc.log('开始被攻击')
                 }), enemy1Jump1,
@@ -339,7 +340,7 @@ cc.Class({
         var enemy1 = cc.find("Canvas/enemy1")
         var scroll = cc.find("Canvas/dhk/scroll")
         var item = cc.find("Canvas/dhk/scroll/view/content/item")
-        var player1Jump1 = cc.moveTo(0.5, enemy1.getPositionX() - 100, enemy1.getPositionY())
+        var player1Jump1 = cc.moveTo(0.5, enemy1.getPosition().x - 100, enemy1.getPosition().y)
         var player1Jump2 = cc.moveTo(0.5, player1.getPosition());
         var view = scroll.getComponent(cc.ScrollView)
         var item1 = item.getComponent(cc.Label)

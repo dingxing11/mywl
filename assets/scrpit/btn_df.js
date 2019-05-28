@@ -48,7 +48,7 @@ cc.Class({
        var scroll = cc.find("Canvas/main/dhk/scroll")
        var content = cc.find("Canvas/main/dhk/scroll/view/content")
        if(name){
-           var right = cc.moveTo(0,-btn_list.getPositionX(),0);
+           var right = cc.moveTo(0,-btn_list.getPosition().x,0);
            var xx = dhk.getComponent(cc.Label)
            var view = scroll.getComponent(cc.ScrollView)
            xx.string += "向右移动了\n"
