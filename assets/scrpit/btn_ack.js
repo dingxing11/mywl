@@ -62,6 +62,8 @@ cc.Class({
         // let animState = liumai.play('liumai')
         // animState.wrapMode = cc.WrapMode.Loop;
         this.liu.active = false
+        var playerbg = cc.find("Canvas/player1/playerbg")
+        playerbg.z = -1
     },
     btnClick1(event, customEventData) {
         player.ackNum = 1

@@ -32,7 +32,11 @@ cc.Class({
     // LIFE-CYCLE CALLBACKS:
 
     onLoad () {
-
+        this.node.on('select-tab',event => {
+            this.title = event.getUserData()
+            this.clearItems()
+            this.selectTitle(this.title)
+        },this)
     },
     btnClick1 (event, customEventData) {
         Global.goScene("main")

@@ -822,7 +822,7 @@
     "_position": {
       "__type__": "cc.Vec3",
       "x": -103,
-      "y": -7,
+      "y": -10.545,
       "z": 0
     },
     "_scale": {
@@ -1329,6 +1329,7 @@
     "UserName": {
       "__id__": 17
     },
+    "LabelName": null,
     "_id": "7fXVku/51FqKyXOp7eC6Fp"
   },
   {
@@ -1558,6 +1559,15 @@
       "__id__": 2
     },
     "_enabled": true,
+    "UserName": {
+      "__id__": 17
+    },
+    "LabelName": {
+      "__id__": 30
+    },
+    "LoginName": {
+      "__id__": 25
+    },
     "_id": "0aso9x3RhHsad6LnOqkSI1"
   }
 ]

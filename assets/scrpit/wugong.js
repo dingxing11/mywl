@@ -54,6 +54,9 @@ cc.Class({
     // LIFE-CYCLE CALLBACKS:
 
     onLoad () {
+        this.Ntab = cc.find("Canvas/main/node/wugong/tab")
+        this.Ncontent = cc.find("Canvas/main/node/wugong/name/view/content")
+        this.Nshuoming= cc.find("Canvas/main/node/wugong/shuoming")
         this.node.on('select-tab',event => {
             this.title = event.getUserData()
             this.clearItems()
@@ -66,9 +69,6 @@ cc.Class({
     },
 
     start () {
-        this.Ntab = cc.find("Canvas/main/node/wugong/tab")
-        this.Ncontent = cc.find("Canvas/main/node/wugong/name/view/content")
-        this.Nshuoming= cc.find("Canvas/main/node/wugong/shuoming")
         var set = new Set()
         set.add('武功')
         var arr = new Array()

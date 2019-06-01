@@ -8,6 +8,10 @@
 //  - [Chinese] http://www.cocos.com/docs/creator/scripting/life-cycle-callbacks.html
 //  - [English] http://www.cocos2d-x.org/docs/editors_and_tools/creator-chapters/scripting/life-cycle-callbacks/index.html
 var player = require('Player')
+var postData={
+    name:''
+};
+
 cc.Class({
     extends: cc.Component,
 
@@ -15,6 +19,10 @@ cc.Class({
         UserName:{
             default:null,
             type:cc.EditBox
+        },
+        LabelName:{
+            default:null,
+            type:cc.Label
         }
         // foo: {
         //     // ATTRIBUTES:
@@ -46,17 +54,22 @@ cc.Class({
         button.clickEvents.push(clickEventHandler); //增加处理
     },
     btnClick1 (event, customEventData) {
-       var name = cc.find("Canvas/player_name").getComponent(cc.EditBox);
-       if(name.string.length > 0){
-            player.Name = name.string;
-            cc.log(player.Name);
-            var player1 = JSON.parse(cc.sys.localStorage.getItem('player'));
-            for(var row in player1){
-                player[row]=player1[row]
-            }
-            cc.log(player)
-            Global.goScene("main")
-       }
+       // 向服务端发送请求
+       postData.name = player.Name
+       var xhr = new XMLHttpRequest();
+       xhr.onreadystatechange = function () {
+           if (xhr.readyState == 4 && (xhr.status >= 200 && xhr.status < 400)) {
+               var response = xhr.responseText;
+               console.log(response);
+               var data = JSON.parse(response)
+               console.log(data);
+               if(data.finish == true)
+                   Global.goScene('main')
+           }
+       };
+       xhr.open("POST", 'http://127.0.0.1:8081/login', true);
+       // xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+       xhr.send(JSON.stringify(postData));
     },
 
     // 生产随机名称

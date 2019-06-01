@@ -7,11 +7,24 @@
 // Learn life-cycle callbacks:
 //  - [Chinese] http://www.cocos.com/docs/creator/scripting/life-cycle-callbacks.html
 //  - [English] http://www.cocos2d-x.org/docs/editors_and_tools/creator-chapters/scripting/life-cycle-callbacks/index.html
+var player = require('Player')
 
 cc.Class({
     extends: cc.Component,
 
     properties: {
+        UserName:{
+            default:null,
+            type:cc.EditBox
+        },
+        LabelName:{
+            default:null,
+            type:cc.Label
+        },
+        LoginName:{
+            default:null,
+            type:cc.Label
+        }
         // foo: {
         //     // ATTRIBUTES:
         //     default: null,        // The default value will be used only when the component attaching
@@ -36,6 +49,25 @@ cc.Class({
         this._splash = this.node.getChildByName("splash")
     },
     
+    // 新老用户登录检测
+    loginUser(){
+        if(cc.sys.localStorage.length > 0){
+            // 老用户
+            this.UserName.node.active = false
+            this.LabelName.node.active = false
+            this.LoginName.string = '继续游戏'
+            if(localStorage.hasOwnProperty('player')){
+                var player1 = JSON.parse(cc.sys.localStorage.getItem('player'));
+                for(var row in player1){
+                    player[row]=player1[row]
+                }
+            }
+       } else if(this.UserName.string.length > 0){
+            // 新用户
+            player.Name = this.UserName.string
+       }
+       cc.log('获取到的用户信息:%s',JSON.stringify(player))
+    },
 
     start () {
         var Time = 3000
@@ -46,16 +78,16 @@ cc.Class({
             var dt = Date.now() - time
             if(dt >= Time){
                 this._splash.runAction(
-                    cc.fadeOut(0.5),
+                    cc.fadeOut(Fade),
                     cc.callFunc(()=>{
                         this._splash.active = false
                     })
                 )
             } else {
-                cc.log("Time:"+dt)
                 setTimeout(fn,33)
             }
         }
+        this.loginUser()
         setTimeout(fn,33)
     },
 
