@@ -27,7 +27,4 @@ module.exports = {
     isMap:false,
     xPosition:0,
     yPosition:0,
-    action:function(){
-        cc.log("player action")
-    }
 }

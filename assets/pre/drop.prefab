@@ -37,8 +37,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 76,
-      "height": 18.9
+      "width": 101.12,
+      "height": 25.2
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -84,8 +84,8 @@
     "_useOriginalSize": false,
     "_string": "左右互搏x1",
     "_N$string": "左右互搏x1",
-    "_fontSize": 15,
-    "_lineHeight": 15,
+    "_fontSize": 20,
+    "_lineHeight": 20,
     "_enableWrapText": true,
     "_N$file": null,
     "_isSystemFontUsed": true,

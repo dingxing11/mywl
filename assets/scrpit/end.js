@@ -12,6 +12,11 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
+        drop:{
+            default:null,
+            type:cc.Prefab
+        },
+        drops:[]
         // foo: {
         //     // ATTRIBUTES:
         //     default: null,        // The default value will be used only when the component attaching
@@ -32,11 +37,14 @@ cc.Class({
     // LIFE-CYCLE CALLBACKS:
 
     onLoad () {
-        this.node.on('select-tab',event => {
-            this.title = event.getUserData()
-            this.clearItems()
-            this.selectTitle(this.title)
-        },this)
+        cc.log('掉落的物品:%s',this.drops)
+        this.drops.forEach(item => {
+            var items = this.node.getChildByName("items")
+            var drop = cc.instantiate(this.drop)
+            var drop_label = drop.getComponent(cc.Label)
+            drop_label.string = `${item.name}x${item.num}`
+            items.addChild(drop)
+        });
     },
     btnClick1 (event, customEventData) {
         Global.goScene("main")

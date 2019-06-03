@@ -14,10 +14,6 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
-        end: {
-            default: null,
-            type: cc.Prefab
-        },
         repeat:'',
         player1:'',
         dropHP: {
@@ -90,11 +86,14 @@ cc.Class({
             .then(() => {
                 if (player.HP <= 0 || enemy.HP <= 0) {
                     if (enemy.HP <= 0) {
-                        this.player1.stopAction(this.repeat);
+                        // 掉落全部的物品初始化
+                        let drops = []
                         player.EXP += enemy.EXP
                         enemy.BeiBao.forEach(element => {
+                            console.log(element)
                             if (Math.floor(Math.random() * 100) <= element.drop) {
                                 let isHas = false
+                                let drop = {}
                                 player.BeiBao.forEach(row => {
                                     if (row.name === element.name) {
                                         isHas = true
@@ -106,8 +105,14 @@ cc.Class({
                                 }
                                 cc.log(`获得了1个${element.name}`)
                                 item1.string += `获得了1个${element.name}\n`
+                                 // 掉落的物品，加入数组
+                                 drop.name = element.name
+                                 drop.num = 1
+                                 drops.push(drop)
                             }
                         });
+                        // 发送全部掉落的信息
+
                         while (player.EXP >= player.MAXEXP) {
                             player.EXP = player.EXP - player.MAXEXP
                             player.MAXHP += Math.round(Math.random() * 20 + 1)
@@ -117,9 +122,9 @@ cc.Class({
                             player.LEVEL += 1
                             player.MAXEXP += 100
                         }
-                        this.vectory()
+                        this.vectory(drops)
                     } else {
-                        this.vectory()
+                        this.vectory(drops)
                     }
                     enemy.HP = enemy.MAXHP
                     player.HP = player.MAXHP
@@ -176,11 +181,15 @@ cc.Class({
             //     }),
             //     player1Jump2))
             // }.bind(this)
-            if(player.WUGONG.length>0){
-                player.WUGONG.forEach(element => {
+            if(player.JN.length>0){
+                player.JN.forEach(element => {
                     cc.log('进来武功了'+element.NOW_CD)
                     if(element.NOW_CD == 0){
                         if(!isACK){
+                            wugong.forEach(row =>{
+                                if(row.name == element.name)
+                                    element.action = row.action
+                            } )
                             if(isACK = element.action(this,resolve,enemy,player)){
                                 element.NOW_CD = element.CD
                             }
@@ -219,12 +228,12 @@ cc.Class({
         return p
     },
 
-    vectory() {
-        var Canvas = cc.find("Canvas")
-        var end = cc.instantiate(this.end)
-        end.setPosition(0, 0)
-        end.parent = Canvas
-        end.setPosition(0, 0)
+    vectory(drops) {
+        cc.log('胜利了掉落物品:%s',drops)
+        var end = cc.find("Canvas/end")
+        var s_end = end.getComponent("end")
+        s_end.drops = drops
+        end.active = true
     },
 
     // 被攻击动作
