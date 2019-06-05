@@ -55,21 +55,22 @@ cc.Class({
     },
     btnClick1 (event, customEventData) {
        // 向服务端发送请求
-       postData.name = player.Name
-       var xhr = new XMLHttpRequest();
-       xhr.onreadystatechange = function () {
-           if (xhr.readyState == 4 && (xhr.status >= 200 && xhr.status < 400)) {
-               var response = xhr.responseText;
-               console.log(response);
-               var data = JSON.parse(response)
-               console.log(data);
-               if(data.finish == true)
-                   Global.goScene('main')
-           }
-       };
-       xhr.open("POST", 'http://127.0.0.1:8081/login', true);
-       // xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-       xhr.send(JSON.stringify(postData));
+    //    postData.name = player.Name
+    //    var xhr = new XMLHttpRequest();
+    //    xhr.onreadystatechange = function () {
+    //        if (xhr.readyState == 4 && (xhr.status >= 200 && xhr.status < 400)) {
+    //            var response = xhr.responseText;
+    //            console.log(response);
+    //            var data = JSON.parse(response)
+    //            console.log(data);
+    //            if(data.finish == true)
+    //                Global.goScene('main')
+    //        }
+    //    };
+    //    xhr.open("POST", 'http://127.0.0.1:8081/login', true);
+    //    // xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    //    xhr.send(JSON.stringify(postData));
+          Global.goScene('main')
     },
 
     // 生产随机名称

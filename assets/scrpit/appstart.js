@@ -53,14 +53,14 @@ cc.Class({
     loginUser(){
         if(cc.sys.localStorage.length > 0){
             // 老用户
+            cc.log('进来了')
+            cc.log(JSON.stringify(cc.sys.localStorage))
             this.UserName.node.active = false
             this.LabelName.node.active = false
             this.LoginName.string = '继续游戏'
-            if(localStorage.hasOwnProperty('player')){
-                var player1 = JSON.parse(cc.sys.localStorage.getItem('player'));
-                for(var row in player1){
-                    player[row]=player1[row]
-                }
+            var player1 = JSON.parse(cc.sys.localStorage.getItem('player'));
+            for(var row in player1){
+                player[row]=player1[row]
             }
        } else if(this.UserName.string.length > 0){
             // 新用户

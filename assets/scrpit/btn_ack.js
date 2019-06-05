@@ -62,17 +62,7 @@ cc.Class({
         playerbg.z = -1
     },
     btnClick1(event, customEventData) {
-        player.ackNum = 1
         // 是否触发触发类武功
-        var jl = Math.floor(Math.random()*100)
-        cc.log(`几率${jl}`)
-        this.chufa.forEach(element => {
-            cc.log(element)
-            if(jl <= element.jl){
-                player.ackNum = element.ackNum
-                cc.log(player.ackNum)
-            }
-        })
         var huihe = cc.find("Canvas/huihe")
         var item = cc.find("Canvas/dhk/scroll/view/content/item")
         var item1 = item.getComponent(cc.Label)
@@ -129,8 +119,11 @@ cc.Class({
                     enemy.HP = enemy.MAXHP
                     player.HP = player.MAXHP
                     player.MP = player.MAXMP
-                    cc.sys.localStorage.setItem('player', JSON.stringify(player));
-                    // cc.director.loadScene("main");
+                    var i = cc.sys.localStorage.setItem('player', JSON.stringify(player));
+                    // 技能CD恢复为0
+                    player.JN.forEach(element => {
+                        element.NOW_CD = 0
+                    })
                     cc.log('回合结束!')
                     return Promise.reject()
                 } else {

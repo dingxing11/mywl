@@ -21,6 +21,7 @@ module.exports = [
         NOW_CD:0,
         CD:0,
         drop:100,
+        num:1,
         action:function(self,resolve,enemy,player){
             var jl = Math.floor(Math.random()*100)
             if(jl >= this.jl || jl < 0){
@@ -96,11 +97,12 @@ module.exports = [
         decribe:'出自大理段氏,强力的攻击招式',
         wugongtype:'主动',
         gongneng:'攻击类',
-        power:1.4,
+        power:3,
         MAXCD: 3,
         NOW_CD:0,
         CD: 2,
         drop:30,
+        num:1,
         action:function(self,resolve,enemy,player){
             var player1 = cc.find("Canvas/player1")
             self.player1 = player1

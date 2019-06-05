@@ -54,7 +54,7 @@ cc.Class({
     // LIFE-CYCLE CALLBACKS:
 
     onLoad () {
-         this.Ntab = cc.find("Canvas/main/node/wugong/tab")
+        this.Ntab = cc.find("Canvas/main/node/wugong/tab")
         this.Ncontent = cc.find("Canvas/main/node/wugong/name/view/content")
         this.Nshuoming= cc.find("Canvas/main/node/wugong/shuoming")
         this.node.on('select-tab',event => {
@@ -104,8 +104,8 @@ cc.Class({
             this.Ncontent.addChild(item)
         });
         // 选中第一个item
-        // this.item = items[0]
-        // this.selectItem(this.item);
+        this.item = items[0]
+        this.selectItem(this.item);
     },
 
     // 选中item显示的详情
