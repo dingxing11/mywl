@@ -47,7 +47,8 @@ cc.Class({
         });
     },
     btnClick1 (event, customEventData) {
-        Global.goScene("main")
+        Global.boss.dead = true
+        Global.goScene("mjtiledmap")
         cc.log('场景跳转了')
         var end = cc.find("Canvas/end")
         end.destroy()

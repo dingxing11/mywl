@@ -1,10 +1,23 @@
 var wugong = require('WuGong')
-
 window.Global = {
+    player:{
+        saved:false
+    },
+    boss:{
+        dead:false
+    },
+    baoxiang:{
+        opened:false
+    },
     sceneName:'',
-    goScene(sceneName){
-        this.sceneName = sceneName
-        cc.director.loadScene("load")
+    shangcheng_first:false,
+    goScene(sceneName,isload = true){
+        if(isload){
+            this.sceneName = sceneName
+            cc.director.loadScene("load")
+        } else {
+            cc.director.loadScene(sceneName)
+        }
     }
 }
 

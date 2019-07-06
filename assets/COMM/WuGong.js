@@ -10,7 +10,7 @@
 module.exports = [
     {
         name:'左右互搏',
-        decribe:'30%的概率攻击攻击两次',
+        describe:'30%的概率攻击攻击两次',
         wugongtype:'被动',
         Type:'武功',
         pingzhi:'甲',
@@ -22,6 +22,9 @@ module.exports = [
         CD:0,
         drop:100,
         num:1,
+        icon:'wugong/JA001_1',
+        show:'wugong/JA001_2',
+        money:1000,
         action:function(self,resolve,enemy,player){
             var jl = Math.floor(Math.random()*100)
             if(jl >= this.jl || jl < 0){
@@ -94,7 +97,7 @@ module.exports = [
         name:'六脉神剑',
         Type:'武功',
         pingzhi:'乙',
-        decribe:'出自大理段氏,强力的攻击招式',
+        describe:'出自大理段氏,强力的攻击招式',
         wugongtype:'主动',
         gongneng:'攻击类',
         power:3,
@@ -103,6 +106,9 @@ module.exports = [
         CD: 2,
         drop:30,
         num:1,
+        money:2000,
+        icon:'wugong/ID070_1',
+        show:'wugong/ID070_2',
         action:function(self,resolve,enemy,player){
             var player1 = cc.find("Canvas/player1")
             self.player1 = player1

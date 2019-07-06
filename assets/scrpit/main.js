@@ -12,10 +12,11 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
+
         jishi:{
             default:null,
             type:cc.Node
-        }
+        },
         // foo: {
         //     // ATTRIBUTES:
         //     default: null,        // The default value will be used only when the component attaching
@@ -36,7 +37,8 @@ cc.Class({
     // LIFE-CYCLE CALLBACKS:
 
     onLoad () {
-        this.label_wugong_list = cc.find('Canvas/main/node/label_wugong_list')
+        this.label_wugong_list = cc.find('Canvas/main/node/list/view/content/label_wugong_list')
+        this.main =  cc.find('Canvas/main')
         this.wgs = this.label_wugong_list.children
     },
 
@@ -56,7 +58,25 @@ cc.Class({
      */
     goShop(){
         this.jishi.active = true
-    }
+    },
 
+    /**
+     * 进入主界面
+     */
+    goMain(){
+        this.main.active = true
+        this.jishi.active = false
+    },
+
+    /**
+     * 选择装备
+     */
+    selectZB(){
+        var wugonglist = this.wugonglist.getComponent('wugong_list')
+        var name = this.node.getChildByName('name')
+        var wg_label = name.getComponent(cc.Label) 
+        wugonglist.jn = wg_label
+        this.wugonglist.active = true
+    }
     // update (dt) {},
 });

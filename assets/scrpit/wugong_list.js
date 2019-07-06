@@ -161,7 +161,7 @@ cc.Class({
                 title_label.string = `名称:${row.name}`;
                 details_label.string = `品质:${row.pingzhi}\n`;
                 details_label.string += '=======================\n';
-                details_label.string += row.decribe;
+                details_label.string += row.describe;
                 num_label.string = `数量:${row.num}`;
             }
         });

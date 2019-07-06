@@ -54,6 +54,9 @@ cc.Class({
     // LIFE-CYCLE CALLBACKS:
 
     onLoad () {
+        this.Ntab = cc.find("Canvas/main/node/beibao/tab")
+        this.Ncontent = cc.find("Canvas/main/node/beibao/name/view/content")
+        this.Nshuoming= cc.find("Canvas/main/node/beibao/shuoming")
         this.node.on('select-tab',event => {
             this.title = event.getUserData()
             this.clearItems()
@@ -66,9 +69,12 @@ cc.Class({
     },
 
     start () {
-        this.Ntab = cc.find("Canvas/main/node/beibao/tab")
-        this.Ncontent = cc.find("Canvas/main/node/beibao/name/view/content")
-        this.Nshuoming= cc.find("Canvas/main/node/beibao/shuoming")
+        
+    },
+    
+    onEnable(){
+        this.clearTitles()
+        this.clearItems()
         var set = new Set()
         set.add('全部');
         player.BeiBao.forEach(element => {
@@ -89,6 +95,14 @@ cc.Class({
         this.selectTitle(this.title)
     },
     
+     // 清除titles
+    clearTitles(){
+        var nodes = this.Ntab.children
+        nodes.forEach(node =>{
+            node.destroy()
+        })
+    },
+
     // 清除items
     clearItems(){
         var nodes = this.Ncontent.children
@@ -128,7 +142,7 @@ cc.Class({
                 title_label.string = `名称:${row.name}`;
                 details_label.string = `品质:${row.pingzhi}\n`;
                 details_label.string += '=======================\n';
-                details_label.string += row.decribe;
+                details_label.string += row.describe;
                 num_label.string = `数量:${row.num}`;
             }
         });

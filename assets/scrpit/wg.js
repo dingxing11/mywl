@@ -47,6 +47,9 @@ cc.Class({
         
     },
 
+    /**
+     * 添加武功
+     */
     addJN() {
         var wugonglist = this.wugonglist.getComponent('wugong_list')
         var name  =this.node.getChildByName('name')

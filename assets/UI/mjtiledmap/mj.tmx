@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" tiledversion="1.1.6" orientation="orthogonal" renderorder="right-down" width="20" height="18" tilewidth="32" tileheight="32" infinite="0" nextobjectid="29">
+ <tileset firstgid="1" name="boss_live" tilewidth="32" tileheight="32" tilecount="1" columns="1">
+  <image source="boss_live.png" width="32" height="32"/>
+ </tileset>
+ <tileset firstgid="2" name="boss_dead" tilewidth="32" tileheight="32" tilecount="1" columns="1">
+  <image source="boss_dead.png" width="32" height="32"/>
+ </tileset>
+ <tileset firstgid="3" name="close_baoxiang" tilewidth="32" tileheight="32" tilecount="1" columns="1">
+  <image source="close_baoxiang.png" width="32" height="32"/>
+ </tileset>
+ <tileset firstgid="4" name="ope_baoxiang" tilewidth="32" tileheight="32" tilecount="1" columns="1">
+  <image source="ope_baoxiang.png" width="32" height="32"/>
+ </tileset>
+ <tileset firstgid="5" name="player" tilewidth="32" tileheight="32" tilecount="1" columns="1">
+  <image source="player.png" width="32" height="32"/>
+ </tileset>
+ <tileset firstgid="6" name="meizhuang_bg" tilewidth="32" tileheight="32" tilecount="360" columns="20">
+  <image source="meizhuang_bg.png" width="640" height="576"/>
+ </tileset>
+ <tileset firstgid="366" name="endpoint" tilewidth="32" tileheight="32" tilecount="1" columns="1">
+  <image source="endpoint.png" width="32" height="32"/>
+ </tileset>
+ <layer name="map" width="20" height="18">
+  <data encoding="base64" compression="zlib">
+   eJwNwwVwEAQAAMCBOGJsjBw1YHTHRm5s1BgbObprMEYjoYJSSqeCgkGodCjdnQoGKKGggKgoJSiphMjf/QcGBARkNJOZzWKQWQ02xGyGmt0c5jSXuc1jmHnNZ34LWNBwC1nYIkZY1GIWt4QlLWVpy1jWcpa3ghWtZGWrGGmUVa1mdWtY01pGG2NtY42zjnWtZ30bGG9DE2xkokk2tolNbWZzW5hsS1vZ2ja2tZ3t7WBHO9nZLna1m93tYU9T7GVvU+1jmn3tZ38HONBBDnaILznUYQ53hC/7iq860lG+5uuOdoxjHed43/BNJzjRSU52ilOd5nRnONNZzvYt33aOc33Hd53nfN/zfT/wQxe40EUu9iM/9hOXuNRlLneFK13late41k/9zHWud4Mb3eRmt7jVbW53hzvd5W73uNd97veABz3kYY941M/9wmMe90u/8mu/8YQn/dbvPOVpz3jW7/3Bc573R3/yghe95M9e9hd/9Tev+Lt/eNVrXveGN/3TW972L//2jne9530f+NB//NdHPvaJT/3PZ/5vQDpM7wtm8EUDzWgmM5vFILMabIjZDDW7OcxpLnObxzDzms/8FrCg4RaysEWMsKjFLG4JS1rK0paxrOUsbwUrWsnKVjHSKKtazerWsKa1jDbG2sYaZx3rWs/6NjDehibYyESTbGwTm9rM5rYw2Za2srVtbGs729vBjnays13saje728OeptjL3qbaxzT72s/+DnCgg3wOfyOXSw==
+  </data>
+ </layer>
+ <layer name="boss_dead" width="20" height="18">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFtAZMA+2AUTAKRsGQBAAOGAAD
+  </data>
+ </layer>
+ <layer name="boss" width="20" height="18">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFtAaMA+2AUTAKRsGQBAAJ3AAC
+  </data>
+ </layer>
+ <objectgroup name="players">
+  <object id="20" name="player1" gid="5" x="32" y="352" width="32" height="32"/>
+ </objectgroup>
+ <layer name="open_baoxiang" width="20" height="18">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2AUjBTAMtAOGAUkAQAMYAAF
+  </data>
+ </layer>
+ <layer name="close_baoxiang" width="20" height="18">
+  <properties>
+   <property name="opend" type="bool" value="false"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2AUjBTAPNAOGAUkAQAKsAAE
+  </data>
+ </layer>
+ <layer name="end" width="20" height="18">
+  <data encoding="base64" compression="zlib">
+   eJxjYCAP5DGSqXEUjIJRMApGAVEAAF3VAHA=
+  </data>
+ </layer>
+</map>

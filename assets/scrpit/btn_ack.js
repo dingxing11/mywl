@@ -119,7 +119,7 @@ cc.Class({
                     enemy.HP = enemy.MAXHP
                     player.HP = player.MAXHP
                     player.MP = player.MAXMP
-                    var i = cc.sys.localStorage.setItem('player', JSON.stringify(player));
+                    cc.sys.localStorage.setItem('player', JSON.stringify(player));
                     // 技能CD恢复为0
                     player.JN.forEach(element => {
                         element.NOW_CD = 0

@@ -43,7 +43,7 @@ cc.Class({
     },
     btnClick1 (event, customEventData) {
        var name = cc.find("Canvas/main/node")
-       var rw = cc.find("Canvas/main/node/label_list")
+       var rw = cc.find("Canvas/main/node/list")
        var dhk = cc.find("Canvas/main/dhk/scroll/view/content/item")
        var scroll = cc.find("Canvas/main/dhk/scroll")
        if(name){

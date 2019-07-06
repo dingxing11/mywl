@@ -24,6 +24,10 @@ cc.Class({
         LoginName:{
             default:null,
             type:cc.Label
+        },
+        restart:{
+            default:null,
+            type:cc.Node
         }
         // foo: {
         //     // ATTRIBUTES:
@@ -48,13 +52,19 @@ cc.Class({
         cc.log("Time:")
         this._splash = this.node.getChildByName("splash")
     },
-    
-    // 新老用户登录检测
+
+    // 重新开始
+    newGame(){
+        cc.sys.localStorage.removeItem('player')
+        cc.game.end()
+    },
+
     loginUser(){
-        if(cc.sys.localStorage.length > 0){
+        if(cc.sys.localStorage.getItem('player')){
             // 老用户
             cc.log('进来了')
             cc.log(JSON.stringify(cc.sys.localStorage))
+            this.restart.active = true
             this.UserName.node.active = false
             this.LabelName.node.active = false
             this.LoginName.string = '继续游戏'
@@ -62,14 +72,14 @@ cc.Class({
             for(var row in player1){
                 player[row]=player1[row]
             }
-       } else if(this.UserName.string.length > 0){
+       } else {
             // 新用户
-            player.Name = this.UserName.string
+            this.restart.active = false
        }
        cc.log('获取到的用户信息:%s',JSON.stringify(player))
     },
-
     start () {
+        this._splash = this.node.getChildByName("splash")
         var Time = 3000
         var Fade = 0.5
         this._splash.active = true

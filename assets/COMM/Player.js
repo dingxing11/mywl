@@ -10,6 +10,7 @@
 module.exports = {
     // 人物基础属性
     Name:'丁新',
+    money:20000,
     ack:20,
     def:3,
     HP:100,
@@ -18,6 +19,10 @@ module.exports = {
     MAXMP:100,
     JN:[],
     WUGONG:[],
+    WUQI:{},
+    HUSHOU:{},
+    YAODAI:{},
+    XIEZI:{},
     EXP:10,
     MAXEXP:100,
     LEVEL:1,

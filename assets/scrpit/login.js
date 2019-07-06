@@ -70,6 +70,9 @@ cc.Class({
     //    xhr.open("POST", 'http://127.0.0.1:8081/login', true);
     //    // xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     //    xhr.send(JSON.stringify(postData));
+    
+          if(this.UserName.node.active == true)
+            player.Name = this.UserName.string
           Global.goScene('main')
     },
 
