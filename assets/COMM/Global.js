@@ -1,5 +1,13 @@
 var wugong = require('WuGong')
 window.Global = {
+    // wugong_list窗口装备公共变量
+    wugong_list:{
+        title:'',
+        zhuangbei:{
+            part:''  //部位
+        },
+    },
+
     player:{
         saved:false
     },

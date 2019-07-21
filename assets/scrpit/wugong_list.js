@@ -12,6 +12,8 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
+        //row 选中整个json数据
+        row:'',
         title:'',
         item:'',
         jn:{
@@ -72,16 +74,9 @@ cc.Class({
         },this)
     },
 
-    onEnable(){
-        this.title = '武功'
-        this.clearItems()
-        this.selectTitle(this.title)
-    },
-
     start () {
-        cc.log('enable')
         var set = new Set()
-        set.add('武功')
+        set.add(Global.wugong_list.title)
         var arr = new Array()
         set.forEach(element => {
             var title = cc.instantiate(this.Ntitle)
@@ -122,33 +117,67 @@ cc.Class({
 
     // 列举相应title下的全部值
     selectTitle(title){
-        let items = new Array()
-        var item = cc.instantiate(this.Nname);
-        var item_label = item.getComponent(cc.Label);
-        item_label.string = '<空>';
-        items.push(item_label.string)
-        this.Ncontent.addChild(item)
-        player.WUGONG.forEach(row => {
-            let hasJN = false
-            player.JN.forEach(element =>{
-                if(element.name == row.name)
-                    hasJN = true
-            })
-            if(!hasJN){
-                var item = cc.instantiate(this.Nname);
-                var item_label = item.getComponent(cc.Label);
-                item_label.string = row.name;
-                items.push(item_label.string)
-                this.Ncontent.addChild(item)
-            }
-        });
-        // 选中第一个item
+        if(this.title == '武功'){
+            let items = new Array()
+            var item = cc.instantiate(this.Nname);
+            var item_label = item.getComponent(cc.Label);
+            item_label.string = '<空>';
+            items.push(item_label.string)
+            this.Ncontent.addChild(item)
+            player.WUGONG.forEach(row => {
+                let hasJN = false
+                player.JN.forEach(element =>{
+                    if(element.name == row.name)
+                        hasJN = true
+                })
+                if(!hasJN){
+                    var item = cc.instantiate(this.Nname);
+                    var item_label = item.getComponent(cc.Label);
+                    item_label.string = row.name;
+                    items.push(item_label.string)
+                    this.Ncontent.addChild(item)
+                }
+            });
+        }
+        if(this.title == '装备'){
+             let items = new Array()
+            var item = cc.instantiate(this.Nname);
+            var item_label = item.getComponent(cc.Label);
+            item_label.string = '<空>';
+            items.push(item_label.string)
+            this.Ncontent.addChild(item)
+            player.BeiBao.forEach(row => {
+                if(row.Part == Global.wugong_list.zhuangbei.part){
+                    this.row = row
+                    var item = cc.instantiate(this.Nname);
+                    var item_label = item.getComponent(cc.Label);
+                    item_label.string = row.name;
+                    items.push(item_label.string)
+                    this.Ncontent.addChild(item)
+                }
+            });
+        }
         // this.item = items[0]
         // this.selectItem(this.item);
     },
 
     // 选中item显示的详情
     selectItem(item){
+        // 遍历武功
+        if(item == '<空>'){
+            let title = this.Nshuoming.getChildByName("title");
+            let num = this.Nshuoming.getChildByName("num");
+            let body = this.Nshuoming.getChildByName("body");
+            let details = body.getChildByName("details");
+            let title_label = title.getComponent(cc.Label);
+            let details_label = details.getComponent(cc.Label);
+            let num_label = num.getComponent(cc.Label);
+            title_label.string = `名称`;
+            details_label.string = ``;
+            num_label.string = ``;
+            this.row = null
+            return
+        }
         player.WUGONG.forEach(row => {
             if(row.name == item){
                 let title = this.Nshuoming.getChildByName("title");
@@ -164,6 +193,75 @@ cc.Class({
                 details_label.string += row.describe;
                 num_label.string = `数量:${row.num}`;
             }
+            return 
+        });
+        // 遍历背包装备
+        player.BeiBao.forEach(row => {
+            if(row.name == item && row.Type == '装备'){
+                this.row = row
+                if(row.Part == '武器'){
+                    let title = this.Nshuoming.getChildByName("title");
+                    let num = this.Nshuoming.getChildByName("num");
+                    let body = this.Nshuoming.getChildByName("body");
+                    let details = body.getChildByName("details");
+                    let title_label = title.getComponent(cc.Label);
+                    let details_label = details.getComponent(cc.Label);
+                    let num_label = num.getComponent(cc.Label);
+                    title_label.string = `名称:${row.name}`;
+                    details_label.string = `品质:${row.pingzhi}\n`;
+                    details_label.string = `攻击:${row.ack}\n`;
+                    details_label.string += '=======================\n';
+                    details_label.string += row.describe;
+                    num_label.string = `数量:${row.num}`;
+                }
+                if(row.Part == '腰带'){
+                    let title = this.Nshuoming.getChildByName("title");
+                    let num = this.Nshuoming.getChildByName("num");
+                    let body = this.Nshuoming.getChildByName("body");
+                    let details = body.getChildByName("details");
+                    let title_label = title.getComponent(cc.Label);
+                    let details_label = details.getComponent(cc.Label);
+                    let num_label = num.getComponent(cc.Label);
+                    title_label.string = `名称:${row.name}`;
+                    details_label.string = `品质:${row.pingzhi}\n`;
+                    details_label.string = `血量:${row.HP}\n`;
+                    details_label.string = `防御:${row.def}\n`;
+                    details_label.string += '=======================\n';
+                    details_label.string += row.describe;
+                    num_label.string = `数量:${row.num}`;
+                }
+                if(row.Part == '鞋子'){
+                    let title = this.Nshuoming.getChildByName("title");
+                    let num = this.Nshuoming.getChildByName("num");
+                    let body = this.Nshuoming.getChildByName("body");
+                    let details = body.getChildByName("details");
+                    let title_label = title.getComponent(cc.Label);
+                    let details_label = details.getComponent(cc.Label);
+                    let num_label = num.getComponent(cc.Label);
+                    title_label.string = `名称:${row.name}`;
+                    details_label.string = `品质:${row.pingzhi}\n`;
+                    details_label.string = `防御:${row.def}\n`;
+                    details_label.string += '=======================\n';
+                    details_label.string += row.describe;
+                    num_label.string = `数量:${row.num}`;
+                }
+                if(row.Part == '衣服'){
+                    let title = this.Nshuoming.getChildByName("title");
+                    let num = this.Nshuoming.getChildByName("num");
+                    let body = this.Nshuoming.getChildByName("body");
+                    let details = body.getChildByName("details");
+                    let title_label = title.getComponent(cc.Label);
+                    let details_label = details.getComponent(cc.Label);
+                    let num_label = num.getComponent(cc.Label);
+                    title_label.string = `名称:${row.name}`;
+                    details_label.string = `品质:${row.pingzhi}\n`;
+                    details_label.string = `防御:${row.def}\n`;
+                    details_label.string += '=======================\n';
+                    details_label.string += row.describe;
+                    num_label.string = `数量:${row.num}`;
+                }
+            }
+            return
         });
     },
 
@@ -171,34 +269,124 @@ cc.Class({
      * 装备武功
      */
     addWG(){
-        cc.log(this.item)
-        // 删除原武功
-        this.deleteOldJN()
-        // 选择空项
-        if(this.item == '<空>'){
-            this.jn.string  = '+'
-            this.node.active = false
-            return
-        }
-        player.JN.forEach(element => {
-            if(element.name == this.item)
-                return 
-        })
-        player.WUGONG.forEach(row => {
-            if(row.name == this.item){
-                player.JN.push(row)
+        if(this.title == '武功'){
+            cc.log(this.item)
+            // 删除原武功
+            this.deleteOldJN()
+            // 选择空项
+            if(this.item == '<空>'){
+                this.jn.string  = '+'
+                this.node.active = false
+                return
             }
-        })
-        this.jn.string = this.item
-        this.node.active = false
-        cc.log('装备技能:%s',player.JN)
+            player.JN.forEach(element => {
+                if(element.name == this.item)
+                    return 
+            })
+            player.WUGONG.forEach(row => {
+                if(row.name == this.item){
+                    player.JN.push(row)
+                }
+            })
+            var event = new cc.Event.EventCustom('select_wugong', true)
+            event.setUserData(this.item)
+            this.node.dispatchEvent(event)
+            this.node.destroy()
+        }
+        if(this.title == '装备'){
+            if(Global.wugong_list.zhuangbei.part == '武器'){
+                // 选择空项
+                if(this.item == '<空>'){
+                    this.jn.string  = '+'
+                    player.WUQI = null
+                    this.node.destroy()
+                    return
+                }
+                player.WUQI = this.row
+                cc.log(`装备了:${JSON.stringify(player.WUQI)}`)
+                this.addWQ()
+            }
+            if(Global.wugong_list.zhuangbei.part == '衣服'){
+                 // 选择空项
+                 if(this.item == '<空>'){
+                    this.jn.string  = '+'
+                    player.YIFU = null
+                    this.node.destroy()
+                    return
+                }
+                player.YIFU = this.row
+                this.addYF()
+            }
+            if(Global.wugong_list.zhuangbei.part == '腰带'){
+                 // 选择空项
+                 if(this.item == '<空>'){
+                    this.jn.string  = '+'
+                    player.YAODAI = null
+                    this.node.destroy()
+                    return
+                }
+                player.YAODAI = this.row
+                this.addYD()
+            }
+            if(Global.wugong_list.zhuangbei.part == '鞋子'){
+                 // 选择空项
+                 if(this.item == '<空>'){
+                    this.jn.string  = '+'
+                    player.XIEZI = null
+                    this.node.destroy()
+                    return
+                }
+                player.XIEZI = this.row
+                this.addXZ()
+            }
+        }
+    },
+
+    /**
+     * 装备武器
+     */
+    addWQ(){
+        var event = new cc.Event.EventCustom('select_wuqi', true)
+        event.setUserData(this.item)
+        this.node.dispatchEvent(event)
+        this.node.destroy()
+    },
+
+     /**
+     * 装备衣服
+     */
+    addYF(){
+        var event = new cc.Event.EventCustom('select_yifu', true)
+        event.setUserData(this.item)
+        this.node.dispatchEvent(event)
+        this.node.destroy()
+    },
+
+     /**
+     * 装备腰带
+     */
+    addYD(){
+        var event = new cc.Event.EventCustom('select_yaodai', true)
+        event.setUserData(this.item)
+        this.node.dispatchEvent(event)
+        this.node.destroy()
+    },
+
+     /**
+     * 装备鞋子
+     */
+    addXZ(){
+        var event = new cc.Event.EventCustom('select_xiezi', true)
+        event.setUserData(this.item)
+        this.node.dispatchEvent(event)
+        this.node.destroy()
     },
 
     /**
      * 注释:返回键
      */
     cancel(){
-        this.node.active = false
+        this.node.destroy()
     }
     // update (dt) {},
 });
