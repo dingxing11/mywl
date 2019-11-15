@@ -109,6 +109,14 @@ cc.Class({
         this.zhuangbeiInit()
     },
     
+    huobanInit(){
+        if(player.huoban.length > 0){
+            player.huoban.forEach(element => {
+                this.updatePlayerStatus(element)
+            });
+        }
+    },
+
     /**
      * 初始化武功信息
      */

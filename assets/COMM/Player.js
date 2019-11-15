@@ -9,6 +9,7 @@
 //  - [English] http://www.cocos2d-x.org/docs/editors_and_tools/creator-chapters/scripting/life-cycle-callbacks/index.html
 module.exports = {
     // 人物基础属性
+    ID:1,
     Name:'丁新',
     money:20000,
     ack:20,
@@ -32,4 +33,23 @@ module.exports = {
     isMap:false,
     xPosition:0,
     yPosition:0,
+
+    //伙伴
+    huoban:[{ID:2,
+        Name:'李逍遥',
+        ack:20,
+        def:3,
+        HP:100,
+        MAXHP:100,
+        MP:100,
+        MAXMP:100,
+        JN:[],
+        WUGONG:[],
+        WUQI:null,
+        HUSHOU:null,
+        YAODAI:null,
+        XIEZI:null,
+        EXP:10,
+        MAXEXP:100,
+        LEVEL:1}]
 }
