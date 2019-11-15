@@ -1,10 +1,12 @@
 {
-  "ver": "2.3.0",
+  "ver": "2.3.3",
   "uuid": "3d97c3f1-f672-4462-8ed7-26ae86da0a33",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
   "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
   "platformSettings": {},
   "subMetas": {
     "WD005_2": {
