@@ -71,8 +71,6 @@ cc.Class({
     },
     
     updatePlayerStatus(person){
-        cc.log(person.Name)
-        cc.log(this.name.string)
         this.name.string = `姓名:${person.Name}`
         this.ack1.string = `攻击:${person.ack}`
         this.def1.string = `防御:${person.def}`
@@ -143,50 +141,14 @@ cc.Class({
         });
     },
 
-    useItme(){
-        player.BeiBao.forEach((row,i) => {
-            if(row.name === this.item){
-                cc.log(row.num);
-                let index = true
-                player.WUGONG.forEach(element =>{
-                    if(row.name === element.name){
-                        cc.log('已经学会该武功')
-                        index = false
-                    }
-                    cc.log(element.name)
-                })
-                if(index){
-                    player.WUGONG.push(row)
-                    let title = this.Nshuoming.getChildByName("title");
-                    let num = this.Nshuoming.getChildByName("num");
-                    let body = this.Nshuoming.getChildByName("body");
-                    let details = body.getChildByName("details");
-                    let title_label = title.getComponent(cc.Label);
-                    let details_label = details.getComponent(cc.Label);
-                    let num_label = num.getComponent(cc.Label);
-                    if(row.num > 1) {
-                        row.num = parseInt(row.num) - 1
-                        num_label.string = `数量:${row.num}`;    
-                    } else {
-                        cc.log('数量是1销毁')
-                        player.BeiBao.splice(i,1)
-                        title_label.string = `名称:`;
-                        details_label.string = ``;
-                        num_label.string = `数量:`;
-                        let nodes = this.Ncontent.children;
-                        nodes.forEach(element => {
-                            let element_label = element.getComponent(cc.Label);
-                            cc.log(element_label.string+'11')
-                            cc.log(row.name+'12')
-                            if(element_label.string == row.name){
-                                cc.log('destroy');
-                                element.destroy();
-                            }
-                        })
-                    }
-                }      
-            }
-        });
+    /**
+     * @description 确认按钮
+     */
+    btn_ok(){
+        var event = new cc.Event.EventCustom('ok',true)
+        event.setUserData(this.renwu)
+        this.node.dispatchEvent(event)
+        this.node.destroy()
     },
 
     update (dt) {

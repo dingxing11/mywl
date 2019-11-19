@@ -12,7 +12,7 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
-
+       
         jishi:{
             default:null,
             type:cc.Node
@@ -173,7 +173,6 @@ cc.Class({
     },
 
     // update (dt) {},
-    
     
      /**
      * 添加武器
