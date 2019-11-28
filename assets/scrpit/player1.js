@@ -119,8 +119,8 @@ cc.Class({
             }),
             cc.spawn(
                 cc.callFunc(() => {
-                    // this.enemyAttacked()
-                    // this.drop(sh)
+                    this.enemyAttacked(enemy1)
+                    this.drop(enemy1,sh)
                 }),
                 cc.delayTime(1),
             ),
@@ -132,8 +132,44 @@ cc.Class({
             })))
     },
 
+    enemyAttacked(enemy1) {
+        let p = new Promise((resolve, reject) => {
+            enemy1.runAction(cc.sequence(
+                this.Attacked(),
+                cc.callFunc(resolve)))
+        })
+        return p
+    },
+
+     // 被攻击动作
+     Attacked() {
+        var attacked =cc.sequence(
+            cc.moveBy(0.25, 20, 0),
+            cc.moveBy(0.25, -20, 0),
+            cc.moveBy(0.25, -20, 0),
+            cc.moveBy(0.25, 20, 0),
+        )
+        return attacked
+    },
+    // 怪物死亡动画
     enemy1Dead(enemy1) {
         enemy1.runAction(cc.fadeOut(1))
+    },
+
+    // 掉血
+    drop(enemy1,hp) {
+        var drop1 = new cc.Node()
+        drop1.addComponent(cc.Label)
+        drop1.color = cc.Color.RED
+        var drop1_label = drop1.getComponent(cc.Label)
+        drop1_label.string = `-${hp}`
+        drop1.parent = enemy1
+        drop1.setPosition(0,50)
+        var attacked = cc.spawn(
+            cc.moveBy(1, 0, 30),
+            cc.fadeOut(1)
+        )
+        drop1.runAction(attacked)
     },
 
     start () {

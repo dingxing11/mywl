@@ -17765,7 +17765,7 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "51bd0422-115a-4415-abc2-d7f3eb81c9ca"
+      "__uuid__": "a6a78192-c746-4510-8561-474ba1e45103"
     },
     "_type": 0,
     "_sizeMode": 0,
@@ -17809,6 +17809,16 @@
     "_id": "42n240YitNOrOOYHc4V4zF"
   },
   {
+    "__type__": "5b8ffjvYF5KjZXX1p0x2pUT",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 423
+    },
+    "_enabled": true,
+    "_id": "8dc/BOYCVLfKwfikczmQMM"
+  },
+  {
     "__type__": "cc.Button",
     "_name": "",
     "_objFlags": 0,
@@ -17832,16 +17842,16 @@
     },
     "_N$pressedColor": {
       "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
+      "r": 211,
+      "g": 211,
+      "b": 211,
       "a": 255
     },
     "pressedColor": {
       "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
+      "r": 211,
+      "g": 211,
+      "b": 211,
       "a": 255
     },
     "_N$hoverColor": {
@@ -17860,41 +17870,27 @@
     },
     "_N$disabledColor": {
       "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
+      "r": 124,
+      "g": 124,
+      "b": 124,
       "a": 255
     },
-    "_N$normalSprite": null,
+    "_N$normalSprite": {
+      "__uuid__": "a6a78192-c746-4510-8561-474ba1e45103"
+    },
     "_N$pressedSprite": {
-      "__uuid__": "e9ec654c-97a2-4787-9325-e6a10375219a"
+      "__uuid__": "5560b387-8445-41df-ac86-6533a549799b"
     },
     "pressedSprite": {
-      "__uuid__": "e9ec654c-97a2-4787-9325-e6a10375219a"
+      "__uuid__": "5560b387-8445-41df-ac86-6533a549799b"
     },
-    "_N$hoverSprite": {
-      "__uuid__": "e9ec654c-97a2-4787-9325-e6a10375219a"
-    },
-    "hoverSprite": {
-      "__uuid__": "e9ec654c-97a2-4787-9325-e6a10375219a"
-    },
-    "_N$disabledSprite": {
-      "__uuid__": "29158224-f8dd-4661-a796-1ffab537140e"
-    },
+    "_N$hoverSprite": null,
+    "hoverSprite": null,
+    "_N$disabledSprite": null,
     "_N$target": {
-      "__id__": 423
+      "__id__": 427
     },
-    "_id": "61/+5CK21Fkrxp6moFDZzQ"
-  },
-  {
-    "__type__": "5b8ffjvYF5KjZXX1p0x2pUT",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 423
-    },
-    "_enabled": true,
-    "_id": "8dc/BOYCVLfKwfikczmQMM"
+    "_id": "b4JGDn9oFNrZh3U7CuOMku"
   },
   {
     "__type__": "cc.Node",

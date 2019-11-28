@@ -70,12 +70,16 @@ cc.Class({
                 cc.callFunc(() => {
                     player.HP = (player.HP - (enemy.ack - player.def)) > 0 ? (player.HP - (enemy.ack - player.def)) : 0
                     item1.string += `${player.Name}受到了${enemy.ack-player.def}点伤害\n`
+                    if (player.HP <= 0) {
+                        this.player1Dead(player1)
+                        cc.log('死了')
+                    }
                     view.scrollToBottom(0.1)
                 }),
                 cc.spawn(
                     cc.callFunc(() => {
-                        // this.playerAttacked()
-                        // this.playerDrop(enemy.ack-player.def)
+                        this.playerAttacked(player1)
+                        this.playerDrop(player1,enemy.ack-player.def)
                     }),
                     cc.delayTime(1),
                 ),
@@ -86,6 +90,41 @@ cc.Class({
         })
         return p
     },
+
+    // 主角掉血动画
+    playerDrop(player1,hp) {
+        var drop1 = new cc.Node()
+        drop1.addComponent(cc.Label)
+        drop1.color = cc.Color.RED
+        var drop1_label = drop1.getComponent(cc.Label)
+        drop1_label.string = `-${hp}`
+        drop1.parent = player1
+        drop1.setPosition(0,50)
+        var attacked = cc.spawn(
+            cc.moveBy(1, 0, 30),
+            cc.fadeOut(1)
+        )
+        drop1.runAction(attacked)
+    },
+
+    // 人物被攻击动画
+    playerAttacked(player1) {
+        let p = new Promise((resolve, reject) => {
+            player1.runAction(cc.sequence(
+                cc.moveBy(0.25, -15, 0),
+                cc.moveBy(0.25, 15, 0),
+                cc.moveBy(0.25, 15, 0),
+                cc.moveBy(0.25, -15,0),
+                cc.callFunc(resolve)))
+        })
+        return p
+    },
+
+    // 人物死亡动画
+    player1Dead(player1) {
+        player1.runAction(cc.fadeOut(1))
+    },
+
     update (dt) {
         if(this._enmey){
             this.Name.string = this._enmey.Name

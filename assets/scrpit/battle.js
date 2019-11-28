@@ -105,9 +105,10 @@ cc.Class({
     playersDead(){
         var dead = true
         for (let index = 0; index < this.playerTeam.length; index++) {
-            if(this.playerTeam[index])
+            if(this.playerTeam[index]){
                 dead = false
                 break
+            }
         }
         return dead
     },
@@ -175,16 +176,16 @@ cc.Class({
         this.vectory()
     },
 
-    // 返回player队中的第一个人物
+    // 返回player队中的第一个人物id
     firstPlayer(){
-        let player = null
+        let player_index = null
         for (let index = 0; index < this.playerTeam.length; index++) {
             if(this.playerTeam[index]){
-                player = this.playerTeam[index]
+                player_index = index
                 break
             }      
         }
-        return player
+        return player_index
     },
 
     // 返回enemy队中的第一个怪物id
@@ -203,14 +204,23 @@ cc.Class({
     enemyTurn(){
         return new Promise((resolve,reject)=>{
             cc.log('对方回合')
-            if(this.enemyTeam[this._enemyIndex]&&this.firstPlayer()){
+            if(this.enemyTeam[this._enemyIndex]){
                 var enemy = this.enemyTeam[this._enemyIndex].getComponent('enemy1')
-                enemy.ack(this.firstPlayer())
+                enemy.ack(this.playerTeam[this.firstPlayer()])
                 .then(()=>{
+                    if(this.playerTeam[this.firstPlayer()].getComponent('player1')._player.HP <= 0)
+                        this.playerTeam[this.firstPlayer()] = null
+                    if(this.playersDead()){
+                        cc.log('失败')
+                        this._battleFinish = true
+                        return null
+                    }
                     this._enemyIndex +=1
                     if(this._playerIndex >= this.playerTeam.length && this._enemyIndex >= this.enemyTeam.length){
                         this._playerIndex = 0
                         this._enemyIndex = 0
+                        this._huiheFinish = true
+                        return null
                     }
                     resolve()
                 })
