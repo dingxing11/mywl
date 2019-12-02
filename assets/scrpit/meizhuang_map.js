@@ -15,7 +15,9 @@ var MoveDirection = cc.Enum({
     LEFT: 3,
     RIGHT: 4
 });
-
+var player = require('Player')
+var wugong = require('WuGong')
+var zhuangbei = require('ZhuangBei')
 cc.Class({
     extends: cc.Component,
 
@@ -79,7 +81,20 @@ cc.Class({
                 Global.goScene('battle',false)
             }
             if(this._layerBaoXiangClose.getTileGIDAt(this._getTilePos(this._player))  && !Global.baoxiang.opened){
-                this.showMessage('空空如也~_~',1)
+                var random = Math.floor(Math.random()*100)
+                if(random>=0&&random<10){
+                    var id = Math.floor(Math.random()*(wugong.length - 1))
+                    player.BeiBao.push(wugong[id])
+                    this.showMessage(`不错哦，获得了武功:${wugong[id].name}!`,2)
+                }
+                if(random>=10&&random<60){
+                    this.showMessage('空空如也~_~',2)
+                }
+                if(random>=60&&random<=100){
+                    var id = Math.floor(Math.random()*(zhuangbei.length - 1))
+                    player.BeiBao.push(zhuangbei[id])
+                    this.showMessage(`不错哦，获得了装备:${zhuangbei[id].name}!`,2)
+                }
                 this._layerBaoXiang.node.active = true
                 this._layerBaoXiangClose.node.active = false
                 Global.baoxiang.opened = true

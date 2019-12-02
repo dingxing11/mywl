@@ -115,14 +115,7 @@ cc.Class({
                 // liumai.play('liumai')
             }),
             cc.callFunc(() => {
-                // 没装备武器默认伤害为0
-                if(player.WUQI == null){
-                    sh = Math.round((Math.random() + 1) * (player.ack - enemy.def))
-                    cc.log('没有装备武器')
-                } else {
-                    sh = Math.round((Math.random() + 1) * (player.ack + player.WUQI.ack - enemy.def))
-                    cc.log('装备武器')
-                } 
+                sh = Math.round((Math.random() + 1) * (player.ack - enemy.def))
                 enemy.HP = enemy.HP - sh > 0 ? enemy.HP - sh : 0
                 item1.string += `${player.Name}使用普攻对${enemy.Name}造成了${sh}点伤害\n`
                 if (enemy.HP <= 0) {

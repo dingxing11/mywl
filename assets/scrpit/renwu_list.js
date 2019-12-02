@@ -70,11 +70,11 @@ cc.Class({
 
         this.yifu = this.laebel_zhuangbei.getChildByName("yifu")
         this.yf_wg = this.yifu.getChildByName("wg")
-        this.yf_name = this.wq_wg.getChildByName("name")
+        this.yf_name = this.yf_wg.getChildByName("name")
 
         this.yaodai = this.laebel_zhuangbei.getChildByName("yaodai")
-        this.yd_wg = this.wuqi.getChildByName("wg")
-        this.yd_name = this.wq_wg.getChildByName("name")
+        this.yd_wg = this.yaodai.getChildByName("wg")
+        this.yd_name = this.yd_wg.getChildByName("name")
         this.zb_wuqi = this.wq_name
         this.zb_yifu = this.yf_name
         // this.zb_xiezi = cc.find("Canvas/main/node/list/view/content/laebel_zhuangbei/xiezi/wg/name")
@@ -209,10 +209,10 @@ cc.Class({
             this.zb_wuqi.getComponent(cc.Label).string = this.renwu.WUQI.name
         } else 
             this.zb_wuqi.getComponent(cc.Label).string = '+'
-        if(this.renwu.XIEZI){
-            this.zb_xiezi.getComponent(cc.Label).string = this.renwu.XIEZI.name
-        } else 
-            this.zb_xiezi.getComponent(cc.Label).string = '+'
+        // if(this.renwu.XIEZI){
+        //     this.zb_xiezi.getComponent(cc.Label).string = this.renwu.XIEZI.name
+        // } else 
+        //     this.zb_xiezi.getComponent(cc.Label).string = '+'
         if(this.renwu.YAODAI){
             this.zb_yaodai.getComponent(cc.Label).string = this.renwu.YAODAI.name
         } else 

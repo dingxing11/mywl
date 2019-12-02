@@ -1,5 +1,6 @@
 import { resolve } from "path";
 import { rejects } from "assert";
+import { randomBytes } from "crypto";
 
 // Learn cc.Class:
 //  - [Chinese] https://docs.cocos.com/creator/manual/zh/scripting/class.html
@@ -175,6 +176,37 @@ cc.Class({
         })
     },
 
+    // 获取经验
+    getExp(){
+        var sum_exp = gamelv[0].Exp
+        var sum = 0
+        player.duiwu.forEach(element => {
+            if(element){
+                sum +=1
+            }
+        });
+        player.duiwu.forEach(element => {
+            if(element){
+                element.EXP += Math.floor(sum_exp / sum)
+                while(element.EXP > element.MAXEXP){
+                    element.EXP -= element.MAXEXP
+                    element.LEVEL +=1
+                    element.MAXEXP += 50 * element.LEVEL
+                    element.ack += Math.floor(Math.random()*10)
+                    element.def += Math.floor(Math.random()*10)
+                    element.MAXHP += Math.floor(10+Math.random()*90)
+                }
+            }
+        });
+    },
+
+    // 获取战利品
+    getDrop(){
+        var drop = gamelv[0].Drop[Math.floor(Math.random()*(gamelv[0].Drop.length-1))]
+        player.BeiBao.push[drop]
+        return drop
+    },
+    
     // 战斗结束
     endTurn(){
         cc.log('战斗结束')
@@ -243,9 +275,12 @@ cc.Class({
     
     // 胜利界面
     vectory() {
-        cc.log('胜利了掉落物品')
+        this.getExp()
+        var item = this.getDrop()
+        cc.log('胜利了掉落物品',item)
         var end = cc.find("Canvas/end")
         var s_end = end.getComponent("end")
+        s_end.drops.push(item)
         end.zIndex = 1
         end.active = true
     },
