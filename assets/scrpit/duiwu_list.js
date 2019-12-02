@@ -15,7 +15,7 @@ cc.Class({
         duiwu_node:null,
         renwu:{
             default:null,
-            type:cc.Node,
+            type:cc.Prefab,
             displayName:'人物窗口'
         },
         // foo: {

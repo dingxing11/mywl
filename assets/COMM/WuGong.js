@@ -27,10 +27,10 @@ module.exports = [
         money:1000,
         action:function(self,resolve,enemy,player){
             var jl = Math.floor(Math.random()*100)
-            // if(jl >= this.jl || jl < 0){
-            //     cc.log('没有进入左右互搏!'+jl)
-            //     return false
-            // }
+            if(jl >= this.jl || jl < 0){
+                cc.log('没有进入左右互搏!'+jl)
+                return false
+            }
             cc.log("进入左右互搏"+jl) 
             var sleep = 1
             var repeat_num = 1

@@ -43,23 +43,42 @@ cc.Class({
 
     onLoad () {
         // 人物属性
-        this.Ncontent = cc.find("Canvas/main/node/list/shuxing/name/view/content")
-        var xm = cc.find("Canvas/main/node/list/view/content/label_list/xm")
-        var ack = cc.find("Canvas/main/node/list/view/content/label_list/ack")
-        var def = cc.find("Canvas/main/node/list/view/content/label_list/def")
-        var hp = cc.find("Canvas/main/node/list/view/content/label_list/hp")
-        var mp = cc.find("Canvas/main/node/list/view/content/label_list/mp")
-        var exp = cc.find("Canvas/main/node/list/view/content/label_list/exp")
-        var jj = cc.find("Canvas/main/node/list/view/content/label_list/jj")
-        var jn = cc.find("Canvas/main/node/list/view/content/label_list/jn")
-        var money = cc.find("Canvas/main/node/list/view/content/label_list/money")
+        this.Nshuxing = this.node.getChildByName('shuxing')
+        this.N_name = this.Nshuxing.getChildByName('name')
+        this.Nview = this.N_name.getChildByName('view')
+        this.Ncontent = this.Nview.getChildByName('content')
+        
+        this.view = this.node.getChildByName("view")
+        this.content = this.view.getChildByName("content")
+        this.label_list = this.content.getChildByName("label_list")
+        var xm = this.label_list.getChildByName("xm")
+        var ack = this.label_list.getChildByName("ack")
+        var def = this.label_list.getChildByName("def")
+        var hp = this.label_list.getChildByName("hp")
+        var mp = this.label_list.getChildByName("mp")
+        var exp = this.label_list.getChildByName("exp")
+        var jj = this.label_list.getChildByName("jj")
+        var jn = this.label_list.getChildByName("jn")
+        var money = this.label_list.getChildByName("money")
         // 技能资源
-        this.jn_list1 = cc.find("Canvas/main/node/list/view/content/label_wugong_list")
+        this.jn_list1 = this.content.getChildByName("label_wugong_list")
         // 装备资源
-        this.zb_wuqi = cc.find("Canvas/main/node/list/view/content/laebel_zhuangbei/wuqi/wg/name")
-        this.zb_yifu = cc.find("Canvas/main/node/list/view/content/laebel_zhuangbei/yifu/wg/name")
-        this.zb_xiezi = cc.find("Canvas/main/node/list/view/content/laebel_zhuangbei/xiezi/wg/name")
-        this.zb_yaodai = cc.find("Canvas/main/node/list/view/content/laebel_zhuangbei/yaodai/wg/name")
+        this.laebel_zhuangbei = this.content.getChildByName("laebel_zhuangbei")
+        this.wuqi = this.laebel_zhuangbei.getChildByName("wuqi")
+        this.wq_wg = this.wuqi.getChildByName("wg")
+        this.wq_name = this.wq_wg.getChildByName("name")
+
+        this.yifu = this.laebel_zhuangbei.getChildByName("yifu")
+        this.yf_wg = this.yifu.getChildByName("wg")
+        this.yf_name = this.wq_wg.getChildByName("name")
+
+        this.yaodai = this.laebel_zhuangbei.getChildByName("yaodai")
+        this.yd_wg = this.wuqi.getChildByName("wg")
+        this.yd_name = this.wq_wg.getChildByName("name")
+        this.zb_wuqi = this.wq_name
+        this.zb_yifu = this.yf_name
+        // this.zb_xiezi = cc.find("Canvas/main/node/list/view/content/laebel_zhuangbei/xiezi/wg/name")
+        this.zb_yaodai = this.yd_name
 
         this.name = xm.getComponent(cc.Label)
         this.ack1 = ack.getComponent(cc.Label)

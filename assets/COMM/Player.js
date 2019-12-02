@@ -7,6 +7,7 @@
 // Learn life-cycle callbacks:
 //  - [Chinese] http://www.cocos.com/docs/creator/scripting/life-cycle-callbacks.html
 //  - [English] http://www.cocos2d-x.org/docs/editors_and_tools/creator-chapters/scripting/life-cycle-callbacks/index.html
+var wugong = require('WuGong')
 module.exports = {
     // 人物基础属性
     ID:1,
@@ -51,8 +52,8 @@ module.exports = {
             MAXHP:100,
             MP:100,
             MAXMP:100,
-            JN:[],
-            WUGONG:[],
+            JN:[wugong[0]],
+            WUGONG:[wugong[0]],
             WUQI:null,
             HUSHOU:null,
             YAODAI:null,
