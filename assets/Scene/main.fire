@@ -183,7 +183,7 @@
       "array": [
         0,
         0,
-        341.8721008300781,
+        341.85272216796875,
         0,
         0,
         0,
@@ -4330,9 +4330,9 @@
     "target": {
       "__id__": 46
     },
-    "component": "beibao",
-    "_componentId": "",
-    "handler": "useItme",
+    "component": "",
+    "_componentId": "b8248xoXMBPxrJvYqvI7e1v",
+    "handler": "createListWindow",
     "customEventData": ""
   },
   {
@@ -4753,6 +4753,7 @@
       "__id__": 46
     },
     "_enabled": true,
+    "row": "",
     "title": "",
     "item": "",
     "Ntitle": {
@@ -9927,6 +9928,7 @@
       "__id__": 169
     },
     "_enabled": true,
+    "row": "",
     "title": "",
     "item": "",
     "Ntitle": {
@@ -13628,7 +13630,7 @@
         "__id__": 337
       }
     ],
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 344
@@ -19514,6 +19516,9 @@
       "__id__": 459
     },
     "_enabled": true,
+    "teamNode": {
+      "__id__": 361
+    },
     "_id": "e54Mn+Ww9HrZ8C4gO3tZyc"
   },
   {

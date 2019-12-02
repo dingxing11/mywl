@@ -7,7 +7,7 @@
 // Learn life-cycle callbacks:
 //  - [Chinese] http://www.cocos.com/docs/creator/scripting/life-cycle-callbacks.html
 //  - [English] http://www.cocos2d-x.org/docs/editors_and_tools/creator-chapters/scripting/life-cycle-callbacks/index.html
-
+var wugong = require('WuGong')
 cc.Class({
     extends: cc.Component,
     properties: {
@@ -38,6 +38,10 @@ cc.Class({
         Name:{
             default:null,
             type:cc.Label
+        },
+        spine:{
+            default:null,
+            type:sp.Skeleton
         }
 
     },
@@ -61,17 +65,27 @@ cc.Class({
 
     ack(enemy) {
         let p = new Promise((resolve, reject) => {
-            // anim.jumpback = function () {
-            //     player1.runAction(cc.sequence(
-            //     cc.callFunc(() => { 
-            //         let sh = Math.round((Math.random()+1)*(player.ack-enemy.def))
-            //         enemy.HP = enemy.HP -sh>0?enemy.HP - sh:0
-            //         item1.string +=`敌人受到了${sh}点伤害\n`
-            //         view.scrollToBottom(0.1)
-            //     }),
-            //     player1Jump2))
-            // }.bind(this)
-            this.pugong(resolve,enemy)
+            let isACK = false
+            if(this._player.JN.length>0){
+                this._player.JN.forEach(element => {
+                    cc.log('进来武功了'+element.NOW_CD)
+                    if(element.NOW_CD == 0){
+                        if(!isACK){
+                            wugong.forEach(row =>{
+                                if(row.name == element.name)
+                                    element.action = row.action
+                            } )
+                            if(isACK = element.action(this,resolve,enemy,this.node)){
+                                element.NOW_CD = element.CD
+                            }
+                        }
+                    } else {
+                        element.NOW_CD -= 1
+                    }
+                });
+            } 
+            if(!isACK)
+                this.pugong(resolve,enemy)
         })
         return p
     },
@@ -108,7 +122,7 @@ cc.Class({
                 } else {
                     sh = Math.round((Math.random() + 1) * (player.ack + player.WUQI.ack - enemy.def))
                     cc.log('装备武器')
-                }
+                } 
                 enemy.HP = enemy.HP - sh > 0 ? enemy.HP - sh : 0
                 item1.string += `${player.Name}使用普攻对${enemy.Name}造成了${sh}点伤害\n`
                 if (enemy.HP <= 0) {
@@ -119,6 +133,8 @@ cc.Class({
             }),
             cc.spawn(
                 cc.callFunc(() => {
+                    this.spine.setAnimation(0,'shoot',false)
+                    this.spine.addAnimation(0,'idle',true)
                     this.enemyAttacked(enemy1)
                     this.drop(enemy1,sh)
                 }),
@@ -175,6 +191,7 @@ cc.Class({
     start () {
 
     },
+
     update (dt) {
         if(this._player){
             this.Name.string = this._player.Name

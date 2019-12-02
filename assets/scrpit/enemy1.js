@@ -122,6 +122,9 @@ cc.Class({
 
     // 人物死亡动画
     player1Dead(player1) {
+        var sp1 = player1.getChildByName('playerbg')
+        var my_sp = sp1.getComponent(sp.Skeleton)
+        my_sp.setAnimation(0,'death',false)
         player1.runAction(cc.fadeOut(1))
     },
 

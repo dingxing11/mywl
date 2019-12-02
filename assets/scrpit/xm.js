@@ -72,6 +72,6 @@ cc.Class({
         this.jn1.string = `武功:${wugong}`
     },
     update (dt) {
-        this.updatePlayerStatus();
+        // this.updatePlayerStatus();
     },
 });

@@ -35,6 +35,7 @@ module.exports = {
     yPosition:0,
     // 队伍
     duiwu:[null,null,null,null],
+    duiwu_pos:[cc.v2(-171,81),cc.v2(-203,0),cc.v2(-331,80),cc.v2(-371,0)],
     //伙伴
     huoban:[
         {
@@ -42,6 +43,10 @@ module.exports = {
             Name:'李逍遥',
             ack:20,
             def:3,
+            tmp_ack:0,
+            tmp_def:0,
+            tmp_HP:0,
+            tmp_MP:0,
             HP:100,
             MAXHP:100,
             MP:100,
@@ -54,7 +59,7 @@ module.exports = {
             XIEZI:null,
             EXP:10,
             MAXEXP:100,
-            LEVEL:1
+            LEVEL:1,
         },
         {
             ID:3,
@@ -73,7 +78,11 @@ module.exports = {
             XIEZI:null,
             EXP:10,
             MAXEXP:100,
-            LEVEL:1
+            LEVEL:1,
+            tmp_ack:0,
+            tmp_def:0,
+            tmp_HP:0,
+            tmp_MP:0,
         },
         {
             ID:4,
@@ -92,7 +101,11 @@ module.exports = {
             XIEZI:null,
             EXP:10,
             MAXEXP:100,
-            LEVEL:1
+            LEVEL:1,
+            tmp_ack:0,
+            tmp_def:0,
+            tmp_HP:0,
+            tmp_MP:0,
         },
     ]
 }

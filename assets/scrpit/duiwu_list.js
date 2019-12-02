@@ -59,7 +59,7 @@ cc.Class({
     },
 
     start () {
-        this.node.on('ok',(event)=>{
+        this.node.on('renwu_list_ok',(event)=>{
             var renwu = event.getUserData()
             if(this.duiwu_node){
                 var duiwu_id = this.duiwu_node.name.substr(-1,1)

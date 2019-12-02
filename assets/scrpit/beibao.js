@@ -12,8 +12,9 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
+        row:'', //选中的数据
         title:'',
-        item:'',
+        item:'', //选中数据的名称
         Ntitle:{
             default:null,
             type:cc.Prefab
@@ -54,18 +55,25 @@ cc.Class({
     // LIFE-CYCLE CALLBACKS:
 
     onLoad () {
+        this.zhujiao = player
         this.Ntab = cc.find("Canvas/main/node/beibao/tab")
         this.Ncontent = cc.find("Canvas/main/node/beibao/name/view/content")
         this.Nshuoming= cc.find("Canvas/main/node/beibao/shuoming")
+        this.list = cc.find("Canvas/main/node/list")
         this.node.on('select-tab',event => {
             this.title = event.getUserData()
             this.clearItems()
             this.selectTitle(this.title)
-        },this)
+        })
         this.node.on('select-item',event => {
             this.item = event.getUserData()
             this.selectItem(this.item)
-        },this)
+        })
+        // 返回学习武功的人物
+        this.node.on('renwu_list_ok',event => {
+            var player = event.getUserData()
+            this.useItme(player)
+        })
     },
 
     start () {
@@ -132,6 +140,7 @@ cc.Class({
     selectItem(item){
         player.BeiBao.forEach(row => {
             if(row.name === item){
+                this.row = row
                 let title = this.Nshuoming.getChildByName("title");
                 let num = this.Nshuoming.getChildByName("num");
                 let body = this.Nshuoming.getChildByName("body");
@@ -147,51 +156,58 @@ cc.Class({
             }
         });
     },
-
-    useItme(){
-        player.BeiBao.forEach((row,i) => {
-            if(row.name === this.item){
-                cc.log(row.num);
-                let index = true
-                player.WUGONG.forEach(element =>{
-                    if(row.name === element.name){
-                        cc.log('已经学会该武功')
-                        index = false
-                    }
-                    cc.log(element.name)
-                })
-                if(index){
-                    player.WUGONG.push(row)
-                    let title = this.Nshuoming.getChildByName("title");
-                    let num = this.Nshuoming.getChildByName("num");
-                    let body = this.Nshuoming.getChildByName("body");
-                    let details = body.getChildByName("details");
-                    let title_label = title.getComponent(cc.Label);
-                    let details_label = details.getComponent(cc.Label);
-                    let num_label = num.getComponent(cc.Label);
-                    if(row.num > 1) {
-                        row.num = parseInt(row.num) - 1
-                        num_label.string = `数量:${row.num}`;    
-                    } else {
-                        cc.log('数量是1销毁')
-                        player.BeiBao.splice(i,1)
-                        title_label.string = `名称:`;
-                        details_label.string = ``;
-                        num_label.string = `数量:`;
-                        let nodes = this.Ncontent.children;
-                        nodes.forEach(element => {
-                            let element_label = element.getComponent(cc.Label);
-                            cc.log(element_label.string+'11')
-                            cc.log(row.name+'12')
-                            if(element_label.string == row.name){
-                                cc.log('destroy');
-                                element.destroy();
-                            }
-                        })
-                    }
-                }      
-            }
-        });
+    
+    // 创建人物列表窗口
+    createListWindow(){
+        var window = cc.instantiate(this.list)
+        window.setPosition(0,0)
+        window.zIndex = 1
+        window.parent = this.node
+    },
+    
+    // 使用物品
+    useItme(player=player){
+        // 使用武功秘籍
+        if(this.row.Type === '武功'){
+            let index = true
+            player.WUGONG.forEach(element =>{
+                if(this.row.name === element.name){
+                    cc.log('已经学会该武功')
+                    index = false
+                }
+                cc.log(element.name)
+            })
+            if(index){
+                player.WUGONG.push(this.row)
+                let title = this.Nshuoming.getChildByName("title");
+                let num = this.Nshuoming.getChildByName("num");
+                let body = this.Nshuoming.getChildByName("body");
+                let details = body.getChildByName("details");
+                let title_label = title.getComponent(cc.Label);
+                let details_label = details.getComponent(cc.Label);
+                let num_label = num.getComponent(cc.Label);
+                if(this.row.num > 1) {
+                    this.row.num = parseInt(this.row.num) - 1
+                    num_label.string = `数量:${this.row.num}`;    
+                } else {
+                    cc.log('数量是1销毁')
+                    // this.zhujiao.BeiBao.splice(i,1)
+                    title_label.string = `名称:`;
+                    details_label.string = ``;
+                    num_label.string = `数量:`;
+                    let nodes = this.Ncontent.children;
+                    nodes.forEach(element => {
+                        let element_label = element.getComponent(cc.Label);
+                        cc.log(element_label.string+'11')
+                        cc.log(this.row.name+'12')
+                        if(element_label.string == this.row.name){
+                            cc.log('destroy');
+                            element.destroy();
+                        }
+                    })
+                }
+            }      
+        }
     }
     // update (dt) {},
 });

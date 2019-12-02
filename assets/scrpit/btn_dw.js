@@ -12,6 +12,10 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
+        teamNode:{
+            default:null,
+            type:cc.Node
+        }
         // foo: {
         //     // ATTRIBUTES:
         //     default: null,        // The default value will be used only when the component attaching
@@ -46,6 +50,8 @@ cc.Class({
        var rw = cc.find("Canvas/main/node/duiwu_list")
        var dhk = cc.find("Canvas/main/dhk/scroll/view/content/item")
        var scroll = cc.find("Canvas/main/dhk/scroll")
+       var team = this.teamNode.getComponent('duiwu_list')
+       team.updateDuiWu()
        if(name){
            var left = cc.moveTo(0.1,-rw.getPosition().x,0);
            var xx = dhk.getComponent(cc.Label)

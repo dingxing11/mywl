@@ -82,22 +82,22 @@ cc.Class({
         },this)
         this.node.on('select_wuqi',(event)=>{
             var msg = event.getUserData()
-            cc.log(`添加武功:${msg}`)
+            cc.log(`装备武器:${msg}`)
             this.wuqi.string = msg
         },this)
         this.node.on('select_yifu',(event)=>{
             var msg = event.getUserData()
-            cc.log(`添加武功:${msg}`)
+            cc.log(`装备衣服:${msg}`)
             this.yifu.string = msg
         },this)
         this.node.on('select_xiezi',(event)=>{
             var msg = event.getUserData()
-            cc.log(`添加武功:${msg}`)
+            cc.log(`装备鞋子:${msg}`)
             this.xiezi.string = msg
         },this)
         this.node.on('select_yaodai',(event)=>{
             var msg = event.getUserData()
-            cc.log(`添加武功:${msg}`)
+            cc.log(`装备腰带:${msg}`)
             this.yaodai.string = msg
         },this)
     },
@@ -230,12 +230,14 @@ cc.Class({
     /**
      * 添加武功
      */
-    addJN() {
+    addJN(event) {
         Global.wugong_list.title = '武功'
         this.wugonglist = cc.instantiate(this.wugong_list)
         this.wugonglist.parent = this.node
         this.wugonglist.setPosition(0,0)
         var wugonglist = this.wugonglist.getComponent('wugong_list')
+        this.wugong_node = event.target.getChildByName('name')
+        this.wugong = this.wugong_node.getComponent(cc.Label)
         wugonglist.jn = this.wugong
     }
 });

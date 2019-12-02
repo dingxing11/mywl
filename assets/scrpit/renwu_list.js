@@ -42,6 +42,7 @@ cc.Class({
     // LIFE-CYCLE CALLBACKS:
 
     onLoad () {
+        // 人物属性
         this.Ncontent = cc.find("Canvas/main/node/list/shuxing/name/view/content")
         var xm = cc.find("Canvas/main/node/list/view/content/label_list/xm")
         var ack = cc.find("Canvas/main/node/list/view/content/label_list/ack")
@@ -52,6 +53,14 @@ cc.Class({
         var jj = cc.find("Canvas/main/node/list/view/content/label_list/jj")
         var jn = cc.find("Canvas/main/node/list/view/content/label_list/jn")
         var money = cc.find("Canvas/main/node/list/view/content/label_list/money")
+        // 技能资源
+        this.jn_list1 = cc.find("Canvas/main/node/list/view/content/label_wugong_list")
+        // 装备资源
+        this.zb_wuqi = cc.find("Canvas/main/node/list/view/content/laebel_zhuangbei/wuqi/wg/name")
+        this.zb_yifu = cc.find("Canvas/main/node/list/view/content/laebel_zhuangbei/yifu/wg/name")
+        this.zb_xiezi = cc.find("Canvas/main/node/list/view/content/laebel_zhuangbei/xiezi/wg/name")
+        this.zb_yaodai = cc.find("Canvas/main/node/list/view/content/laebel_zhuangbei/yaodai/wg/name")
+
         this.name = xm.getComponent(cc.Label)
         this.ack1 = ack.getComponent(cc.Label)
         this.def1 = def.getComponent(cc.Label)
@@ -61,6 +70,8 @@ cc.Class({
         this.jj1 = jj.getComponent(cc.Label)
         this.jn1 = jn.getComponent(cc.Label)
         this.money1 = money.getComponent(cc.Label)
+        this.isSelect = false
+        this.jn_list = []
     },
 
     start () {
@@ -74,8 +85,8 @@ cc.Class({
         this.name.string = `姓名:${person.Name}`
         this.ack1.string = `攻击:${person.ack}`
         this.def1.string = `防御:${person.def}`
-        this.hp1.string = `血量:${person.HP}`
-        this.mp1.string = `内力:${person.MP}`
+        this.hp1.string = `血量:${person.MAXHP}`
+        this.mp1.string = `内力:${person.MAXMP}`
         this.exp1.string = `修为:${person.EXP}/${person.MAXEXP}`
         this.jj1.string = `境界:${person.LEVEL}`
         this.money1.string = `元宝:${person.money}`
@@ -84,6 +95,8 @@ cc.Class({
             wugong += element.name + ','
         });
         this.jn1.string = `武功:${wugong}`
+        this.updateJN()
+        this.updateZB()
     },
 
     onEnable(){
@@ -129,14 +142,15 @@ cc.Class({
 
     // 选中item显示的详情
     selectItem(item){
+        this.isSelect = true
         if(player.Name === item){
-            this.renwu = player
+            Global.renwu_list.player = this.renwu = player
             return
         }
         player.huoban.forEach(row => {
             if(row.Name === item){
                 console.log(row)
-                this.renwu = row
+                Global.renwu_list.player = this.renwu = row
             }
         });
     },
@@ -145,13 +159,56 @@ cc.Class({
      * @description 确认按钮
      */
     btn_ok(){
-        var event = new cc.Event.EventCustom('ok',true)
+        var event = new cc.Event.EventCustom('renwu_list_ok',true)
         event.setUserData(this.renwu)
         this.node.dispatchEvent(event)
         this.node.destroy()
     },
 
+    // 更新技能显示
+    updateJN(){
+        this.jn_list = []
+        var jn_list = this.jn_list1.children
+        jn_list.forEach(element => {
+            if(element.name === 'wg')
+                this.jn_list.push(element)
+        });
+        this.jn_list.forEach((element,index) => {
+            var jn = element.children[0]
+            var jn_label = jn.getComponent(cc.Label)
+            if(this.renwu.JN[index]){
+                jn_label.string = this.renwu.JN[index].name
+            } else {
+                jn_label.string = '+'
+            }
+        });
+    },
+
+    // 更新装备显示
+    updateZB(){
+        if(this.renwu.WUQI){
+            this.zb_wuqi.getComponent(cc.Label).string = this.renwu.WUQI.name
+        } else 
+            this.zb_wuqi.getComponent(cc.Label).string = '+'
+        if(this.renwu.XIEZI){
+            this.zb_xiezi.getComponent(cc.Label).string = this.renwu.XIEZI.name
+        } else 
+            this.zb_xiezi.getComponent(cc.Label).string = '+'
+        if(this.renwu.YAODAI){
+            this.zb_yaodai.getComponent(cc.Label).string = this.renwu.YAODAI.name
+        } else 
+            this.zb_yaodai.getComponent(cc.Label).string = '+'
+        if(this.renwu.YIFU){
+            this.zb_yifu.getComponent(cc.Label).string = this.renwu.YIFU.name
+        } else 
+            this.zb_yifu.getComponent(cc.Label).string = '+'
+    },
+
+    // 更新显示信息
     update (dt) {
-        this.updatePlayerStatus(this.renwu)
+        if(this.isSelect){
+            this.isSelect = false
+            this.updatePlayerStatus(this.renwu)
+        }
     },
 });

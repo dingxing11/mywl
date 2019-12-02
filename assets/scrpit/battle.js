@@ -11,7 +11,7 @@ import { rejects } from "assert";
 //  - [Chinese] https://docs.cocos.com/creator/manual/zh/scripting/life-cycle-callbacks.html
 //  - [English] https://www.cocos2d-x.org/docs/creator/manual/en/scripting/life-cycle-callbacks.html
 var player = require('Player')
-var enemy = require('Enemy')
+var gamelv = require('GameLevel')
 cc.Class({
     extends: cc.Component,
 
@@ -63,29 +63,33 @@ cc.Class({
         // 初始化playerteam资源
         for (let index = 0; index < player.duiwu.length; index++) {
             if(player.duiwu[index]){
-                var pos = this.playerTeam[index].position
-                var parent = this.playerTeam[index].parent
+                var pos =player.duiwu_pos[index]
+                var parent = this.node
                 this.playerTeam[index] = cc.instantiate(this.player)
                 this.playerTeam[index].name = 'player' + index
                 this.playerTeam[index].parent = parent
                 this.playerTeam[index].setPosition(pos)
                 var playrComp = this.playerTeam[index].getComponent('player1')
                 playrComp._player = player.duiwu[index]
+                playrComp._player.HP = playrComp._player.MAXHP
             } else {
                 this.playerTeam[index] = null
             }
         }
         cc.log(this.playerTeam)
         // 初始化enemyTeam资源
-        for (let index = 0; index < this.enemyTeam.length; index++) {
-            pos = this.enemyTeam[index].position
-            parent = this.enemyTeam[index].parent
-            this.enemyTeam[index] = cc.instantiate(this.enemy)
-            this.enemyTeam[index].setPosition(pos)
-            this.enemyTeam[index].parent = parent
-            var enemy = require('Enemy')
-            var enemyComp = this.enemyTeam[index].getComponent('enemy1')
-            enemyComp._enmey = enemy[index]
+        for (let index = 0; index < gamelv[0].Enemys.length; index++) {
+            if(gamelv[0].Enemys[index]){
+                pos = gamelv[0].Enemys_pos[index]
+                parent = this.node
+                this.enemyTeam[index] = cc.instantiate(this.enemy)
+                this.enemyTeam[index].setPosition(pos)
+                this.enemyTeam[index].parent = parent
+                var enemyComp = this.enemyTeam[index].getComponent('enemy1')
+                enemyComp._enmey = gamelv[0].Enemys[index]
+                enemyComp._enmey.HP = enemyComp._enmey.MAXHP
+            } else 
+                this.enemyTeam[index] = null
         }
         cc.log(this.enemyTeam)
     },
@@ -143,8 +147,9 @@ cc.Class({
                 var player = this.playerTeam[this._playerIndex].getComponent('player1')
                 player.ack(this.enemyTeam[this.firstEnemy()])
                 .then(()=>{
-                    if(this.enemyTeam[this.firstEnemy()].getComponent('enemy1')._enmey.HP <= 0)
+                    if(this.enemyTeam[this.firstEnemy()].getComponent('enemy1')._enmey.HP <= 0){
                         this.enemyTeam[this.firstEnemy()] = null
+                    }
                     this._playerIndex += 1
                     if(this.enemysDead()){
                         cc.log('胜利')
@@ -208,8 +213,9 @@ cc.Class({
                 var enemy = this.enemyTeam[this._enemyIndex].getComponent('enemy1')
                 enemy.ack(this.playerTeam[this.firstPlayer()])
                 .then(()=>{
-                    if(this.playerTeam[this.firstPlayer()].getComponent('player1')._player.HP <= 0)
+                    if(this.playerTeam[this.firstPlayer()].getComponent('player1')._player.HP <= 0){
                         this.playerTeam[this.firstPlayer()] = null
+                    }
                     if(this.playersDead()){
                         cc.log('失败')
                         this._battleFinish = true
@@ -242,6 +248,10 @@ cc.Class({
         var s_end = end.getComponent("end")
         end.zIndex = 1
         end.active = true
+    },
+    // 失败界面
+    lose(){
+
     },
 
     update (dt) {
