@@ -7,7 +7,7 @@
 // Learn life-cycle callbacks:
 //  - [Chinese] http://www.cocos.com/docs/creator/scripting/life-cycle-callbacks.html
 //  - [English] http://www.cocos2d-x.org/docs/editors_and_tools/creator-chapters/scripting/life-cycle-callbacks/index.html
-var player = require("Player")
+var player = require('Player')
 cc.Class({
     extends: cc.Component,
 
@@ -60,7 +60,9 @@ cc.Class({
     // LIFE-CYCLE CALLBACKS:
 
     onLoad () {
-         this.Ntab = cc.find("Canvas/wugong_list/tab")
+        this.zhujiao = require('Player')
+        player = Global.renwu_list.player
+        this.Ntab = cc.find("Canvas/wugong_list/tab")
         this.Ncontent = cc.find("Canvas/wugong_list/name/view/content")
         this.Nshuoming= cc.find("Canvas/wugong_list/shuoming")
         this.node.on('select-tab',event => {
@@ -102,7 +104,7 @@ cc.Class({
 
     // 删除原技能
     deleteOldJN(){
-        for(var key of player.JN.keys()){
+        for(var key of Global.renwu_list.player.JN.keys()){
             cc.log("key:%s",key)
             cc.log("value:%",player.JN[key])
             cc.log("oldvalue:%",this.jn.string)
@@ -146,7 +148,7 @@ cc.Class({
             item_label.string = '<空>';
             items.push(item_label.string)
             this.Ncontent.addChild(item)
-            player.BeiBao.forEach(row => {
+            this.zhujiao.BeiBao.forEach(row => {
                 if(row.Part == Global.wugong_list.zhuangbei.part){
                     this.row = row
                     var item = cc.instantiate(this.Nname);
@@ -196,7 +198,7 @@ cc.Class({
             return 
         });
         // 遍历背包装备
-        player.BeiBao.forEach(row => {
+        this.zhujiao.BeiBao.forEach((row,index) => {
             if(row.name == item && row.Type == '装备'){
                 this.row = row
                 if(row.Part == '武器'){
@@ -269,25 +271,28 @@ cc.Class({
      * 装备武功
      */
     addWG(){
+        if(Global.renwu_list.player)
+            var player = Global.renwu_list.player
         if(this.title == '武功'){
             cc.log(this.item)
             // 删除原武功
             this.deleteOldJN()
             // 选择空项
-            if(this.item == '<空>'){
+            if(this.item === '<空>'){
                 this.jn.string  = '+'
-                this.node.active = false
+                this.node.destroy()
                 return
             }
-            player.JN.forEach(element => {
-                if(element.name == this.item)
-                    return 
-            })
+            // player.JN.forEach(element => {
+            //     if(element.name == this.item)
+            //         return 
+            // })
             player.WUGONG.forEach(row => {
                 if(row.name == this.item){
                     player.JN.push(row)
                 }
             })
+            cc.log(player.JN)
             var event = new cc.Event.EventCustom('select_wugong', true)
             event.setUserData(this.item)
             this.node.dispatchEvent(event)
@@ -298,11 +303,52 @@ cc.Class({
                 // 选择空项
                 if(this.item == '<空>'){
                     this.jn.string  = '+'
-                    player.WUQI = null
+                    if(player.WUQI){    
+                        this.zhujiao.BeiBao.push(player.WUQI)
+                        player.ack -= player.WUQI.ack
+                        player.temp_ack -= player.WUQI.ack
+                        player.WUQI = null
+                    }
                     this.node.destroy()
                     return
                 }
+                if(player.WUQI){
+                    player.ack -= player.WUQI.ack
+                    player.temp_ack -= player.WUQI.ack
+                    this.zhujiao.BeiBao.push(player.WUQI)
+                }
                 player.WUQI = this.row
+                player.ack += this.row.ack
+                player.temp_ack += this.row.ack
+                this.zhujiao.BeiBao.forEach((row,index) => {
+                    if(row.name === player.WUQI.name)
+                        this.zhujiao.BeiBao.splice(index,1)
+                })
+                cc.log(`装备了:${JSON.stringify(player.WUQI)}`)
+                this.addWQ()// 选择空项
+                if(this.item == '<空>'){
+                    this.jn.string  = '+'
+                    if(player.WUQI){    
+                        this.zhujiao.BeiBao.push(player.WUQI)
+                        player.ack -= player.WUQI.ack
+                        player.temp_ack -= player.WUQI.ack
+                        player.WUQI = null
+                    }
+                    this.node.destroy()
+                    return
+                }
+                if(player.WUQI){
+                    player.ack -= player.WUQI.ack
+                    player.temp_ack -= player.WUQI.ack
+                    this.zhujiao.BeiBao.push(player.WUQI)
+                }
+                player.WUQI = this.row
+                player.ack += this.row.ack
+                player.temp_ack += this.row.ack
+                this.zhujiao.BeiBao.forEach((row,index) => {
+                    if(row.name === player.WUQI.name)
+                        this.zhujiao.BeiBao.splice(index,1)
+                })
                 cc.log(`装备了:${JSON.stringify(player.WUQI)}`)
                 this.addWQ()
             }
@@ -310,21 +356,81 @@ cc.Class({
                  // 选择空项
                  if(this.item == '<空>'){
                     this.jn.string  = '+'
-                    player.YIFU = null
+                    if(player.YIFU){    
+                        this.zhujiao.BeiBao.push(player.YIFU)
+                        player.def -= player.YIFU.def
+                        player.temp_def -= player.YIFU.def
+                        player.YIFU = null
+                    }
                     this.node.destroy()
                     return
                 }
+                if(player.YIFU){
+                    player.def -= player.YIFU.def
+                    player.temp_def -= player.YIFU.def
+                    this.zhujiao.BeiBao.push(player.YIFU)
+                }
                 player.YIFU = this.row
+                player.def += this.row.def
+                player.temp_def += this.row.def
+                this.zhujiao.BeiBao.forEach((row,index) => {
+                    if(row.name === player.YIFU.name)
+                        this.zhujiao.BeiBao.splice(index,1)
+                })
+                cc.log(`装备了:${JSON.stringify(player.YIFU)}`)
+                this.addWQ()// 选择空项
+                if(this.item == '<空>'){
+                    this.jn.string  = '+'
+                    if(player.YIFU){    
+                        this.zhujiao.BeiBao.push(player.YIFU)
+                        player.def -= player.YIFU.def
+                        player.temp_def -= player.YIFU.def
+                        player.YIFU = null
+                    }
+                    this.node.destroy()
+                    return
+                }
+                if(player.YIFU){
+                    player.def -= player.YIFU.def
+                    player.temp_def -= player.YIFU.def
+                    this.zhujiao.BeiBao.push(player.YIFU)
+                }
+                player.YIFU = this.row
+                player.def += this.row.def
+                player.temp_def += this.row.def
+                this.zhujiao.BeiBao.forEach((row,index) => {
+                    if(row.name === player.YIFU.name)
+                        this.zhujiao.BeiBao.splice(index,1)
+                })
+                cc.log(`装备了:${JSON.stringify(player.YIFU)}`)
                 this.addYF()
             }
             if(Global.wugong_list.zhuangbei.part == '腰带'){
                  // 选择空项
                  if(this.item == '<空>'){
                     this.jn.string  = '+'
-                    player.YAODAI = null
+                    if(player.YAODAI){    
+                        this.zhujiao.BeiBao.push(player.YAODAI)
+                        player.MAXHP -= player.YAODAI.HP
+                        player.temp_HP -= player.YAODAI.HP
+                        player.YAODAI = null
+                    }
                     this.node.destroy()
                     return
                 }
+                if(player.YAODAI){
+                    player.MAXHP -= player.YAODAI.HP
+                    player.temp_HP -= player.YAODAI.HP
+                    this.zhujiao.BeiBao.push(player.YAODAI)
+                }
+                player.YAODAI = this.row
+                player.MAXHP += this.row.HP
+                player.temp_HP += this.row.HP
+                this.zhujiao.BeiBao.forEach((row,index) => {
+                    if(row.name === player.YAODAI.name)
+                        this.zhujiao.BeiBao.splice(index,1)
+                })
+                cc.log(`装备了:${JSON.stringify(player.YAODAI)}`)
                 player.YAODAI = this.row
                 this.addYD()
             }

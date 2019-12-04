@@ -1,6 +1,10 @@
 {
   "ver": "1.0.5",
+<<<<<<< HEAD
   "uuid": "0950f65c-e144-4e54-abdd-78fdeff82877",
+=======
+  "uuid": "571cb2cb-f2ff-433e-bdfb-ef858931044f",
+>>>>>>> huoban
   "isPlugin": false,
   "loadPluginInWeb": true,
   "loadPluginInNative": true,

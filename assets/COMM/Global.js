@@ -7,6 +7,10 @@ window.Global = {
             part:''  //部位
         },
     },
+    // duiwu_list窗口装备公共变量
+    renwu_list:{
+        player:null // 选中的人物属性
+    },
 
     player:{
         saved:false

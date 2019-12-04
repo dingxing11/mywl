@@ -46,18 +46,6 @@ module.exports = [{
     Type:'装备',
     Part:'武器'
 },{
-    name:'神行鞋',
-    money:5000,
-    HP:0,
-    ack:0,
-    def:10,
-    pingzhi:'甲',
-    describe:`日行千里`,
-    icon:'zhuangbei/WD008_1',
-    show:'zhuangbei/WD008_2',
-    Type:'装备',
-    Part:'鞋子'
-},{
     name:'碧玉腰带',
     money:5000,
     ack:0,
@@ -69,4 +57,30 @@ module.exports = [{
     show:'zhuangbei/WD008_2',
     Type:'装备',
     Part:'腰带'
+},
+{
+    name:'金甲',
+    money:5000,
+    ack:0,
+    HP:100,
+    def:5,
+    pingzhi:'甲',
+    describe:`由黄金制作的衣服`,
+    icon:'zhuangbei/WD008_1',
+    show:'zhuangbei/WD008_2',
+    Type:'装备',
+    Part:'衣服'
+},
+{
+    name:'银甲',
+    money:5000,
+    ack:0,
+    HP:100,
+    def:5,
+    pingzhi:'甲',
+    describe:`由白银制作的衣服`,
+    icon:'zhuangbei/WD008_1',
+    show:'zhuangbei/WD008_2',
+    Type:'装备',
+    Part:'衣服'
 }]

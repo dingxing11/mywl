@@ -31,66 +31,83 @@ module.exports = [
                 cc.log('没有进入左右互搏!'+jl)
                 return false
             }
-            cc.log("进入左右互搏"+jl)
-            var player1 = cc.find("Canvas/player1")
+            cc.log("进入左右互搏"+jl) 
+            var sleep = 1
             var repeat_num = 1
             var isDead = false
-        self.player1 = player1
-        var enemy1 = cc.find("Canvas/enemy1")
-        var scroll = cc.find("Canvas/dhk/scroll")
-        var item = cc.find("Canvas/dhk/scroll/view/content/item")
-        var player1Jump1 = cc.moveTo(0.5, enemy1.getPosition().x - 100, enemy1.getPosition().y)
-        var player1Jump2 = cc.moveTo(0.5, player1.getPosition());
-        var view = scroll.getComponent(cc.ScrollView)
-        var item1 = item.getComponent(cc.Label)
-        var anim = player1.getComponent(cc.Animation);
-        var liumai = self.liu.getComponent(cc.Animation);
-        liumai.active = true
-        // 计算攻击次数
-        var sh = 0;
-        sh = Math.round((Math.random() + 1) * (player.ack - enemy.def))
-        if (enemy.HP - sh <= 0) {
-            isDead = true
-        } else {
-            isDead = false
-        }
-        if(!isDead && repeat_num <2) {
-            repeat_num = 2
-        }
-        let pg = cc.sequence(cc.callFunc(() => {
-                cc.log("repeat num1:"+repeat_num)
-                cc.log('开始攻击敌人')
-            }),
-            player1Jump1,
-            cc.callFunc(() => {
-                var animState = anim.getAnimationState('player_ack');
-                self.liu.active = false
-                anim.play('player_ack')
-                // liumai.play('liumai')
-            }),
-            cc.callFunc(() => {
-                enemy.HP = enemy.HP - sh > 0 ? enemy.HP - sh : 0
-                item1.string += `${player.Name}使用${this.name}对${enemy.Name}造成了${sh}点伤害\n`
-                cc.log("repeat num2:"+repeat_num)
-                if (enemy.HP <= 0) {
-                    self.enemy1Dead()
-                }
-                view.scrollToBottom(0.1)
-            }),
-            cc.spawn(
-                cc.callFunc(() => {
-                    self.enemyAttacked()
-                    self.drop(sh)
+            var scroll = cc.find("Canvas/dhk/scroll")
+            var item = cc.find("Canvas/dhk/scroll/view/content/item")
+            var player1Jump1 = cc.moveTo(0.5, enemy.getPosition().x - 100, enemy.getPosition().y)
+            var player1Jump2 = cc.moveTo(0.5, player.getPosition());
+            var view = scroll.getComponent(cc.ScrollView)
+            var item1 = item.getComponent(cc.Label)
+            var sh = 0;
+            sh = Math.round((Math.random() + 1) * (player.getComponent('player1')._player.ack - enemy.getComponent('enemy1')._enmey.def))
+            if (enemy.getComponent('enemy1')._enmey.HP - sh <= 0) {
+                isDead = true
+                sleep = 0
+            } else {
+                isDead = false
+            }
+            if(!isDead && repeat_num <2) {
+                repeat_num = 2
+            }
+            let pg = cc.sequence(cc.callFunc(() => {
+                    cc.log("repeat num1:"+repeat_num)
+                    cc.log('开始攻击敌人')
                 }),
-                cc.delayTime(1),
-            ),
-            player1Jump2)
-        self.repeat = player1.runAction(cc.sequence(
-            cc.repeat(pg, repeat_num),
-            cc.callFunc(() => {
-                resolve()
-            })))
-        return true
+                player1Jump1,
+                cc.callFunc(() => {
+                    // var animState = anim.getAnimationState('player_ack');
+                    // self.liu.active = false
+                    // anim.play('player_ack')
+                    // liumai.play('liumai')
+                }),
+                cc.callFunc(() => {
+                        enemy.getComponent('enemy1')._enmey.HP = enemy.getComponent('enemy1')._enmey.HP - sh > 0 ? enemy.getComponent('enemy1')._enmey.HP - sh : 0
+                        item1.string += `${player.getComponent('player1')._player.Name}使用${this.name}对${enemy.getComponent('enemy1')._enmey.Name}造成了${sh}点伤害\n`
+                        cc.log("repeat num2:"+repeat_num)
+                        if (enemy.getComponent('enemy1')._enmey.HP <= 0) {
+                            player.getComponent('player1').enemy1Dead(enemy)
+                        }
+                        view.scrollToBottom(0.1)
+                    
+                }),
+                cc.spawn(
+                    cc.callFunc(() => {
+                        player.getComponent('player1').enemyAttacked(enemy)
+                        player.getComponent('player1').drop(enemy,sh)
+                    }),
+                    cc.delayTime(1),
+                ),
+                cc.callFunc(() => {
+                    if (!isDead) {
+                        sh = Math.round((Math.random() + 1) * (player.getComponent('player1')._player.ack - enemy.getComponent('enemy1')._enmey.def))
+                        enemy.getComponent('enemy1')._enmey.HP = enemy.getComponent('enemy1')._enmey.HP - sh > 0 ? enemy.getComponent('enemy1')._enmey.HP - sh : 0
+                        item1.string += `${player.getComponent('player1')._player.Name}使用${this.name}对${enemy.getComponent('enemy1')._enmey.Name}造成了${sh}点伤害\n`
+                        cc.log("repeat num2:"+repeat_num)
+                        if (enemy.getComponent('enemy1')._enmey.HP <= 0) {
+                            player.getComponent('player1').enemy1Dead(enemy)
+                        }
+                        view.scrollToBottom(0.1)
+                    }
+                }),
+                cc.spawn(
+                    cc.callFunc(() => {
+                        if (!isDead) {
+                            player.getComponent('player1').enemyAttacked(enemy)
+                            player.getComponent('player1').drop(enemy,sh)
+                        }
+                    }),
+                    cc.delayTime(sleep),
+                ),
+                player1Jump2)
+            self.repeat = player.runAction(cc.sequence(
+                cc.repeat(pg, 1),
+                cc.callFunc(() => {
+                    resolve()
+                })))
+            return true
         }
     },
     {

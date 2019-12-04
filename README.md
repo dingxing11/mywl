@@ -18,4 +18,7 @@
 3. 商店购物
 4. 装备系统
 5. 人物战斗属性
+6. 伙伴系统(未完成)
 ***
+
+游戏地址:https://dingxing11.github.io/index.html

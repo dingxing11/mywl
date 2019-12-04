@@ -1,0 +1,34 @@
+{
+  "ver": "2.3.3",
+  "uuid": "25118c7b-99ff-490e-8adf-dd3d4ac5f20f",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "platformSettings": {},
+  "subMetas": {
+    "landed4.pvr.ccz": {
+      "ver": "1.0.4",
+      "uuid": "d55f4d5a-f3da-4dc3-a94c-f4a0afa9280d",
+      "rawTextureUuid": "25118c7b-99ff-490e-8adf-dd3d4ac5f20f",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": -31,
+      "offsetY": 120.5,
+      "trimX": 1,
+      "trimY": 1,
+      "width": 960,
+      "height": 781,
+      "rawWidth": 1024,
+      "rawHeight": 1024,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}
