@@ -10,6 +10,7 @@
 module.exports = {
     'wugong':[],
     'zhuangbei':[],
+    'huoban':[],
     'startTime':0,
     'endTime':0,
     'time': 1000*60*60*2

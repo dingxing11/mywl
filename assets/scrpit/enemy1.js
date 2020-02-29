@@ -32,6 +32,15 @@ cc.Class({
             default:null,
             type:cc.Label
         },
+        State:{
+            default:null,
+            type:cc.Node
+        },
+        _BUFF:{
+            default:[
+            ],
+            type:Array
+        },
         HP_Pro:{
             default:null,
             type:cc.ProgressBar
@@ -52,6 +61,38 @@ cc.Class({
     start () {
 
     },
+
+    /**添加人物状态图标 */
+    addBuffAndDebuff(icon){
+        var node = new cc.Node()
+        var spriteCmp = node.addComponent(cc.Sprite)
+        cc.loader.loadRes(`buff/${icon}`,cc.SpriteFrame,(err,spriteFrame)=>{
+            if(err){
+                cc.log(err)
+            }
+            spriteCmp.spriteFrame = spriteFrame
+            node.width = 20
+            node.height = 20
+            node.setPosition(0,0)
+            this.State.addChild(node)
+        })
+    },
+
+    /**删除人物状态图标 */
+    delBuffAndDebuff(state){
+        this.State.children.forEach(element => {
+            cc.log(element)
+            this.State.children.forEach(element => {
+                if(element.getComponent(cc.Sprite).spriteFrame.name === state)
+                    element.destroy()
+            })
+            // var labelCmp = element.getComponent(cc.Label)
+            // if(labelCmp.string === state){
+            //     element.destroy()
+            // }
+        });
+    },
+
     // 攻击猪脚
     ack(player1) {
         let p = new Promise((resolve, reject) => {
@@ -63,13 +104,36 @@ cc.Class({
             var item1 = item.getComponent(cc.Label)
             var enemy = this.node.getComponent('enemy1')._enmey
             var player = player1.getComponent('player1')._player
-            cc.log('敌人X坐标' + this.node.getPosition().x)
+            var playrCmp = player1.getComponent('player1')
+            // cc.log('敌人X坐标' + this.node.getPosition().x)
             this.node.runAction(cc.sequence(cc.callFunc(() => {
-                    cc.log('开始被攻击')
+                    // cc.log('开始被攻击')
                 }), enemy1Jump1,
                 cc.callFunc(() => {
                     player.HP = (player.HP - (enemy.ack - player.def)) > 0 ? (player.HP - (enemy.ack - player.def)) : 0
                     item1.string += `${player.Name}受到了${enemy.ack-player.def}点伤害\n`
+                    // 添加眩晕buff
+                    // var jl = Math.floor(Math.random()*100)
+                    // if(jl>=0 && jl<=100){
+                    //     let isXuanYun = false
+                    //     playrCmp._BUFF.forEach(element => {
+                    //         if(element.name == '眩晕'){
+                    //             isXuanYun = true
+                    //             if(element.huihe <= 0){
+                    //                 element.huihe = 1
+                    //                 playrCmp.addBuffAndDebuff('xuanyun')
+                    //             }
+                    //         }
+                    //     });
+                    //     if(!isXuanYun){
+                    //         playrCmp._BUFF.push({
+                    //             name:'眩晕',
+                    //             huihe:1,
+                    //             icon:'xuanyun'
+                    //         })
+                    //         playrCmp.addBuffAndDebuff('xuanyun')
+                    //     }
+                    // }
                     if (player.HP <= 0) {
                         this.player1Dead(player1)
                         cc.log('死了')
@@ -123,8 +187,8 @@ cc.Class({
     // 人物死亡动画
     player1Dead(player1) {
         var sp1 = player1.getChildByName('playerbg')
-        var my_sp = sp1.getComponent(sp.Skeleton)
-        my_sp.setAnimation(0,'death',false)
+        // var my_sp = sp1.getComponent(sp.Skeleton)
+        // my_sp.setAnimation(0,'death',false)
         player1.runAction(cc.fadeOut(1))
     },
 

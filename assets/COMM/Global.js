@@ -30,7 +30,18 @@ window.Global = {
         } else {
             cc.director.loadScene(sceneName)
         }
-    }
+    },
+    // 人物状态集合
+    BufferAndDefbuff:[{
+        name:'眩晕',
+        huihe:1
+    },{
+        name:'中毒',
+        huihe:3
+    },{
+        name:'缴械',
+        huihe:1
+    }]
 }
 
 window.getWG = (name) => {

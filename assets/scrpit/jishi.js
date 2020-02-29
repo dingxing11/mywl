@@ -11,6 +11,7 @@ var player = require('Player')
 var wugong = require('WuGong')
 var zhuangbei = require('ZhuangBei')
 var shangcheng = require('ShangCheng')
+var huoban = require('HuoBan')
 cc.Class({
     extends: cc.Component,
 
@@ -68,7 +69,7 @@ cc.Class({
             if(self.item == null)
                 item_name.string = self.item.Name
             else 
-                item_name.string = self.item.name
+                item_name.string = self.item.name||self.item.Name
             shuoming.string = self.item.describe
             // 显示模型
             cc.loader.loadRes(self.item.show,cc.SpriteFrame,(err,spriteFrame) => {
@@ -170,6 +171,19 @@ cc.Class({
             };
         }
         cc.log(wugong)
+        if(huoban.length <= 10){
+            shangcheng.huoban = []
+            huoban.forEach(element => {
+                shangcheng.huoban.push(element)
+            })
+        } else {
+            var ranNum = 10;
+            for (var i = 0; i < ranNum; i++) {
+                var ran = Math.floor(Math.random() * huoban.length);
+                shangcheng.huoban.push(huoban[ran]);
+            };
+        }
+        cc.log(huoban)
     },
 
     onEnable(){
@@ -230,6 +244,14 @@ cc.Class({
     selectWuGong(){
         this.select_title = 'wugong'
         this.initShuJi()
+    },
+
+    /**
+     * 选择了伙伴
+     */
+    selectHuoBan(){
+        this.select_title = 'huoban'
+        this.initHuoBan()
     },
 
     // 初始化装备列表
@@ -298,12 +320,50 @@ cc.Class({
          show_sprite.spriteFrame = null
     },
 
+    /**初始化伙伴列表 */
+    initHuoBan(){
+        var self = this
+        this.clearItems()
+        shangcheng.huoban.forEach(element => {
+            // 显示图标
+            cc.loader.loadRes(element.icon,cc.SpriteFrame,(err,spriteFrame) => {
+                if(err){
+                    cc.log(err)
+                }
+                var node =cc.instantiate(self.item1)
+                var name = node.getChildByName('label')
+                var money = node.getChildByName('money')
+                var label_num = money.getChildByName('label_num')
+                var name = node.getChildByName('label')
+                var icon_bian = node.getChildByName('icon_bian')
+                var icon = icon_bian.getChildByName('icon')
+                var name_label = name.getComponent(cc.Label)
+                var moeny_label = label_num.getComponent(cc.Label)
+                var sprite = icon.getComponent(cc.Sprite)
+                if(element.icon_bian_color)
+                    icon_bian.color = cc.color().fromHEX(element.icon_bian_color)
+                sprite.spriteFrame= spriteFrame;
+                name_label.string = element.Name
+                moeny_label.string = element.money
+                node.parent= self.items
+                node.setPosition(0, 0)  
+            })
+        });
+         // 清空show
+         var show = self.node.getChildByName('show')
+         var show_sprite = show.getComponent(cc.Sprite)
+         show_sprite.spriteFrame = null
+    },
+
     // 显示详细购物
     showDescribe(){
         this.item_describe.active = true
     },
 
-    // 通过名称获取属性
+    /**
+     * 通过名字获取item
+     * @param {string} name 
+     */
     getItemByName(name){
         var item = null
         zhuangbei.forEach(element => {
@@ -313,6 +373,12 @@ cc.Class({
         if(!item){
             wugong.forEach(element => {
                 if(element.name == name)
+                item = element
+            })
+        }
+        if(!item){
+            huoban.forEach(element => {
+                if(element.Name == name)
                 item = element
             })
         }
@@ -350,6 +416,17 @@ cc.Class({
         cc.log(player.money)
         cc.log(this.select_node)
         this.select_node.destroy()
+        if(this.select_title == 'huoban'){
+            //商城列表中删除
+            shangcheng.huoban.forEach(element => {
+                if(element.Name == self.item.name){
+                    var index = shangcheng.huoban.indexOf(element)
+                    shangcheng.huoban.splice(index,1)
+                }
+            })
+            //添加到人物伙伴
+            player.huoban.push(this.item)
+        }
         if(this.select_title == 'zhuangbei'){
             //商城列表中删除
             shangcheng.zhuangbei.forEach(element => {

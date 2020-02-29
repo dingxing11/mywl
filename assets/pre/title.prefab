@@ -62,7 +62,7 @@
     "groupIndex": 0,
     "_trs": {
       "__type__": "TypedArray",
-      "ctor": "Float32Array",
+      "ctor": "Float64Array",
       "array": [
         10,
         0,
@@ -126,7 +126,7 @@
     "groupIndex": 0,
     "_trs": {
       "__type__": "TypedArray",
-      "ctor": "Float32Array",
+      "ctor": "Float64Array",
       "array": [
         5,
         5,

@@ -34,6 +34,10 @@ cc.Class({
         Nshuoming:{
             default:null,
             type:cc.Node
+        },
+        list:{
+            default:null,
+            type:cc.Prefab
         }
         // foo: {
         //     // ATTRIBUTES:
@@ -59,7 +63,6 @@ cc.Class({
         this.Ntab = cc.find("Canvas/main/node/beibao/tab")
         this.Ncontent = cc.find("Canvas/main/node/beibao/name/view/content")
         this.Nshuoming= cc.find("Canvas/main/node/beibao/shuoming")
-        this.list = cc.find("Canvas/main/node/list")
         this.node.on('select-tab',event => {
             this.title = event.getUserData()
             this.clearItems()

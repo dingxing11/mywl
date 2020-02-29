@@ -19,6 +19,7 @@ cc.Class({
     properties: {
         _player:null,
         _enmey:null,
+        _resState:false,
         _battleFinish:false,
         _huiheFinish:false,
         _num:0,
@@ -47,12 +48,15 @@ cc.Class({
 
     // LIFE-CYCLE CALLBACKS:
 
-    // onLoad () {},
+    onLoad () {
+
+    },
 
     /**
      * 回合整个流程
      */
     start () {
+        cc.log('回合开始')
         this.readyTurn()
         .then(()=>{
             this.startTurn()
@@ -60,19 +64,34 @@ cc.Class({
     },
 
     // 初始化team
-    teamInit(){
+    teamInit(resolve){
         // 初始化playerteam资源
+        this._isTeamInit = false
         for (let index = 0; index < player.duiwu.length; index++) {
+            if(index === 3){
+                this._isTeamInit = true
+            }
             if(player.duiwu[index]){
-                var pos =player.duiwu_pos[index]
-                var parent = this.node
-                this.playerTeam[index] = cc.instantiate(this.player)
-                this.playerTeam[index].name = 'player' + index
-                this.playerTeam[index].parent = parent
-                this.playerTeam[index].setPosition(pos)
-                var playrComp = this.playerTeam[index].getComponent('player1')
-                playrComp._player = player.duiwu[index]
-                playrComp._player.HP = playrComp._player.MAXHP
+                cc.loader.loadRes(player.duiwu[index].show,cc.SpriteFrame,(err,spriteframe)=>{
+                    if(err){
+                        cc.log('错了',err)
+                    }
+                    var pos =player.duiwu_pos[index]
+                    var parent = this.node
+                    this.playerTeam[index] = cc.instantiate(this.player)
+                    this.playerTeam[index].name = 'player' + index
+                    this.playerTeam[index].parent = parent
+                    this.playerTeam[index].setPosition(pos)
+                    var playrComp = this.playerTeam[index].getComponent('player1')
+                    this._playerbg = this.playerTeam[index].getChildByName('playerbg').getComponent(cc.Sprite)
+                    playrComp._player = player.duiwu[index]
+                    playrComp._player.HP = playrComp._player.MAXHP
+                    cc.log('图片:',playrComp._player.show)
+                    cc.log('名字:',playrComp._player.Name)
+                    this._playerbg.spriteFrame = spriteframe
+                    if(this._isTeamInit)
+                        resolve()
+                })
             } else {
                 this.playerTeam[index] = null
             }
@@ -81,8 +100,8 @@ cc.Class({
         // 初始化enemyTeam资源
         for (let index = 0; index < gamelv[0].Enemys.length; index++) {
             if(gamelv[0].Enemys[index]){
-                pos = gamelv[0].Enemys_pos[index]
-                parent = this.node
+                var pos = gamelv[0].Enemys_pos[index]
+                var parent = this.node
                 this.enemyTeam[index] = cc.instantiate(this.enemy)
                 this.enemyTeam[index].setPosition(pos)
                 this.enemyTeam[index].parent = parent
@@ -133,9 +152,8 @@ cc.Class({
     // 准备开始
     readyTurn(){
         return new Promise((resolve,rejects)=>{
-            this.teamInit()
             cc.log('准备开始')
-            resolve()
+            this.teamInit(resolve)
         })
     },
     
@@ -143,35 +161,45 @@ cc.Class({
     playerTurn(){
         return new Promise((resolve,reject)=>{
             cc.log('自己回合')
-            // 1.攻击敌人
+            // 初始化状态
+            this._resState = false
             if(this.playerTeam[this._playerIndex]){
                 var player = this.playerTeam[this._playerIndex].getComponent('player1')
-                player.ack(this.enemyTeam[this.firstEnemy()])
-                .then(()=>{
-                    if(this.enemyTeam[this.firstEnemy()].getComponent('enemy1')._enmey.HP <= 0){
-                        this.enemyTeam[this.firstEnemy()] = null
-                    }
-                    this._playerIndex += 1
-                    if(this.enemysDead()){
-                        cc.log('胜利')
-                        this._battleFinish = true
-                        return null
-                    }
-                    // 是否回合结束
-                    if(this._playerIndex >= this.playerTeam.length && this._enemyIndex >= this.enemyTeam.length){
-                        this._playerIndex = 0
-                        this._enemyIndex = 0
-                    }
-                    resolve()
-                })
+                // 1.查看自己状态
+                cc.log('查看状态')
+                this.updateState(player,resolve,0)
+                // 2.攻击敌人
+                if(this._resState === false){
+                    cc.log('攻击敌人')
+                    player.ack(this.enemyTeam[this.firstEnemy()])
+                    .then(()=>{
+                        if(this.enemyTeam[this.firstEnemy()].getComponent('enemy1')._enmey.HP <= 0){
+                            this.enemyTeam[this.firstEnemy()] = null
+                        }
+                        this._playerIndex += 1
+                        if(this.enemysDead()){
+                            cc.log('胜利')
+                            this._battleFinish = true
+                            return null
+                        }
+                        // 是否回合结束
+                        if(this._playerIndex >= this.playerTeam.length && this._enemyIndex >= this.enemyTeam.length){
+                            this._playerIndex = 0
+                            this._enemyIndex = 0
+                        }
+                        resolve()
+                    })
+                }
             } else {
                 this._playerIndex += 1
                 // 2.是否回合结束
                 if(this._playerIndex >= this.playerTeam.length && this._enemyIndex >= this.enemyTeam.length){
                     this._playerIndex = 0
                     this._enemyIndex = 0
+                    this._huiheFinish = true
+                } else {
+                    resolve()
                 }
-                resolve()
             }
         })
     },
@@ -192,9 +220,10 @@ cc.Class({
                     element.EXP -= element.MAXEXP
                     element.LEVEL +=1
                     element.MAXEXP += 50 * element.LEVEL
-                    element.ack += Math.floor(Math.random()*10)
-                    element.def += Math.floor(Math.random()*10)
-                    element.MAXHP += Math.floor(10+Math.random()*90)
+                    element.ack += element.ack_up
+                    element.def += element.def_up
+                    element.MAXHP += element.MAXHP_up
+                    element.MAXMP += element.MAXMP_up
                 }
             }
         });
@@ -202,11 +231,35 @@ cc.Class({
 
     // 获取战利品
     getDrop(){
-        var drop = gamelv[0].Drop[Math.floor(Math.random()*(gamelv[0].Drop.length-1))]
-        player.BeiBao.push[drop]
+        var drop = gamelv[0].Drop[Math.round(Math.random()*(gamelv[0].Drop.length-1))]
+        player.BeiBao.push(drop)
         return drop
     },
     
+    /**
+     * 更新状态
+     * @param resolve -promise的resolve
+     * @param id -0：player,1: enemy
+     */
+    updateState(player,resolve,id){
+        player._BUFF.forEach(element => {
+            if(element.name == '眩晕'&& element.huihe > 0){
+                element.huihe = element.huihe - 1
+                if(element.huihe === 0){
+                    player.delBuffAndDebuff(element.icon)
+                }
+                cc.log(element.name)
+                if(id === 0)
+                    this._playerIndex += 1
+                else {
+                    this._enemyIndex +=1
+                }
+                this._resState = true
+                resolve()
+            }
+        });
+    },
+
     // 战斗结束
     endTurn(){
         cc.log('战斗结束')
@@ -241,34 +294,41 @@ cc.Class({
     enemyTurn(){
         return new Promise((resolve,reject)=>{
             cc.log('对方回合')
+            this._resState = false
             if(this.enemyTeam[this._enemyIndex]){
                 var enemy = this.enemyTeam[this._enemyIndex].getComponent('enemy1')
-                enemy.ack(this.playerTeam[this.firstPlayer()])
-                .then(()=>{
-                    if(this.playerTeam[this.firstPlayer()].getComponent('player1')._player.HP <= 0){
-                        this.playerTeam[this.firstPlayer()] = null
-                    }
-                    if(this.playersDead()){
-                        cc.log('失败')
-                        this._battleFinish = true
-                        return null
-                    }
-                    this._enemyIndex +=1
-                    if(this._playerIndex >= this.playerTeam.length && this._enemyIndex >= this.enemyTeam.length){
-                        this._playerIndex = 0
-                        this._enemyIndex = 0
-                        this._huiheFinish = true
-                        return null
-                    }
-                    resolve()
-                })
+                // 查看状态
+                this.updateState(enemy,resolve,1)
+                if(!this._resState){
+                    enemy.ack(this.playerTeam[this.firstPlayer()])
+                    .then(()=>{
+                        if(this.playerTeam[this.firstPlayer()].getComponent('player1')._player.HP <= 0){
+                            this.playerTeam[this.firstPlayer()] = null
+                        }
+                        if(this.playersDead()){
+                            cc.log('失败')
+                            this._battleFinish = true
+                            return null
+                        }
+                        this._enemyIndex +=1
+                        if(this._playerIndex >= this.playerTeam.length && this._enemyIndex >= this.enemyTeam.length){
+                            this._playerIndex = 0
+                            this._enemyIndex = 0
+                            this._huiheFinish = true
+                            return null
+                        }
+                        resolve()
+                    })
+                }
             } else {
                 this._enemyIndex +=1
                 if(this._playerIndex >= this.playerTeam.length && this._enemyIndex >= this.enemyTeam.length){
                     this._playerIndex = 0
                     this._enemyIndex = 0
+                    this._huiheFinish = true
+                } else {
+                    resolve()
                 }
-                resolve()
             }
         })
     },
@@ -291,12 +351,13 @@ cc.Class({
 
     update (dt) {
         if(this._battleFinish){
-            this.endTurn()
             this._battleFinish = false
+            this.endTurn()
         }
         if(this._huiheFinish){
-            this.startTurn()
             this._huiheFinish = false
+            
+            this.startTurn()
         }
     },
 });

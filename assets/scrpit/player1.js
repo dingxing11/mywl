@@ -7,6 +7,7 @@
 // Learn life-cycle callbacks:
 //  - [Chinese] http://www.cocos.com/docs/creator/scripting/life-cycle-callbacks.html
 //  - [English] http://www.cocos2d-x.org/docs/editors_and_tools/creator-chapters/scripting/life-cycle-callbacks/index.html
+
 var wugong = require('WuGong')
 cc.Class({
     extends: cc.Component,
@@ -27,6 +28,16 @@ cc.Class({
         //     }
         // },
         _player:null,
+        State:{
+            default:null,
+            type:cc.Node
+        },
+        // 人物buff
+        _BUFF:{
+            default:[
+            ],
+            type:Array
+        },
         HP:{
             default:null,
             type:cc.Label
@@ -39,19 +50,49 @@ cc.Class({
             default:null,
             type:cc.Label
         },
-        spine:{
-            default:null,
-            type:sp.Skeleton
-        }
+        // spine:{
+        //     default:null,
+        //     type:sp.Skeleton,
+        // }
 
     },
 
     // LIFE-CYCLE CALLBACKS:
 
     onLoad () {
-           
+
     },
 
+    /**添加人物状态图标 */
+    addBuffAndDebuff(icon){
+        var node = new cc.Node()
+        var spriteCmp = node.addComponent(cc.Sprite)
+        cc.loader.loadRes(`buff/${icon}`,cc.SpriteFrame,(err,spriteFrame)=>{
+            if(err){
+                cc.log(err)
+            }
+            spriteCmp.spriteFrame = spriteFrame
+            node.width = 20
+            node.height = 20
+            node.parent = this.State
+            node.setPosition(0,0)
+        })
+    },
+
+    /**删除人物状态图标 */
+    delBuffAndDebuff(state){
+        this.State.children.forEach(element => {
+            cc.log(element)
+            this.State.children.forEach(element => {
+                if(element.getComponent(cc.Sprite).spriteFrame.name === state)
+                    element.destroy()
+            })
+            // var labelCmp = element.getComponent(cc.Label)
+            // if(labelCmp.string === state){
+            //     element.destroy()
+            // }
+        });
+    },
     // // 被攻击动作
     // Attacked() {
     //     var attacked =cc.sequence(
@@ -100,6 +141,7 @@ cc.Class({
         var item1 = item.getComponent(cc.Label)
         var player = this.node.getComponent('player1')._player
         var enemy = enemy1.getComponent('enemy1')._enmey
+        var enemyCmp = enemy1.getComponent('enemy1')
         // var anim = this.node.getComponent(cc.Animation);
         // var liumai = this.liu.getComponent(cc.Animation);
         // liumai.active = true
@@ -126,12 +168,14 @@ cc.Class({
             }),
             cc.spawn(
                 cc.callFunc(() => {
-                    this.spine.setAnimation(0,'shoot',false)
-                    this.spine.addAnimation(0,'idle',true)
+                    // let Armature = this.spine.armature();
+                    // Armature.animation.play('attack1',1)
+                    // this.spine.setAnimation(0,'shoot',false)
+                    // this.spine.addAnimation(0,'idle',true)
                     this.enemyAttacked(enemy1)
                     this.drop(enemy1,sh)
                 }),
-                cc.delayTime(1),
+                cc.delayTime(1.48),
             ),
             player1Jump2)
         this.repeat = this.node.runAction(cc.sequence(
@@ -186,6 +230,8 @@ cc.Class({
     },
 
     update (dt) {
+        // 更新人物状态(buff和debuff)
+
         if(this._player){
             this.Name.string = this._player.Name
             this.HP.string = `${this._player.HP}`

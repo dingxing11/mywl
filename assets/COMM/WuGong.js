@@ -179,5 +179,88 @@ module.exports = [
                 })))
             return true
         }
+    },
+    {
+        name:'铁砂掌',
+        Type:'武功',
+        pingzhi:'丙',
+        describe:'10%几率眩晕敌人,造成120%的伤害',
+        wugongtype:'主动',
+        gongneng:'攻击类',
+        power:1.2,
+        MAXCD: 3,
+        NOW_CD:0,
+        CD: 2,
+        drop:30,
+        num:1,
+        money:2000,
+        icon:'wugong/ID070_1',
+        show:'wugong/ID070_2',
+        action:function(self,resolve,enemy,player){
+            var scroll = cc.find("Canvas/dhk/scroll")
+            var item = cc.find("Canvas/dhk/scroll/view/content/item")
+            var player1Jump1 = cc.moveTo(0.5, enemy.getPosition().x - 100, enemy.getPosition().y)
+            var player1Jump2 = cc.moveTo(0.5, player.getPosition())
+            var view = scroll.getComponent(cc.ScrollView)
+            var item1 = item.getComponent(cc.Label)
+            var player_node = player
+            var enemy_node = enemy
+            var player = player.getComponent('player1')._player
+            var enemy = enemy.getComponent('enemy1')._enmey
+            var sh = 0;
+            let pg = cc.sequence(cc.callFunc(() => {
+                    cc.log('开始攻击敌人')
+                }),
+                player1Jump1,
+                cc.callFunc(() => {
+                    sh = Math.round((Math.random() + 1) * (player.ack*this.power - enemy.def))
+                    enemy.HP = enemy.HP - sh > 0 ? enemy.HP - sh : 0
+                    item1.string += `${player.Name}使用${this.name}对${enemy.Name}造成了${sh}点伤害\n`
+                     // 添加眩晕buff
+                    var jl = Math.floor(Math.random()*100)
+                    if(jl>=0 && jl<=80){
+                        let isXuanYun = false
+                        enemy_node.getComponent('enemy1')._BUFF.forEach(element => {
+                            if(element.name == '眩晕'){
+                                isXuanYun = true
+                                if(element.huihe <= 0){
+                                    element.huihe = 1
+                                    enemy_node.getComponent('enemy1').addBuffAndDebuff('xuanyun')
+                                }
+                            }
+                        });
+                        if(!isXuanYun){
+                            enemy_node.getComponent('enemy1')._BUFF.push({
+                                name:'眩晕',
+                                huihe:1,
+                                icon:'xuanyun'
+                            })
+                            enemy_node.getComponent('enemy1').addBuffAndDebuff('xuanyun')
+                            item1.string += `${player.Name}使用${this.name}对${enemy.Name}造成了眩晕\n`
+                        }
+                    }
+                    if (enemy.HP <= 0) {
+                        player_node.getComponent('player1').enemy1Dead(enemy_node)
+                    }
+                    view.scrollToBottom(0.1)
+                }),
+                cc.spawn(
+                    cc.callFunc(() => {
+                        player_node.getComponent('player1').enemyAttacked(enemy_node)
+                        player_node.getComponent('player1').drop(enemy_node,sh)
+                    }),
+                    cc.delayTime(1),
+                ),
+                player1Jump2,
+                cc.callFunc(() => {
+                    // self.liu.active = false
+                }),)
+                self.repeat = player_node.runAction(cc.sequence(
+                    cc.repeat(pg, 1),
+                    cc.callFunc(() => {
+                        resolve()
+                    })))
+                return true
+        }
     }
 ]

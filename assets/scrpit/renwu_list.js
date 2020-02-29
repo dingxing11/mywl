@@ -97,7 +97,7 @@ cc.Class({
         this.node.on('select-renwu',event => {
             this.item = event.getUserData()
             this.selectItem(this.item)
-        },this)
+        })
     },
     
     updatePlayerStatus(person){
