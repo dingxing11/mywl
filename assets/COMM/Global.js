@@ -52,3 +52,21 @@ window.getWG = (name) => {
     });
     return null
 }
+/**
+* 提示框
+* @param message 显示信息
+* @param dt 显示时长
+*/
+window.showMessage = (message,dt)=>{
+   var labelnode = new cc.Node()
+   var label = labelnode.addComponent(cc.Label)
+   label.string = message
+   labelnode.width = 400
+   labelnode.height = 400
+   var root = cc.find('Canvas')
+   labelnode.parent = root
+   labelnode.setPosition(0,0)
+   setTimeout(()=>{
+       labelnode.destroy()
+   },dt*1000)
+}
