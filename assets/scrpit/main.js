@@ -71,7 +71,7 @@ cc.Class({
     // LIFE-CYCLE CALLBACKS:
 
     onLoad () {
-        this.label_wugong_list = cc.find('Canvas/main/node/list/view/content/label_wugong_list')
+        this.label_wugong_list = cc.find('Canvas/main/node/jiaose/label_wugong_list')
         this.main =  cc.find('Canvas/main')
         this.wgs = this.label_wugong_list.children
         // 监听武功或装备添加事件
@@ -135,10 +135,10 @@ cc.Class({
      * 初始化装备信息
      */
      zhuangbeiInit(){
-        var wuqi_node = cc.find('Canvas/main/node/list/view/content/laebel_zhuangbei/wuqi/wg/name')
-        var yaodai_node = cc.find('Canvas/main/node/list/view/content/laebel_zhuangbei/yaodai/wg/name')
-        var yifu_node = cc.find('Canvas/main/node/list/view/content/laebel_zhuangbei/yifu/wg/name')
-        var xiezi_node = cc.find('Canvas/main/node/list/view/content/laebel_zhuangbei/xiezi/wg/name')
+        var wuqi_node = cc.find('Canvas/main/node/jiaose/laebel_zhuangbei/wuqi/wg/name')
+        var yaodai_node = cc.find('Canvas/main/node/jiaose/laebel_zhuangbei/yaodai/wg/name')
+        var yifu_node = cc.find('Canvas/main/node/jiaose/laebel_zhuangbei/yifu/wg/name')
+        var xiezi_node = cc.find('Canvas/main/node/jiaose/laebel_zhuangbei/xiezi/wg/name')
         var wuqi_label = wuqi_node.getComponent(cc.Label)
         var yaodai_label = yaodai_node.getComponent(cc.Label)
         var xiezi_label = xiezi_node.getComponent(cc.Label)

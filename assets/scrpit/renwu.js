@@ -12,6 +12,7 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
+        _renwu:null,
         // foo: {
         //     // ATTRIBUTES:
         //     default: null,        // The default value will be used only when the component attaching
@@ -44,14 +45,14 @@ cc.Class({
     btnClick1 (event, customEventData) {
         var name = cc.find("Canvas/main/node")
         var dhk = cc.find("Canvas/main/dhk/scroll/view/content/item")
-        var item_label = this.node.getComponent(cc.Label)
+        var renww_name = this._renwu.Name
         var scroll = cc.find("Canvas/main/dhk/scroll")
         if(name){
             var xx = dhk.getComponent(cc.Label)
             var view = scroll.getComponent(cc.ScrollView)
-            xx.string += `点击了${item_label.string}\n`
+            xx.string += `点击了${renww_name}\n`
             let selectItem = new cc.Event.EventCustom('select-renwu',true)
-            selectItem.setUserData(item_label.string)
+            selectItem.setUserData(renww_name)
             this.node.dispatchEvent(selectItem)
             view.scrollToBottom(0.1)
         }

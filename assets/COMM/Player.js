@@ -34,6 +34,7 @@ module.exports = {
     MAXEXP:100,
     LEVEL:1,
     BeiBao:[],
+    icon:'huoban/HB003_1',
     show:'huoban/HB003_2',
     //人物在地图中用
     isMap:false,

@@ -22,6 +22,10 @@ cc.Class({
             default:null,
             type:cc.Node
         },
+        renwu_mode:{
+            default:null,
+            type:cc.Sprite
+        }
         // foo: {
         //     // ATTRIBUTES:
         //     default: null,        // The default value will be used only when the component attaching
@@ -43,14 +47,11 @@ cc.Class({
 
     onLoad () {
         // 人物属性
-        this.Nshuxing = this.node.getChildByName('shuxing')
-        this.N_name = this.Nshuxing.getChildByName('name')
-        this.Nview = this.N_name.getChildByName('view')
+        this.Nlisthuoban = this.node.getChildByName('listhuoban')
+        this.Nview = this.Nlisthuoban.getChildByName('view')
         this.Ncontent = this.Nview.getChildByName('content')
         
-        this.view = this.node.getChildByName("view")
-        this.content = this.view.getChildByName("content")
-        this.label_list = this.content.getChildByName("label_list")
+        this.label_list = this.node.getChildByName("label_list")
         var xm = this.label_list.getChildByName("xm")
         var ack = this.label_list.getChildByName("ack")
         var def = this.label_list.getChildByName("def")
@@ -61,9 +62,9 @@ cc.Class({
         var jn = this.label_list.getChildByName("jn")
         var money = this.label_list.getChildByName("money")
         // 技能资源
-        this.jn_list1 = this.content.getChildByName("label_wugong_list")
+        this.jn_list1 = this.node.getChildByName("label_wugong_list")
         // 装备资源
-        this.laebel_zhuangbei = this.content.getChildByName("laebel_zhuangbei")
+        this.laebel_zhuangbei = this.node.getChildByName("laebel_zhuangbei")
         this.wuqi = this.laebel_zhuangbei.getChildByName("wuqi")
         this.wq_wg = this.wuqi.getChildByName("wg")
         this.wq_name = this.wq_wg.getChildByName("name")
@@ -101,14 +102,14 @@ cc.Class({
     },
     
     updatePlayerStatus(person){
-        this.name.string = `姓名:${person.Name}`
-        this.ack1.string = `攻击:${person.ack}`
-        this.def1.string = `防御:${person.def}`
-        this.hp1.string = `血量:${person.MAXHP}`
-        this.mp1.string = `内力:${person.MAXMP}`
-        this.exp1.string = `修为:${person.EXP}/${person.MAXEXP}`
-        this.jj1.string = `境界:${person.LEVEL}`
-        this.money1.string = `元宝:${person.money}`
+        this.name.string = person.Name
+        this.ack1.string = person.ack
+        this.def1.string = person.def
+        this.hp1.string = person.MAXHP
+        this.mp1.string = person.MAXMP
+        this.exp1.string = `${person.EXP}/${person.MAXEXP}`
+        this.jj1.string = `${person.LEVEL}`
+        this.money1.string = person.money
         let wugong = ''
         person.WUGONG.forEach(element => {
             wugong += element.name + ','
@@ -141,22 +142,40 @@ cc.Class({
 
     // 列举相应title下的全部值
     ItemList(){
-        let items = new Array()
-        var item = cc.instantiate(this.Nname);
-        var item_label = item.getComponent(cc.Label);
-        item_label.string = player.Name;
-        items.push(item_label.string)
-        this.Ncontent.addChild(item)
-        player.huoban.forEach(row => {
-            var item = cc.instantiate(this.Nname);
-            var item_label = item.getComponent(cc.Label);
-            item_label.string = row.Name;
-            items.push(item_label.string)
-            this.Ncontent.addChild(item)
-        });
+        var wg = cc.instantiate(this.Nname);
+        var item = wg.getChildByName('item')
+        var items = []
+        cc.loader.loadRes(player.icon,cc.SpriteFrame,(err,sprite) => {
+            if(err)
+                cc.log(err)
+            var renwu = wg.getComponent('renwu')
+            renwu._renwu = player
+            var item_sprite = item.getComponent(cc.Sprite);
+            item_sprite.spriteFrame = sprite
+            // item_label.string = row.Name;
+            items.push(player.Name)
+            wg.setPosition(0,0)
+            this.Ncontent.addChild(wg)
+            player.huoban.forEach(row => {
+                var wg = cc.instantiate(this.Nname);
+                var item = wg.getChildByName('item')
+                cc.loader.loadRes(row.icon,cc.SpriteFrame,(err,sprite) => {
+                    if(err)
+                        cc.log(err)
+                    var renwu = wg.getComponent('renwu')
+                    renwu._renwu = row
+                    var item_sprite = item.getComponent(cc.Sprite);
+                    item_sprite.spriteFrame = sprite
+                    // item_label.string = row.Name;
+                    items.push(row.Name)
+                    wg.setPosition(0,0)
+                    this.Ncontent.addChild(wg)
+                })
+            });
+        })
         // 选中第一个item
-        this.item = items[0]
-        this.selectItem(this.item);
+        // this.item = items[0]
+        // this.selectItem(this.item);
     },
 
     // 选中item显示的详情
@@ -164,12 +183,22 @@ cc.Class({
         this.isSelect = true
         if(player.Name === item){
             Global.renwu_list.player = this.renwu = player
+            cc.loader.loadRes(player.show,cc.SpriteFrame,(err,sprite) => {
+                if(err)
+                    cc.log(err)
+                this.renwu_mode.spriteFrame = sprite
+            })
             return
         }
         player.huoban.forEach(row => {
             if(row.Name === item){
                 console.log(row)
                 Global.renwu_list.player = this.renwu = row
+                cc.loader.loadRes(row.show,cc.SpriteFrame,(err,sprite) => {
+                    if(err)
+                        cc.log(err)
+                    this.renwu_mode.spriteFrame = sprite
+                })
             }
         });
     },
