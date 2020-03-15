@@ -8,6 +8,7 @@
 //  - [Chinese] https://docs.cocos.com/creator/manual/zh/scripting/life-cycle-callbacks.html
 //  - [English] https://www.cocos2d-x.org/docs/creator/manual/en/scripting/life-cycle-callbacks.html
 var player = require('Player')
+var duiwu = require('DuiWu')
 cc.Class({
     extends: cc.Component,
 
@@ -63,21 +64,21 @@ cc.Class({
             var renwu = event.getUserData()
             if(this.duiwu_node){
                 var duiwu_id = this.duiwu_node.name.substr(-1,1)
-                player.duiwu.forEach((element,index) => {
+                duiwu.forEach((element,index) => {
                     if(element != null&&element.ID === renwu.ID)
-                        player.duiwu[index] = null
+                        duiwu[index] = null
                 });
-                player.duiwu[duiwu_id-1] = renwu
+                duiwu[duiwu_id-1] = renwu
                 this.updateDuiWu()
-                console.log(player.duiwu)
+                console.log(duiwu)
             }
         },this)
     },
 
     updateDuiWu(){
-        for (let index = 0; index < player.duiwu.length; index++) {
-            if(player.duiwu[index] != null)
-                this.team[index].string = player.duiwu[index].Name;
+        for (let index = 0; index < duiwu.length; index++) {
+            if(duiwu[index] != null)
+                this.team[index].string = duiwu[index].Name;
             else
                 this.team[index].string = '+'
         }

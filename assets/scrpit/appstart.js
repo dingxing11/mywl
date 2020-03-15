@@ -8,7 +8,7 @@
 //  - [Chinese] http://www.cocos.com/docs/creator/scripting/life-cycle-callbacks.html
 //  - [English] http://www.cocos2d-x.org/docs/editors_and_tools/creator-chapters/scripting/life-cycle-callbacks/index.html
 var player = require('Player')
-
+var duiwu = require('DuiWu')
 cc.Class({
     extends: cc.Component,
 
@@ -68,9 +68,14 @@ cc.Class({
             this.UserName.node.active = false
             this.LabelName.node.active = false
             this.LoginName.string = '继续游戏'
+            // 队伍和玩家读取存档
             var player1 = JSON.parse(cc.sys.localStorage.getItem('player'));
+            var duiwu1 = JSON.parse(cc.sys.localStorage.getItem('duiwu'));
             for(var row in player1){
                 player[row]=player1[row]
+            }
+            for(var row in duiwu1){
+                duiwu[row]=duiwu1[row]
             }
        } else {
             // 新用户

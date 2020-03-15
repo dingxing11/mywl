@@ -66,8 +66,8 @@ module.exports = [{
     def:5,
     pingzhi:'甲',
     describe:`由黄金制作的衣服`,
-    icon:'zhuangbei/WD008_1',
-    show:'zhuangbei/WD008_2',
+    icon:'zhuangbei/AA001_1',
+    show:'zhuangbei/AA001_2',
     Type:'装备',
     Part:'衣服'
 },
@@ -79,8 +79,8 @@ module.exports = [{
     def:5,
     pingzhi:'甲',
     describe:`由白银制作的衣服`,
-    icon:'zhuangbei/WD008_1',
-    show:'zhuangbei/WD008_2',
+    icon:'zhuangbei/AA000_1',
+    show:'zhuangbei/AA000_2',
     Type:'装备',
     Part:'衣服'
 }]

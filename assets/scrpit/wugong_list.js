@@ -60,6 +60,7 @@ cc.Class({
     // LIFE-CYCLE CALLBACKS:
 
     onLoad () {
+        this.item = '<空>'
         this.zhujiao = require('Player')
         player = Global.renwu_list.player
         this.Ntab = cc.find("Canvas/wugong_list/tab")
@@ -69,11 +70,11 @@ cc.Class({
             this.title = event.getUserData()
             this.clearItems()
             this.selectTitle(this.title)
-        },this)
+        })
         this.node.on('select-item',event => {
             this.item = event.getUserData()
             this.selectItem(this.item)
-        },this)
+        })
     },
 
     start () {
@@ -92,6 +93,7 @@ cc.Class({
         this.title = arr[0]
         this.clearItems()
         this.selectTitle(this.title)
+        this.selectItem('空')
     },
     
     // 清除items
@@ -272,7 +274,7 @@ cc.Class({
      */
     addWG(){
         if(Global.renwu_list.player)
-            var player = Global.renwu_list.player
+            player = Global.renwu_list.player
         if(this.title == '武功'){
             cc.log(this.item)
             // 删除原武功
@@ -302,32 +304,10 @@ cc.Class({
             if(Global.wugong_list.zhuangbei.part == '武器'){
                 // 选择空项
                 if(this.item == '<空>'){
-                    this.jn.string  = '+'
-                    if(player.WUQI){    
-                        this.zhujiao.BeiBao.push(player.WUQI)
-                        player.ack -= player.WUQI.ack
-                        player.temp_ack -= player.WUQI.ack
-                        player.WUQI = null
-                    }
-                    this.node.destroy()
-                    return
-                }
-                if(player.WUQI){
-                    player.ack -= player.WUQI.ack
-                    player.temp_ack -= player.WUQI.ack
-                    this.zhujiao.BeiBao.push(player.WUQI)
-                }
-                player.WUQI = this.row
-                player.ack += this.row.ack
-                player.temp_ack += this.row.ack
-                this.zhujiao.BeiBao.forEach((row,index) => {
-                    if(row.name === player.WUQI.name)
-                        this.zhujiao.BeiBao.splice(index,1)
-                })
-                cc.log(`装备了:${JSON.stringify(player.WUQI)}`)
-                this.addWQ()// 选择空项
-                if(this.item == '<空>'){
-                    this.jn.string  = '+'
+                    this.jn.getChildByName('name').getComponent(cc.Label).string  = '+'
+                    var sprite = this.jn.getChildByName('item').getComponent(cc.Sprite)
+                    cc.loader.release(sprite.spriteFrame)
+                    sprite.spriteFrame = null
                     if(player.WUQI){    
                         this.zhujiao.BeiBao.push(player.WUQI)
                         player.ack -= player.WUQI.ack
@@ -353,34 +333,12 @@ cc.Class({
                 this.addWQ()
             }
             if(Global.wugong_list.zhuangbei.part == '衣服'){
-                 // 选择空项
-                 if(this.item == '<空>'){
-                    this.jn.string  = '+'
-                    if(player.YIFU){    
-                        this.zhujiao.BeiBao.push(player.YIFU)
-                        player.def -= player.YIFU.def
-                        player.temp_def -= player.YIFU.def
-                        player.YIFU = null
-                    }
-                    this.node.destroy()
-                    return
-                }
-                if(player.YIFU){
-                    player.def -= player.YIFU.def
-                    player.temp_def -= player.YIFU.def
-                    this.zhujiao.BeiBao.push(player.YIFU)
-                }
-                player.YIFU = this.row
-                player.def += this.row.def
-                player.temp_def += this.row.def
-                this.zhujiao.BeiBao.forEach((row,index) => {
-                    if(row.name === player.YIFU.name)
-                        this.zhujiao.BeiBao.splice(index,1)
-                })
-                cc.log(`装备了:${JSON.stringify(player.YIFU)}`)
-                this.addWQ()// 选择空项
+                // 选择空项
                 if(this.item == '<空>'){
-                    this.jn.string  = '+'
+                    this.jn.getChildByName('name').getComponent(cc.Label).string  = '+'
+                    var sprite = this.jn.getChildByName('item').getComponent(cc.Sprite)
+                    cc.loader.release(sprite.spriteFrame)
+                    sprite.spriteFrame = null
                     if(player.YIFU){    
                         this.zhujiao.BeiBao.push(player.YIFU)
                         player.def -= player.YIFU.def
@@ -408,7 +366,10 @@ cc.Class({
             if(Global.wugong_list.zhuangbei.part == '腰带'){
                  // 选择空项
                  if(this.item == '<空>'){
-                    this.jn.string  = '+'
+                    this.jn.getChildByName('name').getComponent(cc.Label).string  = '+'
+                    var sprite = this.jn.getChildByName('item').getComponent(cc.Sprite)
+                    cc.loader.release(sprite.spriteFrame)
+                    sprite.spriteFrame = null
                     if(player.YAODAI){    
                         this.zhujiao.BeiBao.push(player.YAODAI)
                         player.MAXHP -= player.YAODAI.HP
@@ -437,7 +398,10 @@ cc.Class({
             if(Global.wugong_list.zhuangbei.part == '鞋子'){
                  // 选择空项
                  if(this.item == '<空>'){
-                    this.jn.string  = '+'
+                    this.jn.getChildByName('name').getComponent(cc.Label).string  = '+'
+                    var sprite = this.jn.getChildByName('item').getComponent(cc.Sprite)
+                    cc.loader.release(sprite.spriteFrame)
+                    sprite.spriteFrame = null
                     player.XIEZI = null
                     this.node.destroy()
                     return
@@ -453,7 +417,7 @@ cc.Class({
      */
     addWQ(){
         var event = new cc.Event.EventCustom('select_wuqi', true)
-        event.setUserData(this.item)
+        event.setUserData(player.WUQI)
         this.node.dispatchEvent(event)
         this.node.destroy()
     },
@@ -463,7 +427,7 @@ cc.Class({
      */
     addYF(){
         var event = new cc.Event.EventCustom('select_yifu', true)
-        event.setUserData(this.item)
+        event.setUserData(player.YIFU)
         this.node.dispatchEvent(event)
         this.node.destroy()
     },
@@ -473,7 +437,7 @@ cc.Class({
      */
     addYD(){
         var event = new cc.Event.EventCustom('select_yaodai', true)
-        event.setUserData(this.item)
+        event.setUserData(player.YAODAI)
         this.node.dispatchEvent(event)
         this.node.destroy()
     },
@@ -483,7 +447,7 @@ cc.Class({
      */
     addXZ(){
         var event = new cc.Event.EventCustom('select_xiezi', true)
-        event.setUserData(this.item)
+        event.setUserData(player.XIEZI)
         this.node.dispatchEvent(event)
         this.node.destroy()
     },

@@ -34,10 +34,10 @@ module.exports = [{
     ]
 },{
     Name: '浪人王',
-    ack: 20,
+    ack: 40,
     def: 3,
-    HP: 120,
-    MAXHP: 120,
+    HP: 2000,
+    MAXHP: 2000,
     MP: 120,
     MAXMP: 120,
     EXP: 20,

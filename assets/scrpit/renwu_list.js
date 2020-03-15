@@ -156,6 +156,9 @@ cc.Class({
             items.push(player.Name)
             wg.setPosition(0,0)
             this.Ncontent.addChild(wg)
+             // 选中第一个item
+            this.item = player.Name
+            this.selectItem(this.item);
             player.huoban.forEach(row => {
                 var wg = cc.instantiate(this.Nname);
                 var item = wg.getChildByName('item')
@@ -173,9 +176,6 @@ cc.Class({
                 })
             });
         })
-        // 选中第一个item
-        // this.item = items[0]
-        // this.selectItem(this.item);
     },
 
     // 选中item显示的详情
@@ -235,21 +235,54 @@ cc.Class({
     // 更新装备显示
     updateZB(){
         if(this.renwu.WUQI){
-            this.zb_wuqi.getComponent(cc.Label).string = this.renwu.WUQI.name
-        } else 
+            cc.loader.loadRes(this.renwu.WUQI.icon,cc.SpriteFrame,(err,res) => {
+                if(err){
+                    cc.error(err)
+                    return
+                }
+                this.wq_wg.getChildByName('item').getComponent(cc.Sprite).spriteFrame = res
+                this.zb_wuqi.getComponent(cc.Label).string = ''
+            })
+        } else {
+            if(this.yf_wg.getChildByName('item').getComponent(cc.Sprite).spriteFrame)
+                cc.loader.release(this.wq_wg.getChildByName('item').getComponent(cc.Sprite).spriteFrame)
+            this.wq_wg.getChildByName('item').getComponent(cc.Sprite).spriteFrame = null
             this.zb_wuqi.getComponent(cc.Label).string = '+'
+        }
         // if(this.renwu.XIEZI){
         //     this.zb_xiezi.getComponent(cc.Label).string = this.renwu.XIEZI.name
         // } else 
         //     this.zb_xiezi.getComponent(cc.Label).string = '+'
         if(this.renwu.YAODAI){
-            this.zb_yaodai.getComponent(cc.Label).string = this.renwu.YAODAI.name
-        } else 
+            cc.loader.loadRes(this.renwu.YAODAI.icon,cc.SpriteFrame,(err,res) => {
+                if(err){
+                    cc.error(err)
+                    return
+                }
+                this.yd_wg.getChildByName('item').getComponent(cc.Sprite).spriteFrame = res
+                this.zb_yaodai.getComponent(cc.Label).string = ''
+            })
+        } else {
+            if(this.yf_wg.getChildByName('item').getComponent(cc.Sprite).spriteFrame)
+                cc.loader.release(this.yd_wg.getChildByName('item').getComponent(cc.Sprite).spriteFrame)
+            this.yf_wg.getChildByName('item').getComponent(cc.Sprite).spriteFrame = null
             this.zb_yaodai.getComponent(cc.Label).string = '+'
+        }
         if(this.renwu.YIFU){
-            this.zb_yifu.getComponent(cc.Label).string = this.renwu.YIFU.name
-        } else 
+            cc.loader.loadRes(this.renwu.YIFU.icon,cc.SpriteFrame,(err,res) => {
+                if(err){
+                    cc.error(err)
+                    return
+                }
+                this.yf_wg.getChildByName('item').getComponent(cc.Sprite).spriteFrame = res
+                this.zb_yifu.getComponent(cc.Label).string = ''
+            })
+        } else {
+            if(this.yf_wg.getChildByName('item').getComponent(cc.Sprite).spriteFrame)
+                cc.loader.release(this.yf_wg.getChildByName('item').getComponent(cc.Sprite).spriteFrame)
+            this.yf_wg.getChildByName('item').getComponent(cc.Sprite).spriteFrame = null
             this.zb_yifu.getComponent(cc.Label).string = '+'
+        }
     },
 
     // 更新显示信息

@@ -95,58 +95,58 @@ cc.Class({
 
     start () {
         // cc.log('player.hp'+player.HP)
-        let exportJson = {};
-        window.wx.login({
-            success: (userRes) => {
-                exportJson.code = userRes.code;//向服务端传递code用于获取微信小游戏的用户唯一标识
-            },
-        });
-        let sysInfo = window.wx.getSystemInfoSync();
-        //获取微信界面大小
-        let width = sysInfo.screenWidth;
-        let height = sysInfo.screenHeight;
-        window.wx.getSetting({
-            success (res) {
-                console.log(res.authSetting);
-                if (res.authSetting["scope.userInfo"]) {
-                    console.log("用户已授权");
-                    window.wx.getUserInfo({
-                        success(res){
-                            console.log(res);
-                            exportJson.userInfo = res.userInfo;
-                            //此时可进行登录操作
-                        }
-                    });
-                }else {
-                    console.log("用户未授权");
-                    let button = window.wx.createUserInfoButton({
-                        type: 'text',
-                        text: '',
-                        style: {
-                            left: 0,
-                            top: 0,
-                            width: width,
-                            height: height,
-                            backgroundColor: '#00000000',//最后两位为透明度
-                            color: '#ffffff',
-                            fontSize: 20,
-                            textAlign: "center",
-                            lineHeight: height,
-                        }
-                    });
-                    button.onTap((res) => {
-                        if (res.userInfo) {
-                            console.log("用户授权:", res);
-                            exportJson.userInfo = res.userInfo;
-                            //此时可进行登录操作
-                            button.destroy();
-                        }else {
-                            console.log("用户拒绝授权:", res);
-                        }
-                    });
-                }
-            }
-        })
+        // let exportJson = {};
+        // window.wx.login({
+        //     success: (userRes) => {
+        //         exportJson.code = userRes.code;//向服务端传递code用于获取微信小游戏的用户唯一标识
+        //     },
+        // });
+        // let sysInfo = window.wx.getSystemInfoSync();
+        // //获取微信界面大小
+        // let width = sysInfo.screenWidth;
+        // let height = sysInfo.screenHeight;
+        // window.wx.getSetting({
+        //     success (res) {
+        //         console.log(res.authSetting);
+        //         if (res.authSetting["scope.userInfo"]) {
+        //             console.log("用户已授权");
+        //             window.wx.getUserInfo({
+        //                 success(res){
+        //                     console.log(res);
+        //                     exportJson.userInfo = res.userInfo;
+        //                     //此时可进行登录操作
+        //                 }
+        //             });
+        //         }else {
+        //             console.log("用户未授权");
+        //             let button = window.wx.createUserInfoButton({
+        //                 type: 'text',
+        //                 text: '',
+        //                 style: {
+        //                     left: 0,
+        //                     top: 0,
+        //                     width: width,
+        //                     height: height,
+        //                     backgroundColor: '#00000000',//最后两位为透明度
+        //                     color: '#ffffff',
+        //                     fontSize: 20,
+        //                     textAlign: "center",
+        //                     lineHeight: height,
+        //                 }
+        //             });
+        //             button.onTap((res) => {
+        //                 if (res.userInfo) {
+        //                     console.log("用户授权:", res);
+        //                     exportJson.userInfo = res.userInfo;
+        //                     //此时可进行登录操作
+        //                     button.destroy();
+        //                 }else {
+        //                     console.log("用户拒绝授权:", res);
+        //                 }
+        //             });
+        //         }
+        //     }
+        // })
     },
 
     // update (dt) {},

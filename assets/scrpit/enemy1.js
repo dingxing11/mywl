@@ -145,7 +145,7 @@ cc.Class({
                         this.playerAttacked(player1)
                         this.playerDrop(player1,enemy.ack-player.def)
                     }),
-                    cc.delayTime(1),
+                    cc.delayTime(0.4),
                 ),
                 enemy1Jump2,
                 cc.callFunc(()=>{
@@ -175,10 +175,10 @@ cc.Class({
     playerAttacked(player1) {
         let p = new Promise((resolve, reject) => {
             player1.runAction(cc.sequence(
-                cc.moveBy(0.25, -15, 0),
-                cc.moveBy(0.25, 15, 0),
-                cc.moveBy(0.25, 15, 0),
-                cc.moveBy(0.25, -15,0),
+                cc.moveBy(0.1, -15, 0),
+                cc.moveBy(0.1, 15, 0),
+                cc.moveBy(0.1, 15, 0),
+                cc.moveBy(0.1, -15,0),
                 cc.callFunc(resolve)))
         })
         return p

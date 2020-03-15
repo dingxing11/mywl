@@ -13,6 +13,7 @@ import { randomBytes } from "crypto";
 //  - [English] https://www.cocos2d-x.org/docs/creator/manual/en/scripting/life-cycle-callbacks.html
 var player = require('Player')
 var gamelv = require('GameLevel')
+var duiwu = require('DuiWu')
 cc.Class({
     extends: cc.Component,
 
@@ -67,12 +68,12 @@ cc.Class({
     teamInit(resolve){
         // 初始化playerteam资源
         this._isTeamInit = false
-        for (let index = 0; index < player.duiwu.length; index++) {
+        for (let index = 0; index < duiwu.length; index++) {
             if(index === 3){
                 this._isTeamInit = true
             }
-            if(player.duiwu[index]){
-                cc.loader.loadRes(player.duiwu[index].show,cc.SpriteFrame,(err,spriteframe)=>{
+            if(duiwu[index]){
+                cc.loader.loadRes(duiwu[index].show,cc.SpriteFrame,(err,spriteframe)=>{
                     if(err){
                         cc.log('错了',err)
                     }
@@ -84,7 +85,8 @@ cc.Class({
                     this.playerTeam[index].setPosition(pos)
                     var playrComp = this.playerTeam[index].getComponent('player1')
                     this._playerbg = this.playerTeam[index].getChildByName('playerbg').getComponent(cc.Sprite)
-                    playrComp._player = player.duiwu[index]
+                    this.updateTeam();
+                    playrComp._player = duiwu[index]
                     playrComp._player.HP = playrComp._player.MAXHP
                     cc.log('图片:',playrComp._player.show)
                     cc.log('名字:',playrComp._player.Name)
@@ -98,15 +100,15 @@ cc.Class({
         }
         cc.log(this.playerTeam)
         // 初始化enemyTeam资源
-        for (let index = 0; index < gamelv[0].Enemys.length; index++) {
-            if(gamelv[0].Enemys[index]){
-                var pos = gamelv[0].Enemys_pos[index]
+        for (let index = 0; index < gamelv[Global.lv_battle].Enemys.length; index++) {
+            if(gamelv[Global.lv_battle].Enemys[index]){
+                var pos = gamelv[Global.lv_battle].Enemys_pos[index]
                 var parent = this.node
                 this.enemyTeam[index] = cc.instantiate(this.enemy)
                 this.enemyTeam[index].setPosition(pos)
                 this.enemyTeam[index].parent = parent
                 var enemyComp = this.enemyTeam[index].getComponent('enemy1')
-                enemyComp._enmey = gamelv[0].Enemys[index]
+                enemyComp._enmey = gamelv[Global.lv_battle].Enemys[index]
                 enemyComp._enmey.HP = enemyComp._enmey.MAXHP
             } else 
                 this.enemyTeam[index] = null
@@ -135,6 +137,23 @@ cc.Class({
             }
         }
         return dead
+    },
+
+    /**
+     * 更新玩家队伍信息
+    */
+    updateTeam(){
+        duiwu.forEach((team_huoban,team_index) => {
+            if(team_huoban){
+                player.huoban.forEach(huoban => {
+                    if(huoban.ID === team_huoban.ID)
+                        duiwu[team_index] = huoban
+                    else if(player.ID === team_huoban.ID){
+                        duiwu[team_index] = player
+                    }
+                });
+            }
+        });
     },
 
     // player全部阵亡
@@ -206,14 +225,14 @@ cc.Class({
 
     // 获取经验
     getExp(){
-        var sum_exp = gamelv[0].Exp
+        var sum_exp = gamelv[Global.lv_battle].Exp
         var sum = 0
-        player.duiwu.forEach(element => {
+        duiwu.forEach(element => {
             if(element){
                 sum +=1
             }
         });
-        player.duiwu.forEach(element => {
+        duiwu.forEach(element => {
             if(element){
                 element.EXP += Math.floor(sum_exp / sum)
                 while(element.EXP > element.MAXEXP){
@@ -231,7 +250,7 @@ cc.Class({
 
     // 获取战利品
     getDrop(){
-        var drop = gamelv[0].Drop[Math.round(Math.random()*(gamelv[0].Drop.length-1))]
+        var drop = gamelv[Global.lv_battle].Drop[Math.round(Math.random()*(gamelv[Global.lv_battle].Drop.length-1))]
         player.BeiBao.push(drop)
         return drop
     },

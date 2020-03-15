@@ -175,7 +175,7 @@ cc.Class({
                     this.enemyAttacked(enemy1)
                     this.drop(enemy1,sh)
                 }),
-                cc.delayTime(1.48),
+                cc.delayTime(0.4),
             ),
             player1Jump2)
         this.repeat = this.node.runAction(cc.sequence(
@@ -183,6 +183,20 @@ cc.Class({
             cc.callFunc(() => {
                 resolve()
             })))
+    },
+    
+    /**
+     * 技能(远程版)
+     */
+    skillRemote(){
+        
+    },
+
+    /**
+     * 技能(近战版)
+     */
+    skillMelee(){
+
     },
 
     enemyAttacked(enemy1) {
@@ -197,10 +211,10 @@ cc.Class({
      // 被攻击动作
      Attacked() {
         var attacked =cc.sequence(
-            cc.moveBy(0.25, 20, 0),
-            cc.moveBy(0.25, -20, 0),
-            cc.moveBy(0.25, -20, 0),
-            cc.moveBy(0.25, 20, 0),
+            cc.moveBy(0.1, 20, 0),
+            cc.moveBy(0.1, -20, 0),
+            cc.moveBy(0.1, -20, 0),
+            cc.moveBy(0.1, 20, 0),
         )
         return attacked
     },

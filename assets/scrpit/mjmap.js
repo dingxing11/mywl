@@ -31,6 +31,7 @@ cc.Class({
 
     // LIFE-CYCLE CALLBACKS:
     gobattle(event, customEventData) {
+        Global.lv_battle = customEventData
         Global.goScene("mjtiledmap",false)
     },
 

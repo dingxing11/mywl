@@ -8,6 +8,7 @@
 //  - [Chinese] http://www.cocos.com/docs/creator/scripting/life-cycle-callbacks.html
 //  - [English] http://www.cocos2d-x.org/docs/editors_and_tools/creator-chapters/scripting/life-cycle-callbacks/index.html
 var player = require('Player')
+var duiwu = require('DuiWu')
 cc.Class({
     extends: cc.Component,
 
@@ -22,7 +23,7 @@ cc.Class({
             type:cc.Prefab
         },
         wuqi:{
-            type:cc.Label,
+            type:cc.Node,
             default:null,
             displayName:'武器',
             tooltip:'武器文本框'
@@ -34,19 +35,19 @@ cc.Class({
             tooltip:'武功文本框'
         },
         yifu:{
-            type:cc.Label,
+            type:cc.Node,
             default:null,
             displayName:'衣服',
             tooltip:'衣服文本框'
         },
         xiezi:{
-            type:cc.Label,
+            type:cc.Node,
             default:null,
             displayName:'鞋子',
             tooltip:'鞋子文本框'
         },
         yaodai:{
-            type:cc.Label,
+            type:cc.Node,
             default:null,
             displayName:'腰带',
             tooltip:'腰带文本框'
@@ -82,24 +83,60 @@ cc.Class({
         },this)
         this.node.on('select_wuqi',(event)=>{
             var msg = event.getUserData()
-            cc.log(`装备武器:${msg}`)
-            this.wuqi.string = msg
-        },this)
+            this.wuqi_name = this.wuqi.getChildByName('name').getComponent(cc.Label)
+            this.wuqi_icon = this.wuqi.getChildByName('item').getComponent(cc.Sprite)
+            cc.loader.loadRes(msg.icon,cc.SpriteFrame,(err,sprite) => {
+                if(err){
+                    cc.error(err)
+                    return
+                }
+                this.wuqi_icon.spriteFrame = sprite
+                this.wuqi_name.string = ''
+                cc.log(`装备武器:${msg}`)
+            })
+        })
         this.node.on('select_yifu',(event)=>{
             var msg = event.getUserData()
-            cc.log(`装备衣服:${msg}`)
-            this.yifu.string = msg
-        },this)
+            this.yifu_name = this.yifu.getChildByName('name').getComponent(cc.Label)
+            this.yifu_icon = this.yifu.getChildByName('item').getComponent(cc.Sprite)
+            cc.loader.loadRes(msg.icon,cc.SpriteFrame,(err,sprite) => {
+                if(err){
+                    cc.error(err)
+                    return
+                }
+                this.yifu_icon.spriteFrame = sprite
+                this.yifu_name.string = ''
+                cc.log(`装备衣服:${msg}`)
+            })
+        })
         this.node.on('select_xiezi',(event)=>{
             var msg = event.getUserData()
-            cc.log(`装备鞋子:${msg}`)
-            this.xiezi.string = msg
-        },this)
+            this.xiezi_name = this.xiezi.getChildByName('name').getComponent(cc.Label)
+            this.xiezi_icon = this.xiezi.getChildByName('item').getComponent(cc.Sprite)
+            cc.loader.loadRes(msg.icon,cc.SpriteFrame,(err,sprite) => {
+                if(err){
+                    cc.error(err)
+                    return
+                }
+                this.xiezi_icon.spriteFrame = sprite
+                this.xiezi_name.string = ''
+                cc.log(`装备鞋子:${msg}`)
+            })
+        })
         this.node.on('select_yaodai',(event)=>{
             var msg = event.getUserData()
-            cc.log(`装备腰带:${msg}`)
-            this.yaodai.string = msg
-        },this)
+            this.yaodai_name = this.yaodai.getChildByName('name').getComponent(cc.Label)
+            this.yaodai_icon = this.yaodai.getChildByName('item').getComponent(cc.Sprite)
+            cc.loader.loadRes(msg.icon,cc.SpriteFrame,(err,sprite) => {
+                if(err){
+                    cc.error(err)
+                    return
+                }
+                this.yaodai_icon.spriteFrame = sprite
+                this.yaodai_name.string = ''
+                cc.log(`装备腰带:${msg}`)
+            })
+        })
     },
 
     start () {
@@ -170,6 +207,14 @@ cc.Class({
     goMain(){
         this.main.active = true
         this.jishi.active = false
+    },
+
+    /**存档 */
+    save(){
+        cc.log(player)
+        cc.sys.localStorage.setItem('player',JSON.stringify(player))
+        cc.sys.localStorage.setItem('duiwu',JSON.stringify(duiwu))
+        showMessage('存档成功!')
     },
 
     // update (dt) {},

@@ -18,4 +18,12 @@ module.exports = [{
     Enemys_pos:[cc.v2(162,68),cc.v2(169,-16)],
     Drop:[wugong[0],zhuangbei[1]],
     Exp:200
+},{
+    Level: 2,
+    Enemys:[
+        enemys[0],enemys[1],enemys[2]
+    ],
+    Enemys_pos:[cc.v2(162,68),cc.v2(169,-16),cc.v2(230,68)],
+    Drop:[wugong[1],zhuangbei[0]],
+    Exp:400
 }]
